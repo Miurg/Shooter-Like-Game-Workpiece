@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cek4uotwsepq1"]
+
+[ext_resource type="Script" path="res://Scripts/playerMain.gd" id="1_v1vpl"]
+[ext_resource type="PackedScene" uid="uid://cp6iesmfayioc" path="res://Meshes/fatguy.glb" id="2_1iigt"]
+[ext_resource type="Script" path="res://Scripts/playerCamera.gd" id="3_tfvg7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ridpn"]
+radius = 0.4
+height = 1.6
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505937, -0.135215)
+script = ExtResource("1_v1vpl")
+
+[node name="fatguy" parent="." instance=ExtResource("2_1iigt")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="PlayerCameraMain" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.36961, -0.18543)
+doppler_tracking = 1
+fov = 70.0
+size = 7.306
+script = ExtResource("3_tfvg7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.732837, 0)
+shape = SubResource("CapsuleShape3D_ridpn")

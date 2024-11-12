@@ -1,0 +1,88 @@
+[gd_scene load_steps=12 format=3 uid="uid://dnh8et6lxbyxr"]
+
+[ext_resource type="Script" path="res://Scripts/workDistributor.gd" id="1_1guiv"]
+[ext_resource type="Script" path="res://Scripts/mapAndPath.gd" id="1_cdj12"]
+[ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Player.tscn" id="2_ks5af"]
+[ext_resource type="ArrayMesh" uid="uid://b7hsimggtkwwt" path="res://Meshes/fatguy_Cube.res" id="3_ggn5v"]
+[ext_resource type="Script" path="res://Scripts/fps.gd" id="5_xsedc"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2qs63"]
+diffuse_mode = 1
+
+[sub_resource type="BoxMesh" id="BoxMesh_xe72v"]
+material = SubResource("StandardMaterial3D_2qs63")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_m6owh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_bm2qy"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
+
+[sub_resource type="Environment" id="Environment_xar2f"]
+fog_enabled = true
+fog_sun_scatter = 0.74
+volumetric_fog_density = 0.01
+
+[node name="MainNode" type="Node3D"]
+script = ExtResource("1_1guiv")
+
+[node name="Entitys" type="Node3D" parent="."]
+
+[node name="CharacterBody3D" parent="Entitys" instance=ExtResource("2_ks5af")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505937, 2.57463)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Entitys"]
+transform = Transform3D(0.0844952, 0, 0.996424, 0, 1, 0, -0.996424, 0, 0.0844952, 1.80334, 0.837623, 1.308)
+gi_mode = 0
+mesh = ExtResource("3_ggn5v")
+
+[node name="Map" type="Node3D" parent="."]
+script = ExtResource("1_cdj12")
+
+[node name="Floor" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(162.577, 0, 0, 0, 1, 0, 0, 0, 123.799, 0, 0, 0)
+mesh = SubResource("BoxMesh_xe72v")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/Floor/StaticBody3D"]
+shape = SubResource("BoxShape3D_m6owh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.993343, 0)
+mesh = SubResource("BoxMesh_bm2qy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D/StaticBody3D"]
+shape = SubResource("BoxShape3D_04f5y")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Map"]
+transform = Transform3D(5.92337, 0, 0.827776, 0, 3.37854, 0, -8.73925, 0, 0.561058, -7.50323, 2.05275, 0)
+mesh = SubResource("BoxMesh_bm2qy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D2"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Map/MeshInstance3D2/StaticBody3D"]
+shape = SubResource("BoxShape3D_04f5y")
+
+[node name="ChunksForNavMeshes" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.743343, 0.66891, 0, -0.66891, 0.743343, 0, 0, 0)
+light_bake_mode = 1
+shadow_enabled = true
+shadow_bias = 0.01
+shadow_blur = 1.5
+directional_shadow_split_2 = 0.24
+directional_shadow_blend_splits = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xar2f")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("5_xsedc")

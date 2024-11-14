@@ -1,27 +1,30 @@
 extends CharacterBody3D
 
 var playerVelocity:Vector3 = Vector3.ZERO
-var playerSpeed:int = 10
-var jumpForce:int = 20
-var numberOfAvailableJump = 2
+var playerSpeed:float = 6
+var playerMaxSpeed:float = 10
+var jumpForce:int = 10
+var numberOfAvailableJump = 1
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
-	pass # Replace with function body.
+
+
+func _process(delta: float) -> void:
+	movement(delta)
 	
 
 
 
-var maxSpeedDown:int = 20
-var timeInAirForJump:float = 0.2
+const maxSpeedDown:int = 20
+const timeInAirForJump:float = 0.2
+const gravityForce:int = 40
+const lerpWeight:int = 20
 var firstJumpOnFloorHappend = false
-var gravityForce:int = 40
-var lerpWeight:int = 15
 var inAirTime:float = 0
 var jumpButtonClicks:int = 0
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func movement(delta):
 	var direction = Vector3()
 	if Input:
 		if Input.is_action_pressed('left'):
@@ -37,9 +40,13 @@ func _process(delta: float) -> void:
 				velocity.y = jumpForce
 			jumpButtonClicks+=1
 			firstJumpOnFloorHappend = true
-		playerVelocity = direction.normalized().rotated(Vector3(0,1,0),rotation.y) * playerSpeed
+		playerVelocity = direction.normalized().rotated(Vector3(0,1,0),rotation.y) * playerMaxSpeed
 		playerVelocity.y = velocity.y
-		velocity = velocity.lerp(playerVelocity, delta*lerpWeight)
+		var maxVelocity = Vector2(playerMaxSpeed,playerMaxSpeed).normalized() * playerMaxSpeed
+		if abs(velocity.x)<maxVelocity.x and abs(velocity.z)<maxVelocity.y and playerVelocity!=Vector3(0,velocity.y,0):
+			velocity = velocity.lerp(playerVelocity, delta*playerSpeed)
+		elif is_on_floor():
+			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*lerpWeight)
 	if !is_on_floor():
 		inAirTime+=delta
 		if firstJumpOnFloorHappend == false and inAirTime>timeInAirForJump and jumpButtonClicks==0:jumpButtonClicks+=1
@@ -52,4 +59,3 @@ func _process(delta: float) -> void:
 		firstJumpOnFloorHappend = false
 		jumpButtonClicks = 0
 		inAirTime = 0
-	

@@ -6,14 +6,15 @@ var playerMaxSpeed:float = 10
 var jumpForce:int = 10
 var numberOfAvailableJump = 1
 
-
+var spaceState
 func _ready() -> void:
+	spaceState = get_tree().get_root().get_world_3d().direct_space_state
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
 
 
 func _process(delta: float) -> void:
 	movement(delta)
-	
+	rayCenter(delta)
 
 
 
@@ -59,3 +60,20 @@ func movement(delta):
 		firstJumpOnFloorHappend = false
 		jumpButtonClicks = 0
 		inAirTime = 0
+
+@onready var mainCamera = $PlayerCameraMain
+var rayLength = 10
+func rayCenter(delta):
+	var rayStart = mainCamera.project_ray_origin(get_viewport().get_visible_rect().size / 2)
+	var rayEnd = rayStart + mainCamera.project_ray_normal(get_viewport().get_visible_rect().size / 2) * rayLength
+	if spaceState != null:
+		var query = PhysicsRayQueryParameters3D.create(rayStart, rayEnd, 1)
+		if spaceState.intersect_ray(query).has("collider_id"): 
+			var rayColider = spaceState.intersect_ray(query).collider_id
+			
+#func _input(event: InputEvent) -> void:
+	#if event is InputEventKey:
+		#if event.keycode == "g":
+			#
+			
+			

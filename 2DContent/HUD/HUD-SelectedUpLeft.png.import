@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://h2c26xfqbvji"
-path="res://.godot/imported/Aim.png-e3bf9294fc2578dceaa62f976c91b1a7.ctex"
+uid="uid://byguv38k0d85e"
+path="res://.godot/imported/HUD-SelectedUpLeft.png-0d4f4619d71674129ceef9f8386c9d25.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Aim.png"
-dest_files=["res://.godot/imported/Aim.png-e3bf9294fc2578dceaa62f976c91b1a7.ctex"]
+source_file="res://2DContent/HUD/HUD-SelectedUpLeft.png"
+dest_files=["res://.godot/imported/HUD-SelectedUpLeft.png-0d4f4619d71674129ceef9f8386c9d25.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

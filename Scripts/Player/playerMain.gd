@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	movement(delta)
+	movementProcess(delta)
 	selectProcess(delta)
 
 
@@ -25,7 +25,7 @@ const lerpWeight:int = 20
 var firstJumpOnFloorHappend = false
 var inAirTime:float = 0
 var jumpButtonClicks:int = 0
-func movement(delta):
+func movementProcess(delta):
 	var direction = Vector3()
 	if Input:
 		if Input.is_action_pressed('left'):
@@ -46,7 +46,7 @@ func movement(delta):
 		var maxVelocity = Vector2(playerMaxSpeed,playerMaxSpeed).normalized() * playerMaxSpeed
 		if abs(velocity.x)<maxVelocity.x and abs(velocity.z)<maxVelocity.y and playerVelocity!=Vector3(0,velocity.y,0):
 			velocity = velocity.lerp(playerVelocity, delta*playerSpeed)
-		elif is_on_floor():
+		else:
 			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*lerpWeight)
 	if !is_on_floor():
 		inAirTime+=delta
@@ -65,7 +65,8 @@ func movement(delta):
 
 @onready var mainCamera = $PlayerCameraMain
 @onready var iconsSelected = $"../../CanvasLayer/IconsSelected"
-var rayLength = 10
+var rayLength = 2
+var rayInstanceWeapon
 var mdt = MeshDataTool.new()
 func selectProcess(delta):
 	var rayStart = mainCamera.project_ray_origin(get_viewport().get_visible_rect().size / 2)
@@ -73,12 +74,12 @@ func selectProcess(delta):
 	if spaceState != null:
 		var query = PhysicsRayQueryParameters3D.create(rayStart, rayEnd, 0b00000000_00000000_00000000_00001000)
 		if spaceState.intersect_ray(query).has("collider_id"): 
-			var rayInstance = spaceState.intersect_ray(query).collider
-			var meshInstance = rayInstance.get_child(2)
+			rayInstanceWeapon = spaceState.intersect_ray(query).collider
+			var meshInstance = rayInstanceWeapon.get_child(2)
 			var meshLocal = meshInstance.mesh.get_faces()
 			var unproject = PackedVector2Array()
 			for i in meshLocal:
-				unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstance.position-i))
+				unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstanceWeapon.position-i))
 			var p1 : Vector2 = unproject[0]
 			var p2 : Vector2 = unproject[0]
 
@@ -87,14 +88,18 @@ func selectProcess(delta):
 				p1.y = min(p1.y, i.y)
 				p2.x = max(p2.x, i.x)
 				p2.y = max(p2.y, i.y)
-			iconsSelected.position = Vector2(p1.x,p1.y)
-			iconsSelected.size = Vector2(p2.x-p1.x,p2.y-p1.y)
+			iconsSelected.position = iconsSelected.position.lerp(Vector2(p1.x,p1.y),6*delta)
+			iconsSelected.size = iconsSelected.size.lerp(Vector2(p2.x-p1.x,p2.y-p1.y),6*delta)
 		else:
-			iconsSelected.position = Vector2(973,523)
-			iconsSelected.size = Vector2(34,34)
-#func _input(event: InputEvent) -> void:
-	#if event is InputEventKey:
-		#if event.keycode == "g":
-			#
+			iconsSelected.position = iconsSelected.position.lerp(Vector2(973,523),6*delta)
+			iconsSelected.size = iconsSelected.size.lerp(Vector2(34,34),6*delta)
+			rayInstanceWeapon = null
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if OS.get_keycode_string(event.keycode) == "E":
+			if rayInstanceWeapon!=null:
+				rayInstanceWeapon.queue_free()
+			
+			
 			
 			

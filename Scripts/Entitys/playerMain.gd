@@ -14,7 +14,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	movement(delta)
-	rayCenter(delta)
+	selectProcess(delta)
 
 
 
@@ -60,17 +60,38 @@ func movement(delta):
 		firstJumpOnFloorHappend = false
 		jumpButtonClicks = 0
 		inAirTime = 0
+		
+		
 
 @onready var mainCamera = $PlayerCameraMain
+@onready var iconsSelected = $"../../CanvasLayer/IconsSelected"
 var rayLength = 10
-func rayCenter(delta):
+var mdt = MeshDataTool.new()
+func selectProcess(delta):
 	var rayStart = mainCamera.project_ray_origin(get_viewport().get_visible_rect().size / 2)
 	var rayEnd = rayStart + mainCamera.project_ray_normal(get_viewport().get_visible_rect().size / 2) * rayLength
 	if spaceState != null:
-		var query = PhysicsRayQueryParameters3D.create(rayStart, rayEnd, 1)
+		var query = PhysicsRayQueryParameters3D.create(rayStart, rayEnd, 0b00000000_00000000_00000000_00001000)
 		if spaceState.intersect_ray(query).has("collider_id"): 
-			var rayColider = spaceState.intersect_ray(query).collider_id
-			
+			var rayInstance = spaceState.intersect_ray(query).collider
+			var meshInstance = rayInstance.get_child(2)
+			var meshLocal = meshInstance.mesh.get_faces()
+			var unproject = PackedVector2Array()
+			for i in meshLocal:
+				unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstance.position-i))
+			var p1 : Vector2 = unproject[0]
+			var p2 : Vector2 = unproject[0]
+
+			for i in unproject:
+				p1.x = min(p1.x, i.x)
+				p1.y = min(p1.y, i.y)
+				p2.x = max(p2.x, i.x)
+				p2.y = max(p2.y, i.y)
+			iconsSelected.position = Vector2(p1.x,p1.y)
+			iconsSelected.size = Vector2(p2.x-p1.x,p2.y-p1.y)
+		else:
+			iconsSelected.position = Vector2(973,523)
+			iconsSelected.size = Vector2(34,34)
 #func _input(event: InputEvent) -> void:
 	#if event is InputEventKey:
 		#if event.keycode == "g":

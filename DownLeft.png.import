@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://h2c26xfqbvji"
-path="res://.godot/imported/Прицел.png-a7818f92aca1d20c9825e36d493a19cc.ctex"
+uid="uid://c0ssn5nvc0sur"
+path="res://.godot/imported/DownLeft.png-c995a2981941eae3cecba4965690368b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Прицел.png"
-dest_files=["res://.godot/imported/Прицел.png-a7818f92aca1d20c9825e36d493a19cc.ctex"]
+source_file="res://DownLeft.png"
+dest_files=["res://.godot/imported/DownLeft.png-c995a2981941eae3cecba4965690368b.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

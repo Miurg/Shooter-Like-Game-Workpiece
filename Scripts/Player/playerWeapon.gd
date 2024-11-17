@@ -18,16 +18,19 @@ func _process(delta: float) -> void:
 
 func pickupWeapon(InstanceWeapon):
 	for i in weapons:
-		if InstanceWeapon.name == i.name:
+		if InstanceWeapon.get_child(0).name == i.name:
 			InstanceWeapon.queue_free()
-			i.visible = true
+			if i.visible == true:
+				dropWeapon()
+				i.visible = true
+			else:i.visible = true
 		
 	
 func dropWeapon():
 	for i in weapons:
 		if i.visible==true:
 			for j in weaponsResources.size():
-				if i.name==weaponsName[j]:
+				if i.get_child(0).name==weaponsName[j]:
 					i.visible=false
 					var weaponInstance = weaponsResources[j].instantiate()
 					weaponInstance.name = weaponsName[j]

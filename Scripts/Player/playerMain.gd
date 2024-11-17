@@ -75,6 +75,6 @@ func toWeaponDropWeapon():
 	playerWeapons.dropWeapon()
 			
 func toDistributorCreateWeapon(weaponInstance):
-	weaponInstance.position = Vector3(position.x,position.y,position.z)+ Vector3(0,1,-1).rotated(Vector3(0,1,0),rotation.y)
+	weaponInstance.position = Vector3(position.x,position.y,position.z)+Vector3(0,1,-1).rotated(Vector3(0,1,0),rotation.y)
 	var impulse = Vector3(0,0,-10).rotated(Vector3(0,1,0),rotation.y)
 	workDistributor.createWeapon(weaponInstance,impulse)

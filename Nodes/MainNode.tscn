@@ -69,6 +69,9 @@ mesh = SubResource("ArrayMesh_skudd")
 [node name="AK" parent="Entitys" instance=ExtResource("3_cq3w5")]
 transform = Transform3D(0.988504, 0.151192, 0, -0.151192, 0.988504, 0, 0, 0, 1, 2.95104, 3.13129, -0.164835)
 
+[node name="AK2" parent="Entitys" instance=ExtResource("3_cq3w5")]
+transform = Transform3D(0.988504, 0.151192, 0, -0.151192, 0.988504, 0, 0, 0, 1, 4.61833, 2.87628, -0.164835)
+
 [node name="Map" type="Node3D" parent="."]
 
 [node name="Floor" type="MeshInstance3D" parent="Map"]

@@ -9,13 +9,14 @@ size = Vector3(0.0339355, 0.345459, 1.16968)
 albedo_color = Color(1, 1, 1, 0)
 
 [sub_resource type="BoxMesh" id="BoxMesh_a846g"]
+lightmap_size_hint = Vector2i(9, 15)
 material = SubResource("StandardMaterial3D_8djek")
 size = Vector3(0.04, 0.34, 1.155)
 
 [node name="RigidBody3D" type="RigidBody3D"]
 collision_layer = 8
 
-[node name="AK47" parent="." instance=ExtResource("1_befwx")]
+[node name="AK" parent="." instance=ExtResource("1_befwx")]
 transform = Transform3D(0.12, 0, 0, 0, 0.12, 0, 0, 0, 0.12, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

@@ -1,14 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://cek4uotwsepq1"]
+[gd_scene load_steps=7 format=3 uid="uid://cek4uotwsepq1"]
 
-[ext_resource type="Script" path="res://Scripts/Entitys/playerMain.gd" id="1_v1vpl"]
+[ext_resource type="Script" path="res://Scripts/Player/playerMain.gd" id="1_v1vpl"]
 [ext_resource type="PackedScene" uid="uid://cp6iesmfayioc" path="res://Meshes/fatguy.glb" id="2_1iigt"]
-[ext_resource type="Script" path="res://Scripts/Entitys/playerCamera.gd" id="3_tfvg7"]
+[ext_resource type="Script" path="res://Scripts/Player/playerCamera.gd" id="3_tfvg7"]
+[ext_resource type="Script" path="res://Scripts/Player/playerWeapon.gd" id="4_i5a1k"]
+[ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/AK.tscn" id="4_j2ddj"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ridpn"]
 radius = 0.4
 height = 1.6
 
-[node name="CharacterBody3D" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505937, -0.135215)
 script = ExtResource("1_v1vpl")
 
@@ -25,3 +27,11 @@ script = ExtResource("3_tfvg7")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.732837, 0)
 shape = SubResource("CapsuleShape3D_ridpn")
+
+[node name="Weapons" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.104, -0.185)
+script = ExtResource("4_i5a1k")
+
+[node name="AK" parent="Weapons" instance=ExtResource("4_j2ddj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.395331, 0, -0.500398)
+visible = false

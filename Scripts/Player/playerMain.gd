@@ -1,20 +1,24 @@
 extends CharacterBody3D
 
+@onready var workDistributor = $"../.."
+@onready var playerWeapons = $Weapons
+
 var playerVelocity:Vector3 = Vector3.ZERO
 var playerSpeed:float = 6
 var playerMaxSpeed:float = 10
 var jumpForce:int = 10
 var numberOfAvailableJump = 1
 
+
 var spaceState
 func _ready() -> void:
-	spaceState = get_tree().get_root().get_world_3d().direct_space_state
+	
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
 
 
 func _process(delta: float) -> void:
 	movementProcess(delta)
-	selectProcess(delta)
+	
 
 
 
@@ -61,45 +65,16 @@ func movementProcess(delta):
 		jumpButtonClicks = 0
 		inAirTime = 0
 		
-		
+func toDistributorIconsSelected(delta,sizeX,sizeY,positionX,positionY):
+	workDistributor.HUDIconsSelectedApply(delta,sizeX,sizeY,positionX,positionY)
+			
+func toWeaponPickupWeapon(InstanceWeapon):
+	playerWeapons.pickupWeapon(InstanceWeapon)
 
-@onready var mainCamera = $PlayerCameraMain
-@onready var iconsSelected = $"../../CanvasLayer/IconsSelected"
-var rayLength = 2
-var rayInstanceWeapon
-var mdt = MeshDataTool.new()
-func selectProcess(delta):
-	var rayStart = mainCamera.project_ray_origin(get_viewport().get_visible_rect().size / 2)
-	var rayEnd = rayStart + mainCamera.project_ray_normal(get_viewport().get_visible_rect().size / 2) * rayLength
-	if spaceState != null:
-		var query = PhysicsRayQueryParameters3D.create(rayStart, rayEnd, 0b00000000_00000000_00000000_00001000)
-		if spaceState.intersect_ray(query).has("collider_id"): 
-			rayInstanceWeapon = spaceState.intersect_ray(query).collider
-			var meshInstance = rayInstanceWeapon.get_child(2)
-			var meshLocal = meshInstance.mesh.get_faces()
-			var unproject = PackedVector2Array()
-			for i in meshLocal:
-				unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstanceWeapon.position-i))
-			var p1 : Vector2 = unproject[0]
-			var p2 : Vector2 = unproject[0]
-
-			for i in unproject:
-				p1.x = min(p1.x, i.x)
-				p1.y = min(p1.y, i.y)
-				p2.x = max(p2.x, i.x)
-				p2.y = max(p2.y, i.y)
-			iconsSelected.position = iconsSelected.position.lerp(Vector2(p1.x,p1.y),6*delta)
-			iconsSelected.size = iconsSelected.size.lerp(Vector2(p2.x-p1.x,p2.y-p1.y),6*delta)
-		else:
-			iconsSelected.position = iconsSelected.position.lerp(Vector2(973,523),6*delta)
-			iconsSelected.size = iconsSelected.size.lerp(Vector2(34,34),6*delta)
-			rayInstanceWeapon = null
-func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if OS.get_keycode_string(event.keycode) == "E":
-			if rayInstanceWeapon!=null:
-				rayInstanceWeapon.queue_free()
+func toWeaponDropWeapon():
+	playerWeapons.dropWeapon()
 			
-			
-			
-			
+func toDistributorCreateWeapon(weaponInstance):
+	weaponInstance.position = Vector3(position.x,position.y,position.z)+ Vector3(0,1,-1).rotated(Vector3(0,1,0),rotation.y)
+	var impulse = Vector3(0,0,-10).rotated(Vector3(0,1,0),rotation.y)
+	workDistributor.createWeapon(weaponInstance,impulse)

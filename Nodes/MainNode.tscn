@@ -1,8 +1,15 @@
-[gd_scene load_steps=12 format=4 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=19 format=4 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="Script" path="res://Scripts/workDistributor.gd" id="1_1guiv"]
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Player.tscn" id="2_ks5af"]
+[ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/AK.tscn" id="3_cq3w5"]
+[ext_resource type="Script" path="res://Scripts/HUD.gd" id="4_jfs84"]
+[ext_resource type="Texture2D" uid="uid://h2c26xfqbvji" path="res://2DContent/HUD/HUD-Aim.png" id="5_jrgh7"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="5_xsedc"]
+[ext_resource type="Texture2D" uid="uid://c0ssn5nvc0sur" path="res://2DContent/HUD/HUD-SelectedDownLeft.png" id="6_68dwg"]
+[ext_resource type="Texture2D" uid="uid://dyqx8783by6hr" path="res://2DContent/HUD/HUD-SelectedDownRight.png" id="7_dwvd7"]
+[ext_resource type="Texture2D" uid="uid://byguv38k0d85e" path="res://2DContent/HUD/HUD-SelectedUpLeft.png" id="8_nq00p"]
+[ext_resource type="Texture2D" uid="uid://lr4n4lyrq0mu" path="res://2DContent/HUD/HUD-SelectedUpRight.png" id="9_yt74a"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qdb3u"]
 resource_name = "Material"
@@ -55,9 +62,12 @@ script = ExtResource("1_1guiv")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.505937, 2.57463)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Entitys"]
-transform = Transform3D(0.0844952, 0, 0.996424, 0, 1, 0, -0.996424, 0, 0.0844952, 1.80334, 0.837623, 1.308)
+transform = Transform3D(0.0844952, 0, 0.996424, 0, 1, 0, -0.996424, 0, 0.0844952, 3.53363, 0.837623, 1.45473)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_skudd")
+
+[node name="AK" parent="Entitys" instance=ExtResource("3_cq3w5")]
+transform = Transform3D(0.988504, 0.151192, 0, -0.151192, 0.988504, 0, 0, 0, 1, 2.95104, 3.13129, -0.164835)
 
 [node name="Map" type="Node3D" parent="."]
 
@@ -71,7 +81,7 @@ mesh = SubResource("BoxMesh_xe72v")
 shape = SubResource("BoxShape3D_m6owh")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0141439, 0.993343, 0.0181665)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.73346, 0.993343, 0.0181665)
 mesh = SubResource("BoxMesh_bm2qy")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Map/MeshInstance3D"]
@@ -138,9 +148,84 @@ directional_shadow_blend_splits = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xar2f")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("4_jfs84")
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="FPS" type="Label" parent="HUD"]
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("5_xsedc")
+
+[node name="IconAim" type="VBoxContainer" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Aim" type="Sprite2D" parent="HUD/IconAim"]
+scale = Vector2(5, 5)
+texture = ExtResource("5_jrgh7")
+
+[node name="IconsSelected" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoxContainer" type="BoxContainer" parent="HUD/IconsSelected"]
+layout_mode = 1
+
+[node name="UpLeft" type="Sprite2D" parent="HUD/IconsSelected/BoxContainer"]
+position = Vector2(12, 12)
+scale = Vector2(5, 5)
+texture = ExtResource("8_nq00p")
+
+[node name="BoxContainer2" type="BoxContainer" parent="HUD/IconsSelected"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="DownRight" type="Sprite2D" parent="HUD/IconsSelected/BoxContainer2"]
+position = Vector2(-12, -12)
+scale = Vector2(5, 5)
+texture = ExtResource("7_dwvd7")
+
+[node name="BoxContainer3" type="BoxContainer" parent="HUD/IconsSelected"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+
+[node name="UpRight" type="Sprite2D" parent="HUD/IconsSelected/BoxContainer3"]
+position = Vector2(-12, 12)
+scale = Vector2(5, 5)
+texture = ExtResource("9_yt74a")
+
+[node name="BoxContainer4" type="BoxContainer" parent="HUD/IconsSelected"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+
+[node name="DownLeft" type="Sprite2D" parent="HUD/IconsSelected/BoxContainer4"]
+position = Vector2(12, -12)
+scale = Vector2(5, 5)
+texture = ExtResource("6_68dwg")

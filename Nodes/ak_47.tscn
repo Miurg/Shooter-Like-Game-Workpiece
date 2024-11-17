@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqokv6xsbcy12"]
+
+[ext_resource type="PackedScene" uid="uid://chyb5dnihi2ei" path="res://Meshes/AK47.glb" id="1_mvrso"]
+
+[node name="AK47" instance=ExtResource("1_mvrso")]

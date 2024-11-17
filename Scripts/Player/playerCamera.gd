@@ -43,12 +43,16 @@ func selectProcess(delta):
 			rayInstanceWeapon = spaceState.intersect_ray(query).collider
 			var meshInstance = rayInstanceWeapon.get_child(2)
 			var meshLocal = meshInstance.mesh.get_faces()
+			for i in meshLocal.size():
+				meshLocal[i] = meshLocal[i].rotated(Vector3(0,1,0),rayInstanceWeapon.rotation.y)
+				meshLocal[i] = meshLocal[i].rotated(Vector3(1,0,0),rayInstanceWeapon.rotation.x)
+				meshLocal[i] = meshLocal[i].rotated(Vector3(0,0,1),rayInstanceWeapon.rotation.z)
 			var unproject = PackedVector2Array()
 			for i in meshLocal:
 				unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstanceWeapon.position-i))
 			var p1 : Vector2 = unproject[0]
 			var p2 : Vector2 = unproject[0]
-
+			
 			for i in unproject:
 				p1.x = min(p1.x, i.x)
 				p1.y = min(p1.y, i.y)

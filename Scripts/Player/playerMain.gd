@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var workDistributor = $"../.."
 @onready var playerWeapons = $Weapons
+@onready var playerCamera = $PlayerCameraMain
 
 var playerVelocity:Vector3 = Vector3.ZERO
 var playerSpeed:float = 6
@@ -20,6 +21,15 @@ func _process(delta: float) -> void:
 	movementProcess(delta)
 	
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if OS.get_keycode_string(event.keycode) == "E" and playerCamera.rayInstanceWeapon!=null:
+			toWeaponPickupWeapon(playerCamera.rayInstanceWeapon)
+		if OS.get_keycode_string(event.keycode) == "G":
+			toWeaponDropWeapon()
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			pass
 
 
 const maxSpeedDown:int = 20

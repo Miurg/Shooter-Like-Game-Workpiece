@@ -24,11 +24,7 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		cameraInput = event.relative
-	if event is InputEventKey:
-		if OS.get_keycode_string(event.keycode) == "E" and rayInstanceWeapon!=null:
-			playerMain.toWeaponPickupWeapon(rayInstanceWeapon)
-		if OS.get_keycode_string(event.keycode) == "G":
-			playerMain.toWeaponDropWeapon()
+
 				
 
 var rayLength = 2
@@ -44,8 +40,8 @@ func selectProcess(delta):
 			var meshInstance = rayInstanceWeapon.get_child(2)
 			var meshLocal = meshInstance.mesh.get_faces()
 			for i in meshLocal.size():
-				meshLocal[i] = meshLocal[i].rotated(Vector3(0,1,0),rayInstanceWeapon.rotation.y)
 				meshLocal[i] = meshLocal[i].rotated(Vector3(1,0,0),rayInstanceWeapon.rotation.x)
+				meshLocal[i] = meshLocal[i].rotated(Vector3(0,1,0),rayInstanceWeapon.rotation.y)
 				meshLocal[i] = meshLocal[i].rotated(Vector3(0,0,1),rayInstanceWeapon.rotation.z)
 			var unproject = PackedVector2Array()
 			for i in meshLocal:

@@ -10,8 +10,6 @@ var playerMaxSpeed:float = 10
 var jumpForce:int = 10
 var numberOfAvailableJump = 1
 
-
-var spaceState
 func _ready() -> void:
 	
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
@@ -23,13 +21,15 @@ func _process(delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
-		if OS.get_keycode_string(event.keycode) == "E" and playerCamera.rayInstanceWeapon!=null:
+		if OS.get_keycode_string(event.keycode) == "E" and playerCamera.rayInstanceWeapon!=null and event.pressed:
 			toWeaponPickupWeapon(playerCamera.rayInstanceWeapon)
-		if OS.get_keycode_string(event.keycode) == "G":
+		if OS.get_keycode_string(event.keycode) == "G" and event.pressed:
 			toWeaponDropWeapon()
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			pass
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			playerWeapons.currentlyShoot = true
+		elif event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
+			playerWeapons.currentlyShoot = false
 
 
 const maxSpeedDown:int = 20
@@ -39,7 +39,7 @@ const lerpWeight:int = 20
 var firstJumpOnFloorHappend = false
 var inAirTime:float = 0
 var jumpButtonClicks:int = 0
-func movementProcess(delta):
+func movementProcess(delta) -> void:
 	var direction = Vector3()
 	if Input:
 		if Input.is_action_pressed('left'):
@@ -75,16 +75,23 @@ func movementProcess(delta):
 		jumpButtonClicks = 0
 		inAirTime = 0
 		
-func toDistributorIconsSelected(delta,sizeX,sizeY,positionX,positionY):
+func toDistributorIconsSelected(delta,sizeX,sizeY,positionX,positionY) -> void:
 	workDistributor.HUDIconsSelectedApply(delta,sizeX,sizeY,positionX,positionY)
 			
-func toWeaponPickupWeapon(InstanceWeapon):
+func toWeaponPickupWeapon(InstanceWeapon) -> void:
 	playerWeapons.pickupWeapon(InstanceWeapon)
 
-func toWeaponDropWeapon():
+func toWeaponDropWeapon() -> void:
 	playerWeapons.dropWeapon()
 			
-func toDistributorCreateWeapon(weaponInstance):
+func toDistributorPlaceWeapon(weaponInstance) -> void:
 	var weaponsPosition = Vector3(position.x,position.y,position.z)+Vector3(0,1,-1).rotated(Vector3(0,1,0),rotation.y)
 	var impulse = Vector3(0,0,-10).rotated(Vector3(0,1,0),rotation.y)
-	workDistributor.createWeapon(weaponInstance,impulse,weaponsPosition)
+	workDistributor.placeWeapon(weaponInstance,impulse,weaponsPosition)
+
+func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole) -> void:
+	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole)
+	
+func toCameraRayFromCamera(collisionMask:int, newRayLength:int) -> Array:
+	return playerCamera.rayFromCamera(collisionMask,newRayLength)
+	

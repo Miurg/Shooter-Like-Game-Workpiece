@@ -10,6 +10,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
-func iconsSelectedApply(delta,sizeX,sizeY,positionX,positionY):
+func iconsSelectedApply(delta,sizeX,sizeY,positionX,positionY) -> void:
 	iconsSelected.position = iconsSelected.position.lerp(Vector2(positionX,positionY),6*delta)
 	iconsSelected.size = iconsSelected.size.lerp(Vector2(sizeX,sizeY),6*delta)

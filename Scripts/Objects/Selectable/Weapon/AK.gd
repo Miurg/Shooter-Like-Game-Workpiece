@@ -1,11 +1,10 @@
-class_name Weapon
-extends Node
+extends Weapon
 
-var rateOfFire:float = 1
-var damage:int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rateOfFire = 0.1
+	damage = 1
 	pass # Replace with function body.
 
 

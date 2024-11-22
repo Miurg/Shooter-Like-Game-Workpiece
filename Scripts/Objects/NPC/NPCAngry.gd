@@ -7,11 +7,12 @@ var timeUntilUnsee:float
 var tempTimeUntilUnsee:float
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	healthPoint = get_meta("healthPoint")
 	moveSpeed = get_meta("moveSpeed")
 	fieldOfView = get_meta("fieldOfView")
+	healthPoint = get_meta("healthPoint")
 	maxMoveSpeed = get_meta("maxMoveSpeed") 
 	timeUntilUnsee = get_meta("timeUntilUnsee")
+	maxDistanceOfView = get_meta("maxDistanceOfView")
 	tempTimeUntilUnsee = timeUntilUnsee
 	pass # Replace with function body.
 

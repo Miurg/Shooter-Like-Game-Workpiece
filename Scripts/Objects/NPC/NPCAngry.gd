@@ -1,26 +1,39 @@
 extends NPC
 
-@onready var player = $"../Player"
+@onready var navAgent = $NavigationAgent3D
+var playerVisible:bool = false
+var targetToMove 
+var timeUntilUnsee:float
+var tempTimeUntilUnsee:float
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	healthPoint = 100
-	moveSpeed = 1
-	fieldOfView = 60
+	healthPoint = get_meta("healthPoint")
+	moveSpeed = get_meta("moveSpeed")
+	fieldOfView = get_meta("fieldOfView")
+	maxMoveSpeed = get_meta("maxMoveSpeed") 
+	timeUntilUnsee = get_meta("timeUntilUnsee")
+	tempTimeUntilUnsee = timeUntilUnsee
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
-	rotate_y(0.01)
-	var kek = isPlayerVisible()
-	if kek: print_debug("YES")
-	pass
+	if isPlayerVisible():
+		tempTimeUntilUnsee=timeUntilUnsee
+		playerVisible=true
+	elif tempTimeUntilUnsee>0:
+		tempTimeUntilUnsee-=delta
+	else: playerVisible=false
 
-func isPlayerVisible() -> bool:
-	var selfDirection = global_transform.basis.x.normalized()
-	var toTargetDirection = position.direction_to(player.position)
-	var angle = rad_to_deg(acos(selfDirection.dot(toTargetDirection)))
-	return angle<=fieldOfView/2
-	#direction = -rad_to_deg(atan2(direction.z,direction.x))
-	#print_debug(direction)
-	return false
+func _process(delta: float) -> void:
+	if playerVisible: 
+		targetToMove = player.position
+		navAgent.target_position = targetToMove
+		velocity = velocity.lerp((navAgent.get_next_path_position()-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
+		look_at(Vector3(navAgent.get_next_path_position().x,position.y,navAgent.get_next_path_position().z))
+	else:
+		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*10)
+	
+	if velocity.y > -maxSpeedDown:
+		velocity.y = velocity.y-gravityForce*delta
+	elif velocity.y < -maxSpeedDown:
+		velocity.y=-maxSpeedDown
+	move_and_slide()

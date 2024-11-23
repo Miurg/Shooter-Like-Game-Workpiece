@@ -16,15 +16,16 @@ func _process(delta: float) -> void:
 	playerMain.rotate_y(-deg_to_rad(rotationVelocity.x))
 	rotation_degrees.x = clamp(rotation_degrees.x, -90,90)
 	cameraInput = Vector2.ZERO
+
+func _physics_process(delta: float) -> void:
 	selectProcess(delta)
-	
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		cameraInput = event.relative
 
 				
 var rayInstanceWeapon
-var mdt = MeshDataTool.new()
 func selectProcess(delta) -> void:
 	rayForWeapon.force_raycast_update() 
 	if rayForWeapon.is_colliding()==true: 

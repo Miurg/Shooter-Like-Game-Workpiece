@@ -4,12 +4,13 @@ extends CharacterBody3D
 @onready var playerWeapons = $Weapons
 @onready var playerCamera = $PlayerCameraMain
 
+
+var healthPoint:int = 100
 var playerVelocity:Vector3 = Vector3.ZERO
 var playerSpeed:float = 6
 var playerMaxSpeed:float = 10
 var jumpForce:int = 10
 var numberOfAvailableJump = 1
-
 func _ready() -> void:
 	
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
@@ -22,9 +23,9 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if OS.get_keycode_string(event.keycode) == "E" and playerCamera.rayInstanceWeapon!=null and event.pressed:
-			toWeaponPickupWeapon(playerCamera.rayInstanceWeapon)
+			playerWeapons.pickupWeapon(playerCamera.rayInstanceWeapon)
 		if OS.get_keycode_string(event.keycode) == "G" and event.pressed:
-			toWeaponDropWeapon()
+			playerWeapons.dropWeapon()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			playerWeapons.currentlyShoot = true
@@ -77,13 +78,7 @@ func movementProcess(delta) -> void:
 		
 func toDistributorIconsSelected(delta,sizeX,sizeY,positionX,positionY) -> void:
 	workDistributor.HUDIconsSelectedApply(delta,sizeX,sizeY,positionX,positionY)
-			
-func toWeaponPickupWeapon(InstanceWeapon) -> void:
-	playerWeapons.pickupWeapon(InstanceWeapon)
-
-func toWeaponDropWeapon() -> void:
-	playerWeapons.dropWeapon()
-			
+	
 func toDistributorPlaceWeapon(weaponInstance) -> void:
 	var weaponsPosition = Vector3(position.x,position.y,position.z)+Vector3(0,1,-1).rotated(Vector3(0,1,0),rotation.y)
 	var impulse = Vector3(0,0,-10).rotated(Vector3(0,1,0),rotation.y)
@@ -92,6 +87,6 @@ func toDistributorPlaceWeapon(weaponInstance) -> void:
 func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole) -> void:
 	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole)
 	
-func toCameraRayFromCamera(collisionMask:int, newRayLength:int) -> Array:
+func getRay(collisionMask:int, newRayLength:int) -> Array:
 	return playerCamera.rayFromCamera(collisionMask,newRayLength)
 	

@@ -8,13 +8,15 @@ var currentlyShoot:bool = false
 func _ready() -> void:
 	weaponsStatusArray.append(Array())
 	weaponsStatusArray[0].append("AK")
-	weaponsStatusArray[0].append(preload("res://Nodes/AK.tscn"))
+	weaponsStatusArray[0].append(preload("res://Nodes/Objects/AK.tscn"))
 	weaponsStatusArray[0].append($AK)
+	for i in weaponsStatusArray:
+		i[2].get_child(1).disabled = true
 
 var timeFromLastShoot = 0
 func _physics_process(delta: float) -> void:
 	if currentlyShoot and timeFromLastShoot>weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire and currentlyHoldsWeapon==true:
-		shootBullet()
+		weaponsStatusArray[currentlyActiveWeapon][2].shootBullet()
 		timeFromLastShoot=0
 	else:timeFromLastShoot+=delta
 
@@ -37,12 +39,3 @@ func dropWeapon() -> void:
 		playerMain.toDistributorPlaceWeapon(weaponInstance)
 		currentlyHoldsWeapon = false
 		return
-
-func shootBullet() -> void:
-		var arrayOfCollider = playerMain.toCameraRayFromCamera(0b00000000_00000000_00000000_00000011,1000)
-		if arrayOfCollider[0]!=null:
-			if arrayOfCollider[0].get_collision_layer()==1:
-				playerMain.toDistributorCreateHole(arrayOfCollider[0],arrayOfCollider[1],arrayOfCollider[2])
-			#else: 
-				
-	

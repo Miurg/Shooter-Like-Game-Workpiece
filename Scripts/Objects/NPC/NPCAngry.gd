@@ -15,21 +15,25 @@ func _ready() -> void:
 	maxDistanceOfView = get_meta("maxDistanceOfView")
 	tempTimeUntilUnsee = timeUntilUnsee
 	pass # Replace with function body.
-
+var nextPath
 func _physics_process(delta: float) -> void:
 	if isPlayerVisible():
 		tempTimeUntilUnsee=timeUntilUnsee
 		playerVisible=true
+		navAgent.target_position = player.position
+		nextPath = navAgent.get_next_path_position()
 	elif tempTimeUntilUnsee>0:
 		tempTimeUntilUnsee-=delta
+		if !navAgent.is_navigation_finished():
+			nextPath = navAgent.get_next_path_position()
 	else: playerVisible=false
 
 func _process(delta: float) -> void:
 	if playerVisible: 
-		targetToMove = player.position
-		navAgent.target_position = targetToMove
-		velocity = velocity.lerp((navAgent.get_next_path_position()-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
-		look_at(Vector3(navAgent.get_next_path_position().x,position.y,navAgent.get_next_path_position().z))
+		velocity = velocity.lerp((nextPath-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
+		var newLook = Vector3(nextPath.x,position.y,nextPath.z)
+		if newLook!=position:
+			look_at(newLook)
 	else:
 		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*10)
 	
@@ -38,3 +42,6 @@ func _process(delta: float) -> void:
 	elif velocity.y < -maxSpeedDown:
 		velocity.y=-maxSpeedDown
 	move_and_slide()
+	
+	if healthPoint<0:
+		self.queue_free()

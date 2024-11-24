@@ -3,12 +3,11 @@ extends WeaponShooting
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	rateOfFire = 0.1
+	spreadMax = 2
+	spreadMin = 0
+	spreadSpeedUp = 0.1
+	spreadSpeedDown = 1
+	rateOfFire = 0.02
 	damage = 1
+	holeNode = preload("res://Nodes/Objects/Hole.tscn")
 	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	

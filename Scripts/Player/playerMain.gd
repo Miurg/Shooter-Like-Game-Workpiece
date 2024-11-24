@@ -76,17 +76,24 @@ func movementProcess(delta) -> void:
 		jumpButtonClicks = 0
 		inAirTime = 0
 		
-func toDistributorIconsSelected(delta,sizeX,sizeY,positionX,positionY) -> void:
-	workDistributor.HUDIconsSelectedApply(delta,sizeX,sizeY,positionX,positionY)
+		
+func toDistributorHUDToNormalIcons():
+	workDistributor.HUDToNormalIcons()
+	
+func toDistributorHUDUpdateIconsSelected(sizeX,sizeY,positionX,positionY) -> void:
+	workDistributor.HUDUpdateIconsSelected(sizeX,sizeY,positionX,positionY)
 	
 func toDistributorPlaceWeapon(weaponInstance) -> void:
-	var weaponsPosition = Vector3(position.x,position.y,position.z)+Vector3(0,1,-1).rotated(Vector3(0,1,0),rotation.y)
-	var impulse = Vector3(0,0,-10).rotated(Vector3(0,1,0),rotation.y)
-	workDistributor.placeWeapon(weaponInstance,impulse,weaponsPosition)
+	var weaponsPosition = Vector3(position.x,position.y+playerCamera.position.y,position.z)+Vector3(0,0,-1).rotated(Vector3(1,0,0),playerCamera.rotation.x).rotated(Vector3(0,1,0),rotation.y)
+	var impulse = Vector3(0,0,-10).rotated(Vector3(1,0,0),playerCamera.rotation.x).rotated(Vector3(0,1,0),rotation.y)
+	workDistributor.placeWeapon(self,weaponInstance,impulse,weaponsPosition)
 
-func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole) -> void:
-	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole)
+func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) -> void:
+	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole,holeNode)
 	
-func getRay(collisionMask:int, newRayLength:int) -> Array:
-	return playerCamera.rayFromCamera(collisionMask,newRayLength)
+func toDistributorHUDUpdateSpread(spread):
+	workDistributor.HUDUpdateSpread(spread)
+	
+func getRay(collisionMask:int, newRayTarget:Vector3) -> Array:
+	return playerCamera.rayFromCamera(collisionMask,newRayTarget)
 	

@@ -1,5 +1,5 @@
 extends Node
-#0 - name of weapon, 1 - screne of weapon, 2 - path to node of weapon
+#0 - name of weapon, 1 - scene of weapon, 2 - path to node of weapon
 var weaponsStatusArray:Array[Array]
 @onready var playerMain = $".."
 var currentlyActiveWeapon: int = 0
@@ -13,12 +13,21 @@ func _ready() -> void:
 	for i in weaponsStatusArray:
 		i[2].get_child(1).disabled = true
 
+var spreadCurrent:float = 0
 var timeFromLastShoot = 0
 func _physics_process(delta: float) -> void:
 	if currentlyShoot and timeFromLastShoot>weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire and currentlyHoldsWeapon==true:
-		weaponsStatusArray[currentlyActiveWeapon][2].shootBullet()
+		weaponsStatusArray[currentlyActiveWeapon][2].shootBullet(spreadCurrent)
 		timeFromLastShoot=0
-	else:timeFromLastShoot+=delta
+		if spreadCurrent<=weaponsStatusArray[currentlyActiveWeapon][2].spreadMax:
+			spreadCurrent+=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedUp
+			playerMain.toDistributorHUDUpdateSpread(spreadCurrent)
+	elif currentlyShoot:
+		timeFromLastShoot+=delta
+	else:
+		if spreadCurrent>weaponsStatusArray[currentlyActiveWeapon][2].spreadMin:
+			spreadCurrent-=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedDown*delta
+			playerMain.toDistributorHUDUpdateSpread(spreadCurrent)
 
 func pickupWeapon(InstanceWeapon) -> void:
 	for i in weaponsStatusArray:
@@ -31,11 +40,12 @@ func pickupWeapon(InstanceWeapon) -> void:
 			else:
 				i[2].visible = true
 				currentlyHoldsWeapon = true
+			spreadCurrent = i[2].spreadMin
 		
 	
 func dropWeapon() -> void:
+	if currentlyHoldsWeapon==true:
 		weaponsStatusArray[currentlyActiveWeapon][2].visible=false
 		var weaponInstance = weaponsStatusArray[currentlyActiveWeapon][1].instantiate()
 		playerMain.toDistributorPlaceWeapon(weaponInstance)
 		currentlyHoldsWeapon = false
-		return

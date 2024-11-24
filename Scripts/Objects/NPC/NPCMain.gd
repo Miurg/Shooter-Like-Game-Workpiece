@@ -10,8 +10,7 @@ var fieldOfView:int
 var maxDistanceOfView:int
 const maxSpeedDown:int = 20
 const gravityForce:int = 40
-
-
+var playerVisible:bool = false
 
 func isPlayerVisible() -> bool:
 	if position.distance_to(player.position)<maxDistanceOfView:
@@ -23,3 +22,6 @@ func isPlayerVisible() -> bool:
 			ray.rotation = -rotation
 			return !ray.is_colliding()
 	return false
+
+func takeDamage(damage):
+	healthPoint-=damage

@@ -7,7 +7,7 @@
 size = Vector3(0.0339355, 0.345459, 1.16968)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8djek"]
-albedo_color = Color(1, 1, 1, 0)
+no_depth_test = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_a846g"]
 lightmap_size_hint = Vector2i(9, 15)

@@ -1,7 +1,6 @@
 extends NPC
 
 @onready var navAgent = $NavigationAgent3D
-var playerVisible:bool = false
 var targetToMove 
 var timeUntilUnsee:float
 var tempTimeUntilUnsee:float
@@ -14,7 +13,7 @@ func _ready() -> void:
 	timeUntilUnsee = get_meta("timeUntilUnsee")
 	maxDistanceOfView = get_meta("maxDistanceOfView")
 	tempTimeUntilUnsee = timeUntilUnsee
-	pass # Replace with function body.
+
 var nextPath
 func _physics_process(delta: float) -> void:
 	if isPlayerVisible():

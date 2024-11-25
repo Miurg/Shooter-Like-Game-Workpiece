@@ -5,6 +5,7 @@ extends Node
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#Engine.max_fps = 17
 
 
 func _input(event):
@@ -35,7 +36,7 @@ func placeBullet(bulletInstance,velocity,position,rotation) -> void:
 	bulletInstance.rotation = rotation
 
 func createHoleFromBullet(wallInstance,newPosition,newNormal,holeNode) -> void:
-	var newHole = holeNode.instantiate()
+	var newHole = holeNode.instantiate() 
 	newHole.position = newPosition+newNormal/1000
 	allBulletsAndHolesNode.add_child(newHole)
 	if newNormal.y!=1 and newNormal.y!=-1:

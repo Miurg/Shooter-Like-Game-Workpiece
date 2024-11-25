@@ -16,6 +16,7 @@ size = Vector3(0.04, 0.34, 1.155)
 
 [node name="AK" type="RigidBody3D"]
 collision_layer = 8
+collision_mask = 59
 script = ExtResource("1_8fsic")
 
 [node name="AK" parent="." instance=ExtResource("1_befwx")]
@@ -30,3 +31,6 @@ shape = SubResource("BoxShape3D_7qasp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0379286, 0)
 visible = false
 mesh = SubResource("BoxMesh_a846g")
+
+[node name="Patricles" type="Node3D" parent="."]
+transform = Transform3D(0.265, 0, 0, 0, 0.265, 0, 0, 0, 0.265, 0, 0.105561, -0.5861)

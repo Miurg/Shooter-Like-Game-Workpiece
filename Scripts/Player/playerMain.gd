@@ -12,7 +12,6 @@ var playerMaxSpeed:float = 10
 var jumpForce:int = 10
 var numberOfAvailableJump = 1
 func _ready() -> void:
-	
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
 
 

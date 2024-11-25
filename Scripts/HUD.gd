@@ -1,10 +1,10 @@
 extends Node
 
 @onready var iconsSelected = $IconsSelected
-var positionX
-var positionY 
-var sizeX 
-var sizeY
+var positionX:int
+var positionY:int 
+var sizeX:int
+var sizeY:int
 var spreadWeapons = 0:
 	set(value):
 		spreadWeapons = value
@@ -13,7 +13,7 @@ var spreadWeapons = 0:
 func _ready() -> void:
 	toNormalIcons()
 
-func updateIconsSelected(sizeXCurrent,sizeYCurrent,positionXCurrent,positionYCurrent) -> void:
+func updateIconsSelected(sizeXCurrent:int,sizeYCurrent:int,positionXCurrent:int,positionYCurrent:int) -> void:
 	sizeX = sizeXCurrent
 	sizeY = sizeYCurrent
 	positionX = positionXCurrent
@@ -30,10 +30,10 @@ func iconsSpreadApply() -> void:
 	iconsSelected.position = Vector2((positionX+sizeX/2)-(iconsSelected.size.x/2),(positionY+sizeY/2)-(iconsSelected.size.y/2))
 	print_debug("EWQ")
 
-func iconsSelectedApply(delta) -> void:
+func iconsSelectedApply(delta:float) -> void:
 	iconsSelected.size = iconsSelected.size.lerp(Vector2(sizeX,sizeY),10*delta)
 	iconsSelected.position = iconsSelected.position.lerp(Vector2(positionX,positionY),10*delta)
 
-func _process(delta: float) -> void:
+func _process(delta:float) -> void:
 	if spreadWeapons<=0:
 		iconsSelectedApply(delta)

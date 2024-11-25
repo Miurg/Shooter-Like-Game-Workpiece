@@ -3,13 +3,13 @@ extends Camera3D
 @onready var playerMain = $".."
 @onready var rayForWeapon = $RayForWeapon
 @onready var generalRay = $GeneralRay
-var rotationSpeed = 15
+var rotationSpeed = 0.2
 var lerpWeight = 40
 var cameraInput =  Vector2.ZERO
 var rotationVelocity =  Vector2.ZERO
 
 func _process(delta: float) -> void:
-	rotationVelocity = cameraInput*rotationSpeed*delta
+	rotationVelocity = cameraInput*rotationSpeed
 	rotate_x(-deg_to_rad(rotationVelocity.y))
 	playerMain.rotate_y(-deg_to_rad(rotationVelocity.x))
 	rotation_degrees.x = clamp(rotation_degrees.x, -90,90)
@@ -33,7 +33,7 @@ func selectProcess(delta) -> void:
 		var meshFaces = meshInstance.mesh.get_faces()
 		var unproject = PackedVector2Array()
 		for i in meshFaces:
-			unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstanceWeapon.transform * i))
+			unproject.append(get_viewport().get_camera_3d().unproject_position(rayInstanceWeapon.global_transform * i))
 		var p1 : Vector2 = unproject[0]
 		var p2 : Vector2 = unproject[0]
 		for i in unproject:

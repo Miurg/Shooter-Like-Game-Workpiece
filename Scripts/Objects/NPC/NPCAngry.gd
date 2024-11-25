@@ -36,10 +36,7 @@ func _process(delta: float) -> void:
 	else:
 		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*10)
 	
-	if velocity.y > -maxSpeedDown:
-		velocity.y = velocity.y-gravityForce*delta
-	elif velocity.y < -maxSpeedDown:
-		velocity.y=-maxSpeedDown
+	applyGravitVelocity(delta)
 	move_and_slide()
 	
 	if healthPoint<0:

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=4 uid="uid://5ccf5pn5m8jk"]
+[gd_scene load_steps=7 format=4 uid="uid://5ccf5pn5m8jk"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCAngry.gd" id="1_v51a8"]
+[ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/AK.tscn" id="2_ebvwc"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_cumjd"]
 
@@ -66,3 +67,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.37, -0.254398)
 target_position = Vector3(0, 0, -6)
 
 [node name="MasterWeapon" type="Node3D" parent="."]
+
+[node name="AK" parent="MasterWeapon" instance=ExtResource("2_ebvwc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.508217, 0.948716, -0.413952)

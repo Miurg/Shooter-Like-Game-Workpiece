@@ -23,5 +23,11 @@ func isPlayerVisible() -> bool:
 			return !ray.is_colliding()
 	return false
 
-func takeDamage(damage) -> void:
+func applyGravitVelocity(delta:float) -> void:
+	if velocity.y > -maxSpeedDown:
+		velocity.y = velocity.y-gravityForce*delta
+	elif velocity.y < -maxSpeedDown:
+		velocity.y=-maxSpeedDown
+
+func takeDamage(damage:int) -> void:
 	healthPoint-=damage

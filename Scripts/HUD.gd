@@ -13,13 +13,13 @@ var spreadWeapons = 0:
 func _ready() -> void:
 	toNormalIcons()
 
-func updateIconsSelected(sizeXCurrent,sizeYCurrent,positionXCurrent,positionYCurrent):
+func updateIconsSelected(sizeXCurrent,sizeYCurrent,positionXCurrent,positionYCurrent) -> void:
 	sizeX = sizeXCurrent
 	sizeY = sizeYCurrent
 	positionX = positionXCurrent
 	positionY = positionYCurrent
 	
-func toNormalIcons():
+func toNormalIcons() -> void:
 	sizeX = 34
 	sizeY = 34
 	positionX = (get_viewport().get_visible_rect().size.x / 2)-sizeX/2

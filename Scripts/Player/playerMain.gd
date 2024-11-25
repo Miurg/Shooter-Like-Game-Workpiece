@@ -54,6 +54,7 @@ func movementProcess(delta) -> void:
 		if Input.is_action_just_pressed('jump'):
 			if inAirTime<timeInAirForJump or jumpButtonClicks<numberOfAvailableJump:
 				velocity.y = jumpForce
+				inAirTime = timeInAirForJump
 			jumpButtonClicks+=1
 			firstJumpOnFloorHappend = true
 		playerVelocity = direction.normalized().rotated(Vector3(0,1,0),rotation.y) * playerMaxSpeed
@@ -77,7 +78,7 @@ func movementProcess(delta) -> void:
 		inAirTime = 0
 		
 		
-func toDistributorHUDToNormalIcons():
+func toDistributorHUDToNormalIcons() -> void:
 	workDistributor.HUDToNormalIcons()
 	
 func toDistributorHUDUpdateIconsSelected(sizeX,sizeY,positionX,positionY) -> void:
@@ -91,7 +92,7 @@ func toDistributorPlaceWeapon(weaponInstance) -> void:
 func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) -> void:
 	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole,holeNode)
 	
-func toDistributorHUDUpdateSpread(spread):
+func toDistributorHUDUpdateSpread(spread) -> void:
 	workDistributor.HUDUpdateSpread(spread)
 	
 func getRay(collisionMask:int, newRayTarget:Vector3) -> Array:

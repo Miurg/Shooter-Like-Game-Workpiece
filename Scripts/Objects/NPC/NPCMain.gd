@@ -23,5 +23,5 @@ func isPlayerVisible() -> bool:
 			return !ray.is_colliding()
 	return false
 
-func takeDamage(damage):
+func takeDamage(damage) -> void:
 	healthPoint-=damage

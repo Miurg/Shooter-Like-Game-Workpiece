@@ -28,7 +28,6 @@ func toNormalIcons() -> void:
 func iconsSpreadApply() -> void:
 	iconsSelected.size = Vector2(sizeX*(spreadWeapons+1),sizeY*(spreadWeapons+1))
 	iconsSelected.position = Vector2((positionX+sizeX/2)-(iconsSelected.size.x/2),(positionY+sizeY/2)-(iconsSelected.size.y/2))
-	print_debug("EWQ")
 
 func iconsSelectedApply(delta:float) -> void:
 	iconsSelected.size = iconsSelected.size.lerp(Vector2(sizeX,sizeY),10*delta)

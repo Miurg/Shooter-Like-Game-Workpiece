@@ -13,7 +13,10 @@ func _ready() -> void:
 	for i in weaponsStatusArray:
 		i[2].get_child(1).disabled = true
 
-var spreadCurrent:float = 0
+var spreadCurrent:float = 0:
+	set(value):
+		spreadCurrent = value
+		playerMain.toDistributorHUDUpdateSpread(value)
 var timeFromLastShoot = 0
 func _physics_process(delta: float) -> void:
 	if currentlyShoot and timeFromLastShoot>weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire and currentlyHoldsWeapon==true:
@@ -21,13 +24,11 @@ func _physics_process(delta: float) -> void:
 		timeFromLastShoot=0
 		if spreadCurrent<=weaponsStatusArray[currentlyActiveWeapon][2].spreadMax:
 			spreadCurrent+=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedUp
-			playerMain.toDistributorHUDUpdateSpread(spreadCurrent)
 	elif currentlyShoot and timeFromLastShoot<weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire:
 		timeFromLastShoot+=delta
 	else:
 		if spreadCurrent>weaponsStatusArray[currentlyActiveWeapon][2].spreadMin:
 			spreadCurrent-=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedDown*delta
-			playerMain.toDistributorHUDUpdateSpread(spreadCurrent)
 
 func pickupWeapon(InstanceWeapon) -> void:
 	for i in weaponsStatusArray:

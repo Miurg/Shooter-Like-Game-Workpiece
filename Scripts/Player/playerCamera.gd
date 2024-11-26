@@ -1,12 +1,17 @@
 extends Camera3D
 
 @onready var playerMain = $".."
-@onready var rayForWeapon = $RayForWeapon
 @onready var generalRay = $GeneralRay
-var rotationSpeed = 0.2
+@onready var weaponRay = $WeaponRay
+var rays:Array
+var rotationSpeed = 0.1
 var lerpWeight = 40
 var cameraInput =  Vector2.ZERO
 var rotationVelocity =  Vector2.ZERO
+
+func _ready() -> void:
+	rays.append($WeaponRay)
+	rays.append($GeneralRay)
 
 func _process(delta: float) -> void:
 	rotationVelocity = cameraInput*rotationSpeed
@@ -26,9 +31,9 @@ func _input(event: InputEvent) -> void:
 				
 var rayInstanceWeapon
 func selectProcess(delta) -> void:
-	rayForWeapon.force_raycast_update() 
-	if rayForWeapon.is_colliding()==true: 
-		rayInstanceWeapon = rayForWeapon.get_collider()
+	generalRay.force_raycast_update() 
+	if generalRay.is_colliding()==true: 
+		rayInstanceWeapon = generalRay.get_collider()
 		var meshInstance = rayInstanceWeapon.get_child(2)
 		var meshFaces = meshInstance.mesh.get_faces()
 		var unproject = PackedVector2Array()
@@ -46,9 +51,19 @@ func selectProcess(delta) -> void:
 		playerMain.toDistributorHUDToNormalIcons()
 		rayInstanceWeapon = null
 			
-func rayFromCamera(collisionMask:int, newRayTarget:Vector3) -> Array:
-	generalRay.collision_mask = collisionMask
-	generalRay.target_position = newRayTarget
-	if generalRay.is_colliding()==true:
-		return [generalRay.get_collider(), generalRay.get_collision_point(),generalRay.get_collision_normal()]
+func rayFromCamera(rayName:String,collisionMask:int, newRayTarget:Vector3,newRotation:Vector3) -> Array:
+	var generalRayNew
+	for i in rays:
+		if i.name==rayName:
+			generalRayNew=i
+			print_debug(i.name==rayName, i.name,rayName)
+			break
+	if generalRayNew==null:
+		print_debug("error, ", rayName," not found in", rays)
+		return [null]
+	generalRayNew.rotation = newRotation
+	generalRayNew.collision_mask = collisionMask
+	generalRayNew.target_position = newRayTarget
+	if generalRayNew.is_colliding()==true:
+		return [generalRayNew.get_collider(), generalRayNew.get_collision_point(),generalRayNew.get_collision_normal()]
 	else: return [null]

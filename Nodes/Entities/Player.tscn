@@ -16,6 +16,8 @@ collision_layer = 16
 collision_mask = 43
 slide_on_ceiling = false
 script = ExtResource("1_v1vpl")
+metadata/moveSpeed = 6.0
+metadata/maxMoveSpeed = 10.0
 
 [node name="fatguy" parent="." instance=ExtResource("2_1iigt")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
@@ -27,12 +29,12 @@ fov = 90.0
 size = 7.306
 script = ExtResource("3_tfvg7")
 
-[node name="RayForWeapon" type="RayCast3D" parent="PlayerCameraMain"]
-target_position = Vector3(0, 0, -2)
-collision_mask = 8
+[node name="WeaponRay" type="RayCast3D" parent="PlayerCameraMain"]
+target_position = Vector3(0, 0, -1)
 
 [node name="GeneralRay" type="RayCast3D" parent="PlayerCameraMain"]
-target_position = Vector3(0, 0, -1)
+target_position = Vector3(0, 0, -2)
+collision_mask = 8
 debug_shape_thickness = 5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

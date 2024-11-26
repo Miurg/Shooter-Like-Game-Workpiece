@@ -1,18 +1,16 @@
-extends CharacterBody3D
+extends Life
 
-@onready var workDistributor = $"../.."
 @onready var playerWeapons = $Weapons
 @onready var playerCamera = $PlayerCameraMain
 
 
-var healthPoint:int = 100
 var playerVelocity:Vector3 = Vector3.ZERO
-var playerSpeed:float = 6
-var playerMaxSpeed:float = 10
 var jumpForce:int = 10
 var numberOfAvailableJump = 1
 func _ready() -> void:
 	get_node("fatguy").get_node("AnimationPlayer").play("steps")
+	moveSpeed = get_meta("moveSpeed")
+	maxMoveSpeed = get_meta("maxMoveSpeed")
 
 
 func _process(delta: float) -> void:
@@ -32,10 +30,7 @@ func _input(event: InputEvent) -> void:
 			playerWeapons.currentlyShoot = false
 
 
-const maxSpeedDown:int = 20
 const timeInAirForJump:float = 0.2
-const gravityForce:int = 40
-const lerpWeight:int = 20
 var firstJumpOnFloorHappend = false
 var inAirTime:float = 0
 var jumpButtonClicks:int = 0
@@ -56,20 +51,17 @@ func movementProcess(delta) -> void:
 				inAirTime = timeInAirForJump
 			jumpButtonClicks+=1
 			firstJumpOnFloorHappend = true
-		playerVelocity = direction.normalized().rotated(Vector3(0,1,0),rotation.y) * playerMaxSpeed
+		playerVelocity = direction.normalized().rotated(Vector3(0,1,0),rotation.y) * maxMoveSpeed
 		playerVelocity.y = velocity.y
-		var maxVelocity = Vector2(playerMaxSpeed,playerMaxSpeed).normalized() * playerMaxSpeed
+		var maxVelocity = Vector2(maxMoveSpeed,maxMoveSpeed).normalized() * maxMoveSpeed
 		if abs(velocity.x)<maxVelocity.x and abs(velocity.z)<maxVelocity.y and playerVelocity!=Vector3(0,velocity.y,0):
-			velocity = velocity.lerp(playerVelocity, delta*playerSpeed)
+			velocity = velocity.lerp(playerVelocity, delta*moveSpeed)
 		else:
-			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*lerpWeight)
+			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
 	if !is_on_floor():
 		inAirTime+=delta
 		if firstJumpOnFloorHappend == false and inAirTime>timeInAirForJump and jumpButtonClicks==0:jumpButtonClicks+=1
-		if velocity.y > -maxSpeedDown:
-			velocity.y = velocity.y-gravityForce*delta
-		elif velocity.y < -maxSpeedDown:
-			velocity.y=-maxSpeedDown
+		applyGravitVelocity(delta)
 	move_and_slide()
 	if is_on_floor():
 		firstJumpOnFloorHappend = false
@@ -94,6 +86,6 @@ func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) 
 func toDistributorHUDUpdateSpread(spread) -> void:
 	workDistributor.HUDUpdateSpread(spread)
 	
-func getRay(collisionMask:int, newRayTarget:Vector3) -> Array:
-	return playerCamera.rayFromCamera(collisionMask,newRayTarget)
+func getRay(rayName:String,collisionMask:int, newRayTarget:Vector3,newRotation:Vector3) -> Array:
+	return playerCamera.rayFromCamera(rayName,collisionMask,newRayTarget,newRotation)
 	

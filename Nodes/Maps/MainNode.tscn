@@ -1,9 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=20 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="Script" path="res://Scripts/workDistributor.gd" id="1_vijwb"]
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Entities/Player.tscn" id="2_61xqg"]
 [ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/AK.tscn" id="3_xsu1f"]
-[ext_resource type="PackedScene" uid="uid://d0en3cl3wd1js" path="res://Nodes/Objects/Hole.tscn" id="4_rruku"]
 [ext_resource type="PackedScene" uid="uid://5ccf5pn5m8jk" path="res://Nodes/Entities/Entity.tscn" id="5_e81lh"]
 [ext_resource type="Script" path="res://Scripts/HUD.gd" id="6_64mj1"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
@@ -42,9 +41,6 @@ script = ExtResource("1_vijwb")
 [node name="Objects" type="Node" parent="."]
 
 [node name="AllBulletsAndHoles" type="Node" parent="Objects"]
-
-[node name="Sprite3D" parent="Objects/AllBulletsAndHoles" instance=ExtResource("4_rruku")]
-transform = Transform3D(0.005, 0, 0, 0, 0.005, 0, 0, 0, 0.005, 1.9798, 0.54709, 0.548393)
 
 [node name="Player" parent="Objects" instance=ExtResource("2_61xqg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98348, 3.44008, 2.575)

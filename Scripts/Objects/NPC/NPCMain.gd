@@ -1,16 +1,20 @@
 class_name NPC
-extends CharacterBody3D
+extends Life
 
 @onready var player = $"../Player"
-@onready var ray = $RayCast3D
-var healthPoint:int
-var moveSpeed:float
-var maxMoveSpeed:float
+@onready var masterWeapon = $MasterWeapon
+@onready var currentWeapon = $MasterWeapon/AK
 var fieldOfView:int
 var maxDistanceOfView:int
-const maxSpeedDown:int = 20
-const gravityForce:int = 40
 var playerVisible:bool = false
+
+func setNewWeapon(instance):
+	masterWeapon.add_child(instance)
+	currentWeapon = instance
+
+func getAwayWeapon(instance):
+	currentWeapon = null
+	instance.queue_free()
 
 func isPlayerVisible() -> bool:
 	if position.distance_to(player.position)<maxDistanceOfView:
@@ -18,16 +22,5 @@ func isPlayerVisible() -> bool:
 		var toTargetDirection = position.direction_to(player.position)
 		var angle = rad_to_deg(acos(selfDirection.dot(toTargetDirection)))
 		if angle<=fieldOfView/2:
-			ray.target_position = player.position-position
-			ray.rotation = -rotation
-			return !ray.is_colliding()
+			return getRay("GeneralRay",0b00000000_00000000_00000000_00000001,player.position-position,-rotation)[0]==null
 	return false
-
-func applyGravitVelocity(delta:float) -> void:
-	if velocity.y > -maxSpeedDown:
-		velocity.y = velocity.y-gravityForce*delta
-	elif velocity.y < -maxSpeedDown:
-		velocity.y=-maxSpeedDown
-
-func takeDamage(damage:int) -> void:
-	healthPoint-=damage

@@ -7,8 +7,7 @@ var timeUntilUnsee:float
 var tempTimeUntilUnsee:float
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	rays.append($WeaponRay)
-	rays.append($GeneralRay)
+	visionRay = $VisionRay
 	moveSpeed = get_meta("moveSpeed")
 	maxMoveSpeed = get_meta("maxMoveSpeed")
 	fieldOfView = get_meta("fieldOfView")
@@ -16,6 +15,7 @@ func _ready() -> void:
 	timeUntilUnsee = get_meta("timeUntilUnsee")
 	maxDistanceOfView = get_meta("maxDistanceOfView")
 	tempTimeUntilUnsee = timeUntilUnsee
+	space_state = get_world_3d().direct_space_state
 
 
 var nextPath
@@ -70,3 +70,11 @@ func _process(delta: float) -> void:
 
 func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) -> void:
 	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole,holeNode)
+	
+func getRayForWeapon(collisionMask:int, newRayTarget:Vector3) -> Array:
+	var rayStart = visionRay.global_position
+	var rayEnd = rayStart+newRayTarget.rotated(Vector3(1,0,0),rotation.x).rotated(Vector3(0,1,0),rotation.y)
+	var generalRayNew = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(rayStart,rayEnd, collisionMask))
+	if generalRayNew.has("collider"):
+		return [generalRayNew.collider, generalRayNew.position,generalRayNew.normal]
+	else: return [null]

@@ -20,9 +20,9 @@ func shootBullet(spread:float) -> void:
 		spreadVector = Vector3(dotsForSpread.x,dotsForSpread.y,-10).normalized()
 	var arrayOfCollider
 	if currentOwner.name == "Player":
-		arrayOfCollider = currentOwner.getRay("WeaponRay",0b00000000_00000000_00000000_00000011,spreadVector*100,Vector3.ZERO)
+		arrayOfCollider = currentOwner.getRayForWeapon(0b00000000_00000000_00000000_00000011,spreadVector*100)
 	else:
-		arrayOfCollider = currentOwner.getRay("WeaponRay",0b00000000_00000000_00000000_00010011,spreadVector*100,Vector3.ZERO)
+		arrayOfCollider = currentOwner.getRayForWeapon(0b00000000_00000000_00000000_00010011,spreadVector*100)
 	if arrayOfCollider[0]!=null:
 		if arrayOfCollider[0].get_collision_layer()==1:
 			currentOwner.toDistributorCreateHole(arrayOfCollider[0],arrayOfCollider[1],arrayOfCollider[2],holeNode)

@@ -22,5 +22,5 @@ func isPlayerVisible() -> bool:
 		var toTargetDirection = position.direction_to(player.position)
 		var angle = rad_to_deg(acos(selfDirection.dot(toTargetDirection)))
 		if angle<=fieldOfView/2:
-			return getRay("GeneralRay",0b00000000_00000000_00000000_00000001,player.position-position,-rotation)[0]==null
+			return getRayVision(0b00000000_00000000_00000000_00000001,to_local(player.global_position))[0]==null
 	return false

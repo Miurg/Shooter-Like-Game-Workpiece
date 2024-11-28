@@ -86,6 +86,6 @@ func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) 
 func toDistributorHUDUpdateSpread(spread) -> void:
 	workDistributor.HUDUpdateSpread(spread)
 	
-func getRay(rayName:String,collisionMask:int, newRayTarget:Vector3,newRotation:Vector3) -> Array:
+func getRayForWeapon(collisionMask:int, newRayTarget:Vector3) -> Array:
 	return playerCamera.rayFromCamera(collisionMask,newRayTarget)
 	

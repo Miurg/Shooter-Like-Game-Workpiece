@@ -9,6 +9,8 @@ func _ready() -> void:
 	spreadSpeedDown = 3
 	rateOfFire = 0.1
 	damage = 1
+	nameOfWeapon = "AK"
 	holeNode = preload("res://Nodes/Objects/Hole.tscn")
 	shootParticle = preload("res://Nodes/Particles/ShootParticles.tscn")
+	resourceOfWeapon = preload("res://Nodes/Objects/AK.tscn")
 	pass # Replace with function body.

@@ -25,9 +25,9 @@ func _input(event: InputEvent) -> void:
 			playerWeapons.dropWeapon()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			playerWeapons.currentlyShoot = true
+			playerWeapons.applyShoot(true)
 		elif event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
-			playerWeapons.currentlyShoot = false
+			playerWeapons.applyShoot(false)
 
 
 const timeInAirForJump:float = 0.2
@@ -87,5 +87,5 @@ func toDistributorHUDUpdateSpread(spread) -> void:
 	workDistributor.HUDUpdateSpread(spread)
 	
 func getRay(rayName:String,collisionMask:int, newRayTarget:Vector3,newRotation:Vector3) -> Array:
-	return playerCamera.rayFromCamera(rayName,collisionMask,newRayTarget,newRotation)
+	return playerCamera.rayFromCamera(collisionMask,newRayTarget)
 	

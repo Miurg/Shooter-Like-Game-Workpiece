@@ -24,11 +24,21 @@ func _physics_process(delta: float) -> void:
 		timeFromLastShoot=0
 		if spreadCurrent<=weaponsStatusArray[currentlyActiveWeapon][2].spreadMax:
 			spreadCurrent+=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedUp
-	elif currentlyShoot and timeFromLastShoot<weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire:
+	elif timeFromLastShoot<weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire:
 		timeFromLastShoot+=delta
-	else:
-		if spreadCurrent>weaponsStatusArray[currentlyActiveWeapon][2].spreadMin:
-			spreadCurrent-=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedDown*delta
+	
+	if spreadCurrent>=weaponsStatusArray[currentlyActiveWeapon][2].spreadMin:
+		spreadCurrent-=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedDown*delta
+
+
+func applyShoot(shootOrNot:bool):
+	if shootOrNot==true and timeFromLastShoot>weaponsStatusArray[currentlyActiveWeapon][2].rateOfFire and currentlyHoldsWeapon==true:
+		weaponsStatusArray[currentlyActiveWeapon][2].shootBullet(spreadCurrent)
+		if spreadCurrent<=weaponsStatusArray[currentlyActiveWeapon][2].spreadMax:
+			spreadCurrent+=weaponsStatusArray[currentlyActiveWeapon][2].spreadSpeedUp
+		timeFromLastShoot = 0
+		currentlyShoot = true
+	else:currentlyShoot = false
 
 func pickupWeapon(InstanceWeapon) -> void:
 	for i in weaponsStatusArray:

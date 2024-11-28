@@ -10,5 +10,5 @@ func _ready() -> void:
 	rateOfFire = 0.1
 	damage = 1
 	holeNode = preload("res://Nodes/Objects/Hole.tscn")
-	shootParticle = preload("res://Nodes/Particles/Shoot.tscn")
+	shootParticle = preload("res://Nodes/Particles/ShootParticles.tscn")
 	pass # Replace with function body.

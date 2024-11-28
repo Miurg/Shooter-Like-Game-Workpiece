@@ -1,0 +1,76 @@
+[gd_scene load_steps=13 format=3 uid="uid://damayqy6t8am5"]
+
+[ext_resource type="Script" path="res://Scripts/Particles/shootParticles.gd" id="1_556ou"]
+
+[sub_resource type="Gradient" id="Gradient_wbsm0"]
+offsets = PackedFloat32Array(0, 0.0181818)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0.4)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hb56v"]
+gradient = SubResource("Gradient_wbsm0")
+
+[sub_resource type="Gradient" id="Gradient_n1024"]
+offsets = PackedFloat32Array(0, 0.609091, 0.781818, 0.990909)
+colors = PackedColorArray(0.966667, 1, 0, 1, 1, 0, 0, 1, 0.39, 0.39, 0.39, 1, 0.3, 0.3, 0.3, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_n0g4n"]
+gradient = SubResource("Gradient_n1024")
+
+[sub_resource type="Curve" id="Curve_rvv48"]
+max_value = 6.0
+_data = [Vector2(0, 0), 0.0, 4.23723, 0, 0, Vector2(1, 6), 3.92502, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ec5hh"]
+curve = SubResource("Curve_rvv48")
+
+[sub_resource type="Curve" id="Curve_d40js"]
+max_value = 3.0
+_data = [Vector2(0.0724638, 0), 0.0, 0.0, 0, 0, Vector2(1, 3), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2nd8h"]
+curve = SubResource("Curve_d40js")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rme3s"]
+direction = Vector3(0, 0, -1)
+spread = 10.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 0, 0)
+damping_min = 2.0
+damping_max = 2.0
+damping_curve = SubResource("CurveTexture_ec5hh")
+attractor_interaction_enabled = false
+scale_min = 0.1
+scale_max = 0.5
+scale_over_velocity_curve = SubResource("CurveTexture_2nd8h")
+color_ramp = SubResource("GradientTexture1D_n0g4n")
+color_initial_ramp = SubResource("GradientTexture1D_hb56v")
+hue_variation_min = -2.23517e-08
+hue_variation_max = -2.23517e-08
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v6yye"]
+transparency = 1
+vertex_color_use_as_albedo = true
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_vshu0"]
+material = SubResource("StandardMaterial3D_v6yye")
+size = Vector2(0.05, 0.05)
+
+[node name="Shoot" type="GPUParticles3D"]
+emitting = false
+amount = 15
+lifetime = 0.5
+one_shot = true
+speed_scale = 3.0
+explosiveness = 1.0
+randomness = 1.0
+collision_base_size = 0.0
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_rme3s")
+draw_pass_1 = SubResource("QuadMesh_vshu0")
+script = ExtResource("1_556ou")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

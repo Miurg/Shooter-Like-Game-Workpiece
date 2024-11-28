@@ -1,5 +1,6 @@
 extends NPC
 
+@onready var meshNode = $copskeleton
 @onready var navAgent = $NavigationAgent3D
 var targetToMove 
 var timeUntilUnsee:float
@@ -51,19 +52,21 @@ func _process(delta: float) -> void:
 			currentlyShoot=true
 			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
 			look_at(player.position)
+			meshNode.get_child(1).play("skeletonAction")
 		else:
+			currentlyShoot=false
 			velocity = velocity.lerp((nextPath-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
 			var newLook = Vector3(nextPath.x,position.y,nextPath.z)
 			if newLook!=position:
 				look_at(newLook)
+			meshNode.get_child(1).play("skeletonAction")
 	else:
 		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
+		meshNode.get_child(1).stop()
 	if !is_on_floor():
 		applyGravitVelocity(delta)
 	move_and_slide()
 	
-	if healthPoint<0:
-		self.queue_free()
 
 func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) -> void:
 	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole,holeNode)

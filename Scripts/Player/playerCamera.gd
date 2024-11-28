@@ -2,16 +2,14 @@ extends Camera3D
 
 @onready var playerMain = $".."
 @onready var generalRay = $GeneralRay
-@onready var weaponRay = $WeaponRay
-var rays:Array
 var rotationSpeed = 0.1
 var lerpWeight = 40
 var cameraInput =  Vector2.ZERO
 var rotationVelocity =  Vector2.ZERO
 
+var space_state
 func _ready() -> void:
-	rays.append($WeaponRay)
-	rays.append($GeneralRay)
+	space_state = get_world_3d().direct_space_state
 
 func _process(delta: float) -> void:
 	rotationVelocity = cameraInput*rotationSpeed
@@ -22,7 +20,7 @@ func _process(delta: float) -> void:
 	cameraInput = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
-	selectProcess(delta)
+	selectProcess()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -30,7 +28,7 @@ func _input(event: InputEvent) -> void:
 
 				
 var rayInstanceWeapon
-func selectProcess(delta) -> void:
+func selectProcess() -> void:
 	generalRay.force_raycast_update() 
 	if generalRay.is_colliding()==true: 
 		rayInstanceWeapon = generalRay.get_collider()
@@ -51,19 +49,10 @@ func selectProcess(delta) -> void:
 		playerMain.toDistributorHUDToNormalIcons()
 		rayInstanceWeapon = null
 			
-func rayFromCamera(rayName:String,collisionMask:int, newRayTarget:Vector3,newRotation:Vector3) -> Array:
-	var generalRayNew
-	for i in rays:
-		if i.name==rayName:
-			generalRayNew=i
-			print_debug(i.name==rayName, i.name,rayName)
-			break
-	if generalRayNew==null:
-		print_debug("error, ", rayName," not found in", rays)
-		return [null]
-	generalRayNew.rotation = newRotation
-	generalRayNew.collision_mask = collisionMask
-	generalRayNew.target_position = newRayTarget
-	if generalRayNew.is_colliding()==true:
-		return [generalRayNew.get_collider(), generalRayNew.get_collision_point(),generalRayNew.get_collision_normal()]
+func rayFromCamera(collisionMask:int, newRayTarget:Vector3) -> Array:
+	var rayStart = project_ray_origin(get_viewport().get_visible_rect().size / 2)
+	var rayEnd = rayStart + newRayTarget.rotated(Vector3(1,0,0),rotation.x).rotated(Vector3(0,1,0),playerMain.rotation.y)
+	var generalRayNew = space_state.intersect_ray(PhysicsRayQueryParameters3D.create(rayStart,rayEnd, collisionMask))
+	if generalRayNew.has("collider"):
+		return [generalRayNew.collider, generalRayNew.position,generalRayNew.normal]
 	else: return [null]

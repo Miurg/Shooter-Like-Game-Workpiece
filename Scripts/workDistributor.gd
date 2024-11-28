@@ -26,7 +26,8 @@ func placeWeapon(fromWho,weaponInstance,impulse,position) -> void:
 	objectsNode.add_child(weaponInstance)
 	weaponInstance.position = position
 	weaponInstance.apply_impulse(impulse)
-	weaponInstance.look_at(Vector3(fromWho.position.x,position.y,fromWho.position.z))
+	if position!=Vector3(fromWho.position.x,position.y,fromWho.position.z):
+		weaponInstance.look_at(Vector3(fromWho.position.x,position.y,fromWho.position.z))
 	weaponInstance.rotate_y(deg_to_rad(-90))
 
 func placeBullet(bulletInstance,velocity,position,rotation) -> void:

@@ -3,9 +3,11 @@ extends CharacterBody3D
 @onready var workDistributor = $"../.."
 
 
-var healthPoint:int = 100
+var healthPoint:int = 10
 func takeDamage(damage):
 	healthPoint-=damage
+	if healthPoint<0:
+		self.queue_free()
 
 const maxSpeedDown:int = 20
 const gravityForce:int = 40

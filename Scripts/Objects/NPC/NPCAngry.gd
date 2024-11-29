@@ -5,6 +5,8 @@ extends NPC
 var targetToMove 
 var timeUntilUnsee:float
 var tempTimeUntilUnsee:float
+var nextPath:Vector3
+@onready var currentlyNeedLookTo:Vector3 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visionRay = $VisionRay
@@ -14,59 +16,62 @@ func _ready() -> void:
 	healthPoint = get_meta("healthPoint")
 	timeUntilUnsee = get_meta("timeUntilUnsee")
 	maxDistanceOfView = get_meta("maxDistanceOfView")
-	tempTimeUntilUnsee = timeUntilUnsee
+	tempTimeUntilUnsee = 0
 	space_state = get_world_3d().direct_space_state
+	currentlyNeedLookTo = transform * Vector3(0,0,-1)
 
 
-var nextPath
-var currentlyShoot = false
-var timeFromLastShoot = 0
-var spreadCurrent = 0
+var playerVisible:bool = false
+var playerVisibleFromTime:bool = false
 func _physics_process(delta: float) -> void:
 	if isPlayerVisible():
+		playerVisible = true
 		tempTimeUntilUnsee=timeUntilUnsee
-		playerVisible=true
+	else:playerVisible=false
+	if tempTimeUntilUnsee>0:
+		playerVisibleFromTime=true
 		navAgent.target_position = player.position
-		nextPath = navAgent.get_next_path_position()
-	elif tempTimeUntilUnsee>0:
 		tempTimeUntilUnsee-=delta
-		if !navAgent.is_navigation_finished():
+	else: playerVisibleFromTime=false
+	if !navAgent.is_navigation_finished():
 			nextPath = navAgent.get_next_path_position()
-	else: playerVisible=false
-	if currentWeapon!=null:
-		if currentlyShoot and timeFromLastShoot>currentWeapon.rateOfFire:
-			currentWeapon.shootBullet(spreadCurrent)
-			timeFromLastShoot=0
-			if spreadCurrent<=currentWeapon.spreadMax:
-				spreadCurrent+=currentWeapon.spreadSpeedUp
-		elif currentlyShoot and timeFromLastShoot<currentWeapon.rateOfFire:
-			timeFromLastShoot+=delta
-		else:
-			if spreadCurrent>currentWeapon.spreadMin:
-				spreadCurrent-=currentWeapon.spreadSpeedDown*delta
-	
 
 func _process(delta: float) -> void:
+	movementProcess(delta)
+	if !is_on_floor():
+		applyGravitVelocity(delta)
+	slowLookAt(currentlyNeedLookTo,delta)
+	move_and_slide()
+	
+
+func movementProcess(delta):
 	if playerVisible: 
-		if currentWeapon!=null and position.distance_to(player.position)<currentWeapon.maxDistanceForNPC:
-			currentlyShoot=true
+		if masterWeapon.currentWeapon!=null and position.distance_to(player.position)<masterWeapon.currentWeapon.maxDistanceForNPC:
+			masterWeapon.currentlyShoot=true
 			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
 			look_at(player.position)
 			meshNode.get_child(1).play("skeletonAction")
-		else:
-			currentlyShoot=false
+		elif !navAgent.is_navigation_finished():
+			masterWeapon.currentlyShoot=false
 			velocity = velocity.lerp((nextPath-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
 			var newLook = Vector3(nextPath.x,position.y,nextPath.z)
 			if newLook!=position:
-				look_at(newLook)
+				currentlyNeedLookTo = newLook
 			meshNode.get_child(1).play("skeletonAction")
+		else:
+			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
+			meshNode.get_child(1).stop()
+	elif !navAgent.is_navigation_finished():
+		masterWeapon.currentlyShoot=false
+		velocity = velocity.lerp((nextPath-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
+		var newLook = Vector3(nextPath.x,position.y,nextPath.z)
+		if newLook!=position:
+			currentlyNeedLookTo = newLook
+		meshNode.get_child(1).play("skeletonAction")
 	else:
 		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
 		meshNode.get_child(1).stop()
-	if !is_on_floor():
-		applyGravitVelocity(delta)
-	move_and_slide()
-	
+
 
 func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) -> void:
 	workDistributor.createHoleFromBullet(wallCollider,positionOfHole,normalOfHole,holeNode)
@@ -78,3 +83,13 @@ func getRayForWeapon(collisionMask:int, newRayTarget:Vector3) -> Array:
 	if generalRayNew.has("collider"):
 		return [generalRayNew.collider, generalRayNew.position,generalRayNew.normal]
 	else: return [null]
+	
+func takeDamage(damage:int,fromWho):
+	healthPoint-=damage
+	seekForDamageApplayer(fromWho)
+	
+func seekForDamageApplayer(fromWho):
+	if fromWho.name=="Player":
+		currentlyNeedLookTo = Vector3(fromWho.position.x,position.y,fromWho.position.z)
+	if healthPoint<0:
+		die()

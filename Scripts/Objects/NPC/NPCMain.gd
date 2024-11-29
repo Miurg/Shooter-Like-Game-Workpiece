@@ -3,18 +3,11 @@ extends Life
 
 @onready var player = $"../Player"
 @onready var masterWeapon = $MasterWeapon
-@onready var currentWeapon = $MasterWeapon/AK
 var fieldOfView:int
 var maxDistanceOfView:int
-var playerVisible:bool = false
+var rotationSpeed:float = PI
 
-func setNewWeapon(instance):
-	masterWeapon.add_child(instance)
-	currentWeapon = instance
 
-func getAwayWeapon(instance):
-	currentWeapon = null
-	instance.queue_free()
 
 func isPlayerVisible() -> bool:
 	if position.distance_to(player.position)<maxDistanceOfView:
@@ -24,3 +17,13 @@ func isPlayerVisible() -> bool:
 		if angle<=fieldOfView/2:
 			return getRayVision(0b00000000_00000000_00000000_00000001,to_local(player.global_position))[0]==null
 	return false
+
+func slowLookAt(newLook,delta):
+	var vectorFromTo = Vector2(position.z,position.x)-Vector2(newLook.z,newLook.x)
+	var angle = vectorFromTo.angle()
+	var r = rotation.y
+	var angle_delta = rotationSpeed * delta
+	angle = lerp_angle(r,angle,1)
+	angle = clamp(angle,r-angle_delta,r+angle_delta)
+	rotation = Vector3(rotation.x,angle,rotation.z)
+	

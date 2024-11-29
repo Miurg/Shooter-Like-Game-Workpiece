@@ -4,10 +4,13 @@ extends CharacterBody3D
 
 
 var healthPoint:int = 10
-func takeDamage(damage):
+func takeDamage(damage:int,fromWho):
 	healthPoint-=damage
 	#if healthPoint<0:
-		#self.queue_free()
+		#die()
+
+func die():
+	self.queue_free()
 
 const maxSpeedDown:int = 20
 const gravityForce:int = 40

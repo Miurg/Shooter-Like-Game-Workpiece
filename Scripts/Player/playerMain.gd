@@ -25,9 +25,9 @@ func _input(event: InputEvent) -> void:
 			playerWeapons.dropWeapon()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			playerWeapons.applyShoot(true)
+			playerWeapons.currentlyShoot = true
 		elif event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
-			playerWeapons.applyShoot(false)
+			playerWeapons.currentlyShoot = false
 
 
 const timeInAirForJump:float = 0.2

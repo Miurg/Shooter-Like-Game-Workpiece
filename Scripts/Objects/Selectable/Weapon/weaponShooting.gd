@@ -27,4 +27,4 @@ func shootBullet(spread:float) -> void:
 		if arrayOfCollider[0].get_collision_layer()==1:
 			currentOwner.toDistributorCreateHole(arrayOfCollider[0],arrayOfCollider[1],arrayOfCollider[2],holeNode)
 		else: 
-			arrayOfCollider[0].takeDamage(damage)
+			arrayOfCollider[0].takeDamage(damage,currentOwner)

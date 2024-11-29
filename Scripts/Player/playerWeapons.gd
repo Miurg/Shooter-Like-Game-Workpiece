@@ -4,7 +4,16 @@ var weaponsArray:Array
 @onready var playerMain = $".."
 var currentlyActiveWeapon:int = 0
 var currentlyHoldsWeapon:bool = false
-var currentlyShoot:bool = false
+var currentlyShoot:bool = false:
+	set(value):
+		if value==true and timeFromLastShoot>weaponsArray[currentlyActiveWeapon].rateOfFire and currentlyHoldsWeapon==true:
+			weaponsArray[currentlyActiveWeapon].shootBullet(spreadCurrent)
+			timeFromLastShoot = 0
+			if spreadCurrent<=weaponsArray[currentlyActiveWeapon].spreadMax:
+				spreadCurrent+=weaponsArray[currentlyActiveWeapon].spreadSpeedUp
+		currentlyShoot = value
+		
+
 func _ready() -> void:
 	weaponsArray.append($AK)
 	for i in weaponsArray:
@@ -27,15 +36,6 @@ func _physics_process(delta: float) -> void:
 	if spreadCurrent>=weaponsArray[currentlyActiveWeapon].spreadMin:
 		spreadCurrent-=weaponsArray[currentlyActiveWeapon].spreadSpeedDown*delta
 
-
-func applyShoot(shootOrNot:bool):
-	if shootOrNot==true and timeFromLastShoot>weaponsArray[currentlyActiveWeapon].rateOfFire and currentlyHoldsWeapon==true:
-		weaponsArray[currentlyActiveWeapon].shootBullet(spreadCurrent)
-		if spreadCurrent<=weaponsArray[currentlyActiveWeapon].spreadMax:
-			spreadCurrent+=weaponsArray[currentlyActiveWeapon].spreadSpeedUp
-		timeFromLastShoot = 0
-		currentlyShoot = true
-	else:currentlyShoot = false
 
 func pickupWeapon(InstanceWeapon) -> void:
 	for i in weaponsArray:

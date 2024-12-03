@@ -1,7 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqokv6xsbcy12"]
-
-[ext_resource type="PackedScene" uid="uid://chyb5dnihi2ei" path="res://Meshes/AK47.glb" id="1_hy4ih"]
-[ext_resource type="Script" path="res://Scripts/Objects/Selectable/Weapon/AK.gd" id="2_8pbx7"]
-
-[node name="AK" instance=ExtResource("1_hy4ih")]
-script = ExtResource("2_8pbx7")

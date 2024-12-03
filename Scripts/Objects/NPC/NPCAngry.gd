@@ -6,9 +6,11 @@ var targetToMove
 var timeUntilUnsee:float
 var tempTimeUntilUnsee:float
 var nextPath:Vector3
-@onready var currentlyNeedLookTo:Vector3 
+@onready var currentlyNeedLookTo:Vector3 = transform * Vector3(0,0,-1)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
 	visionRay = $VisionRay
 	moveSpeed = get_meta("moveSpeed")
 	maxMoveSpeed = get_meta("maxMoveSpeed")
@@ -18,7 +20,6 @@ func _ready() -> void:
 	maxDistanceOfView = get_meta("maxDistanceOfView")
 	tempTimeUntilUnsee = 0
 	space_state = get_world_3d().direct_space_state
-	currentlyNeedLookTo = transform * Vector3(0,0,-1)
 
 
 var playerVisible:bool = false
@@ -28,46 +29,37 @@ func _physics_process(delta: float) -> void:
 		playerVisible = true
 		tempTimeUntilUnsee=timeUntilUnsee
 	else:playerVisible=false
+	
 	if tempTimeUntilUnsee>0:
 		playerVisibleFromTime=true
 		navAgent.target_position = player.position
 		tempTimeUntilUnsee-=delta
 	else: playerVisibleFromTime=false
+	
 	if !navAgent.is_navigation_finished():
 			nextPath = navAgent.get_next_path_position()
 
 func _process(delta: float) -> void:
+	slowLookAt(currentlyNeedLookTo,delta)
 	movementProcess(delta)
 	if !is_on_floor():
 		applyGravitVelocity(delta)
-	slowLookAt(currentlyNeedLookTo,delta)
 	move_and_slide()
 	
 
 func movementProcess(delta):
-	if playerVisible: 
-		if masterWeapon.currentWeapon!=null and position.distance_to(player.position)<masterWeapon.currentWeapon.maxDistanceForNPC:
-			masterWeapon.currentlyShoot=true
-			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
-			look_at(player.position)
-			meshNode.get_child(1).play("skeletonAction")
-		elif !navAgent.is_navigation_finished():
-			masterWeapon.currentlyShoot=false
-			velocity = velocity.lerp((nextPath-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
-			var newLook = Vector3(nextPath.x,position.y,nextPath.z)
-			if newLook!=position:
-				currentlyNeedLookTo = newLook
-			meshNode.get_child(1).play("skeletonAction")
-		else:
-			velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
-			meshNode.get_child(1).stop()
-	elif !navAgent.is_navigation_finished():
-		masterWeapon.currentlyShoot=false
+	if masterWeapon.getWeapon()!=null and position.distance_to(player.position)<masterWeapon.getWeapon().maxDistanceForNPC and playerVisible:
+		masterWeapon.setCurrentlyShoot(true)
+		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
+		look_at(player.position)
+		meshNode.get_child(1).play("Run")
+	elif !navAgent.is_navigation_finished() or playerVisible:
+		masterWeapon.setCurrentlyShoot(false)
 		velocity = velocity.lerp((nextPath-global_position).normalized()*maxMoveSpeed,delta*moveSpeed)
 		var newLook = Vector3(nextPath.x,position.y,nextPath.z)
 		if newLook!=position:
 			currentlyNeedLookTo = newLook
-		meshNode.get_child(1).play("skeletonAction")
+		meshNode.get_child(1).play("Run")
 	else:
 		velocity = velocity.lerp(Vector3(0,velocity.y,0), delta*stopSpeed)
 		meshNode.get_child(1).stop()

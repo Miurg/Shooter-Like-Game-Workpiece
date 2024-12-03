@@ -26,7 +26,7 @@ func placeWeapon(fromWho,weaponInstance,impulse,position) -> void:
 	objectsNode.add_child(weaponInstance)
 	weaponInstance.position = position
 	weaponInstance.apply_impulse(impulse)
-	if position!=Vector3(fromWho.position.x,position.y,fromWho.position.z):
+	if weaponInstance.position!=Vector3(fromWho.position.x,position.y,fromWho.position.z):
 		weaponInstance.look_at(Vector3(fromWho.position.x,position.y,fromWho.position.z))
 	weaponInstance.rotate_y(deg_to_rad(-90))
 
@@ -43,3 +43,4 @@ func createHoleFromBullet(wallInstance,newPosition,newNormal,holeNode) -> void:
 	if newNormal.y!=1 and newNormal.y!=-1:
 		newHole.look_at(newPosition+newNormal,Vector3.UP)
 	else:newHole.look_at(newPosition+newNormal,Vector3.FORWARD)
+	newHole.rotation.z = deg_to_rad(randf_range(0,360))

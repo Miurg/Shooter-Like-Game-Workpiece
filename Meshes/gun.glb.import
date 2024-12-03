@@ -15,7 +15,7 @@ dest_files=["res://.godot/imported/gun.glb-16d3bd54c818569819a515afeeceaf4d.scn"
 
 nodes/root_type=""
 nodes/root_name=""
-nodes/apply_root_scale=true
+nodes/apply_root_scale=false
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
 meshes/ensure_tangents=true
@@ -31,6 +31,18 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={}
+_subresources={
+"meshes": {
+"gun_Cube": {
+"generate/lightmap_uv": 0,
+"generate/lods": 0,
+"generate/shadow_meshes": 0,
+"lods/normal_merge_angle": 60.0,
+"lods/normal_split_angle": 25.0,
+"save_to_file/enabled": true,
+"save_to_file/path": "res://Meshes/Weapon/gun_Cube.res"
+}
+}
+}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

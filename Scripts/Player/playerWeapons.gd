@@ -1,59 +1,47 @@
-extends Node
-#0 - name of weapon, 1 - scene of weapon, 2 - path to node of weapon
-var weaponsArray:Array
+extends LifeWeapon
 @onready var playerMain = $".."
 var currentlyActiveWeapon:int = 0
-var currentlyHoldsWeapon:bool = false
-var currentlyShoot:bool = false:
-	set(value):
-		if value==true and timeFromLastShoot>weaponsArray[currentlyActiveWeapon].rateOfFire and currentlyHoldsWeapon==true:
-			weaponsArray[currentlyActiveWeapon].shootBullet(spreadCurrent)
-			timeFromLastShoot = 0
-			if spreadCurrent<=weaponsArray[currentlyActiveWeapon].spreadMax:
-				spreadCurrent+=weaponsArray[currentlyActiveWeapon].spreadSpeedUp
-		currentlyShoot = value
 		
-
 func _ready() -> void:
-	weaponsArray.append($AK)
-	for i in weaponsArray:
-		i.get_child(1).disabled = true
-
-var spreadCurrent:float = 0:
-	set(value):
-		spreadCurrent = value
-		playerMain.toDistributorHUDUpdateSpread(value)
-var timeFromLastShoot = 0
-func _physics_process(delta: float) -> void:
-	if currentlyShoot and timeFromLastShoot>weaponsArray[currentlyActiveWeapon].rateOfFire and currentlyHoldsWeapon==true:
-		weaponsArray[currentlyActiveWeapon].shootBullet(spreadCurrent)
-		timeFromLastShoot=0
-		if spreadCurrent<=weaponsArray[currentlyActiveWeapon].spreadMax:
-			spreadCurrent+=weaponsArray[currentlyActiveWeapon].spreadSpeedUp
-	elif timeFromLastShoot<weaponsArray[currentlyActiveWeapon].rateOfFire:
-		timeFromLastShoot+=delta
-	
-	if spreadCurrent>=weaponsArray[currentlyActiveWeapon].spreadMin:
-		spreadCurrent-=weaponsArray[currentlyActiveWeapon].spreadSpeedDown*delta
-
-
-func pickupWeapon(InstanceWeapon) -> void:
-	for i in weaponsArray:
-		if InstanceWeapon.get_child(0).name == i.nameOfWeapon:
-			InstanceWeapon.queue_free()
-			if currentlyHoldsWeapon:
-				dropWeapon()
-				i.visible = true
-				currentlyHoldsWeapon = true
-			else:
-				i.visible = true
-				currentlyHoldsWeapon = true
-			spreadCurrent = i.spreadMin
+	#setWeapon(preload("res://Nodes/Objects/Weapons/AK.tscn"))
+	pass
 		
+#override
+func setCurrentlyShoot(value) -> void:
+	if value==true and getWeapon()!=null:
+		if _timeFromLastShoot>getWeapon().rateOfFire:
+			getWeapon().shootBullet(getSpread())
+			_timeFromLastShoot=0
+			if getSpread()<=getWeapon().spreadMax:
+				setSpread(getSpread() + getWeapon().spreadSpeedUp)
+	_currentlyShoot = value
 	
-func dropWeapon() -> void:
-	if currentlyHoldsWeapon==true:
-		weaponsArray[currentlyActiveWeapon].visible=false
-		var weaponInstance = weaponsArray[currentlyActiveWeapon].resourceOfWeapon.instantiate()
+
+#override
+func setSpread(value) -> void:
+	_spreadCurrent = value
+	playerMain.toDistributorHUDUpdateSpread(value)
+	
+
+func _physics_process(delta: float) -> void:
+	shooting(delta)
+
+func setWeapon(instance) -> void:
+	if _currentWeapon!=null:
+		getAwayWeapon()
+	var newWeapon = instance
+	newWeapon.rotation = Vector3.ZERO
+	newWeapon.position = Vector3(0.331,0,-0.419)
+	newWeapon.get_parent().remove_child(newWeapon)
+	add_child(newWeapon)
+	_currentWeapon = newWeapon
+	setSpread(_currentWeapon.spreadMin)
+	_currentWeapon.currentOwner = get_parent()
+	_currentWeapon.currentMasterWeapon = self
+
+func getAwayWeapon() -> void:
+	if getWeapon()!=null:
+		var weaponInstance = getWeapon().resourceOfWeapon.instantiate()
 		playerMain.toDistributorPlaceWeapon(weaponInstance)
-		currentlyHoldsWeapon = false
+		getWeapon().queue_free()
+		_currentWeapon = null

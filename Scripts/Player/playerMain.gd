@@ -20,14 +20,14 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if OS.get_keycode_string(event.keycode) == "E" and playerCamera.rayInstanceWeapon!=null and event.pressed:
-			playerWeapons.pickupWeapon(playerCamera.rayInstanceWeapon)
+			playerWeapons.setWeapon(playerCamera.rayInstanceWeapon)
 		if OS.get_keycode_string(event.keycode) == "G" and event.pressed:
-			playerWeapons.dropWeapon()
+			playerWeapons.getAwayWeapon()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			playerWeapons.currentlyShoot = true
+			playerWeapons.setCurrentlyShoot(true)
 		elif event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
-			playerWeapons.currentlyShoot = false
+			playerWeapons.setCurrentlyShoot(false)
 
 
 const timeInAirForJump:float = 0.2

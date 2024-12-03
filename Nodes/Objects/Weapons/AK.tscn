@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://i4rst45eqxrr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Selectable/Weapon/AK.gd" id="1_8fsic"]
-[ext_resource type="PackedScene" uid="uid://cqokv6xsbcy12" path="res://Nodes/Objects/AKMesh.tscn" id="1_befwx"]
+[ext_resource type="PackedScene" uid="uid://cqokv6xsbcy12" path="res://Nodes/Objects/Weapons/AKMesh.tscn" id="1_befwx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7qasp"]
 size = Vector3(0.0339355, 0.345459, 1.16968)
@@ -34,3 +34,5 @@ mesh = SubResource("BoxMesh_a846g")
 
 [node name="Patricles" type="Node3D" parent="."]
 transform = Transform3D(0.265, 0, 0, 0, 0.265, 0, 0, 0, 0.265, 0, 0.105561, -0.5861)
+
+[connection signal="child_order_changed" from="." to="." method="_on_child_order_changed"]

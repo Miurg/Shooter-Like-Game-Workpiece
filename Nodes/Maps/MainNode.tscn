@@ -1,8 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=19 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="Script" path="res://Scripts/workDistributor.gd" id="1_vijwb"]
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Entities/Player.tscn" id="2_61xqg"]
-[ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/AK.tscn" id="3_xsu1f"]
+[ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/Weapons/AK.tscn" id="3_xsu1f"]
 [ext_resource type="PackedScene" uid="uid://5ccf5pn5m8jk" path="res://Nodes/Entities/Entity.tscn" id="5_e81lh"]
 [ext_resource type="Script" path="res://Scripts/HUD.gd" id="6_64mj1"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://dyqx8783by6hr" path="res://2DContent/HUD/HUD-SelectedDownRight.png" id="10_eqq20"]
 [ext_resource type="Texture2D" uid="uid://lr4n4lyrq0mu" path="res://2DContent/HUD/HUD-SelectedUpRight.png" id="11_vkndm"]
 [ext_resource type="Texture2D" uid="uid://c0ssn5nvc0sur" path="res://2DContent/HUD/HUD-SelectedDownLeft.png" id="12_7uyuv"]
-[ext_resource type="PackedScene" uid="uid://b72xbqhwg85ri" path="res://Nodes/bullet.tscn" id="13_pul6e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
 
@@ -19,8 +18,6 @@
 
 [sub_resource type="Environment" id="Environment_xar2f"]
 ssao_enabled = true
-ssil_radius = 2.86
-ssil_intensity = 17.19
 sdfgi_use_occlusion = true
 fog_enabled = true
 fog_sun_scatter = 0.74
@@ -223,7 +220,7 @@ mesh = SubResource("BoxMesh_bm2qy")
 shape = SubResource("BoxShape3D_04f5y")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="NavigationRegion3D/Map"]
-transform = Transform3D(5.93058, -7.22094, 0.467703, -0.0100353, 5.97626, 0.82523, -8.73436, -4.90984, 0.316619, -8.47842, 2.93277, -0.636363)
+transform = Transform3D(5.93058, -7.22094, 0.467703, -0.0100353, 5.97626, 0.82523, -8.73436, -4.90984, 0.316619, -8.46881, 2.94973, -0.629855)
 mesh = SubResource("BoxMesh_bm2qy")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Map/MeshInstance3D3"]
@@ -259,8 +256,6 @@ mesh = SubResource("BoxMesh_bm2qy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Map/MeshInstance3D6/StaticBody3D"]
 shape = SubResource("BoxShape3D_04f5y")
-
-[node name="Bullet" parent="NavigationRegion3D/Map" instance=ExtResource("13_pul6e")]
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9725, 1.68425, 3.00943)

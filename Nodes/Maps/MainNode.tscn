@@ -17,8 +17,10 @@
 [sub_resource type="BoxMesh" id="BoxMesh_bm2qy"]
 
 [sub_resource type="Environment" id="Environment_xar2f"]
-ssao_enabled = true
-sdfgi_use_occlusion = true
+ssao_detail = 1.34
+ssao_light_affect = 0.21
+ssao_ao_channel_affect = 0.48
+sdfgi_read_sky_light = false
 fog_enabled = true
 fog_sun_scatter = 0.74
 
@@ -195,6 +197,22 @@ grow_vertical = 0
 position = Vector2(12, -12)
 scale = Vector2(5, 5)
 texture = ExtResource("12_7uyuv")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="RoundsPocket" type="Label" parent="HUD/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+
+[node name="RoundsCurrent" type="Label" parent="HUD/HBoxContainer"]
+layout_mode = 2
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("NavigationMesh_lh6rd")

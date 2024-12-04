@@ -23,6 +23,8 @@ func _input(event: InputEvent) -> void:
 			playerWeapons.setWeapon(playerCamera.rayInstanceWeapon)
 		if OS.get_keycode_string(event.keycode) == "G" and event.pressed:
 			playerWeapons.getAwayWeapon()
+		if OS.get_keycode_string(event.keycode) == "R" and event.pressed:
+			playerWeapons.reload()
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			playerWeapons.setCurrentlyShoot(true)
@@ -85,7 +87,13 @@ func toDistributorCreateHole(wallCollider,positionOfHole,normalOfHole,holeNode) 
 	
 func toDistributorHUDUpdateSpread(spread) -> void:
 	workDistributor.HUDUpdateSpread(spread)
-	
+
+func toDistributorHUDSetRoundsPocket(roundsPocket) -> void:
+	workDistributor.HUDSetRoundsPocket(roundsPocket)
+
+func toDistributorHUDSetRoundsCurrent(roundsCurrent) -> void:
+	workDistributor.HUDSetRoundsCurrent(roundsCurrent)
+
 func getRayForWeapon(collisionMask:int, newRayTarget:Vector3) -> Array:
 	return playerCamera.rayFromCamera(collisionMask,newRayTarget)
 	

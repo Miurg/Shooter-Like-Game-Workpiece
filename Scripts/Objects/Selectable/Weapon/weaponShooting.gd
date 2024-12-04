@@ -8,12 +8,9 @@ var spreadMin:float = 0
 var spreadSpeedUp:float = 0
 var spreadSpeedDown:float = 0
 var numberOfRoundsTotal:int = 30
-var numberOfRoundsCurrent:int = 30
-var numberOfRoundsInPocket:int = 90
-
 
 func shootBullet(spread:float) -> void:
-	numberOfRoundsCurrent-=1
+	currentMasterWeapon.setCurrentRounds(currentMasterWeapon.getCurrentRounds()-1)
 	particlesNode.add_child(shootParticle.instantiate()) 
 	var posOrNeg = [-1,1]
 	var spreadVector = Vector3(0,0,-10)
@@ -34,11 +31,3 @@ func shootBullet(spread:float) -> void:
 			currentOwner.toDistributorCreateHole(arrayOfCollider[0],arrayOfCollider[1],arrayOfCollider[2],holeNode)
 		else: 
 			arrayOfCollider[0].takeDamage(damage,currentOwner)
-
-func reload() -> void:
-	if numberOfRoundsInPocket>numberOfRoundsTotal:
-		numberOfRoundsCurrent = numberOfRoundsTotal
-		numberOfRoundsInPocket-=numberOfRoundsTotal
-	else:
-		numberOfRoundsCurrent = numberOfRoundsInPocket
-		numberOfRoundsInPocket = 0

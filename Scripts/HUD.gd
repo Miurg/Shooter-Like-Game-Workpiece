@@ -1,6 +1,8 @@
 extends Node
 
 @onready var iconsSelected = $IconsSelected
+@onready var roundsPocket = $HBoxContainer/RoundsPocket
+@onready var roundsCurrent = $HBoxContainer/RoundsCurrent
 var positionX:int
 var positionY:int 
 var sizeX:int
@@ -12,6 +14,12 @@ var spreadWeapons = 0:
 
 func _ready() -> void:
 	toNormalIcons()
+
+func setRoundsPocket(value) -> void:
+	roundsPocket.text = str(value)
+
+func setRoundsCurrent(value) -> void:
+	roundsCurrent.text = str(value)
 
 func updateIconsSelected(sizeXCurrent:int,sizeYCurrent:int,positionXCurrent:int,positionYCurrent:int) -> void:
 	sizeX = sizeXCurrent

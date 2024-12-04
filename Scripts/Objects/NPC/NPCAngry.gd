@@ -79,9 +79,10 @@ func getRayForWeapon(collisionMask:int, newRayTarget:Vector3) -> Array:
 func takeDamage(damage:int,fromWho):
 	healthPoint-=damage
 	seekForDamageApplayer(fromWho)
+	if healthPoint<0:
+		die()
 	
 func seekForDamageApplayer(fromWho):
 	if fromWho.name=="Player":
 		currentlyNeedLookTo = Vector3(fromWho.position.x,position.y,fromWho.position.z)
-	if healthPoint<0:
-		die()
+	

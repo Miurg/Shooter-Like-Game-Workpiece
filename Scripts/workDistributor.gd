@@ -22,6 +22,12 @@ func HUDToNormalIcons():
 func HUDUpdateIconsSelected(sizeX,sizeY,positionX,positionY) -> void:
 	HUD.updateIconsSelected(sizeX,sizeY,positionX,positionY)
 
+func HUDSetRoundsPocket(roundsPocket) -> void:
+	HUD.setRoundsPocket(roundsPocket)
+
+func HUDSetRoundsCurrent(roundsCurrent) -> void:
+	HUD.setRoundsCurrent(roundsCurrent)
+
 func placeWeapon(fromWho,weaponInstance,impulse,position) -> void:
 	objectsNode.add_child(weaponInstance)
 	weaponInstance.position = position

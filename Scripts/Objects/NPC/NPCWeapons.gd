@@ -5,6 +5,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	shooting(delta)
+	if getCurrentRounds()==0:
+		reload()
 
 func setWeapon(instance) -> void:
 	var newWeapon = instance.instantiate()

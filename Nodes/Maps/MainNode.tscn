@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=20 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="Script" path="res://Scripts/workDistributor.gd" id="1_vijwb"]
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Entities/Player.tscn" id="2_61xqg"]
+[ext_resource type="Script" path="res://Scripts/C#/MainNode.cs" id="2_y8yku"]
 [ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/Weapons/AK.tscn" id="3_xsu1f"]
 [ext_resource type="PackedScene" uid="uid://5ccf5pn5m8jk" path="res://Nodes/Entities/Entity.tscn" id="5_e81lh"]
 [ext_resource type="Script" path="res://Scripts/HUD.gd" id="6_64mj1"]
@@ -41,6 +42,7 @@ material = SubResource("StandardMaterial3D_2qs63")
 script = ExtResource("1_vijwb")
 
 [node name="Objects" type="Node" parent="."]
+script = ExtResource("2_y8yku")
 
 [node name="AllBulletsAndHoles" type="Node" parent="Objects"]
 

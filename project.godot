@@ -12,13 +12,17 @@ config_version=5
 
 config/name="RPG-Game"
 run/main_scene="res://Nodes/Maps/MainNode.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
+config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
 
 window/size/viewport_width=1950
 window/size/viewport_height=1080
+
+[dotnet]
+
+project/assembly_name="RPG-Game"
 
 [editor_plugins]
 

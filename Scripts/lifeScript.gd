@@ -1,8 +1,6 @@
 class_name Life
 extends CharacterBody3D
 @onready var workDistributor = $"../.."
-
-
 var healthPoint:int = 10
 func takeDamage(damage:int,fromWho):
 	healthPoint-=damage

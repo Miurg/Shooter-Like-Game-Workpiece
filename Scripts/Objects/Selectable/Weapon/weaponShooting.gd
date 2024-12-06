@@ -15,9 +15,13 @@ func shootBullet(spread:float) -> void:
 	var posOrNeg = [-1,1]
 	var spreadVector = Vector3(0,0,-10)
 	if spread>0:
-		var dotsForSpread = Vector2(randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()],randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()])
+		var dotsForSpread = Vector2(
+				randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()],
+				randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()])
 		while pow(dotsForSpread.x,2)+pow(dotsForSpread.y,2)>spread:
-			dotsForSpread = Vector2(randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()],randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()])
+			dotsForSpread = Vector2(
+				randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()],
+				randf_range(0,spread)*posOrNeg[randi() % posOrNeg.size()])
 		spreadVector = Vector3(dotsForSpread.x,dotsForSpread.y,-10).normalized()
 	var arrayOfCollider
 	if currentOwner.name == "Player":

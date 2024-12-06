@@ -7,19 +7,19 @@ public partial class MainNode: Node
 {
 	private CanvasLayer HUD;
     private Node Objects;
-	private Node allBulletsAndHoles;
+	private Node AllBulletsAndHoles;
     public override void _Ready()
 	{
 		HUD = GetNode<CanvasLayer>("/root/MainNode/HUD");
         Objects = GetNode<Node>("/root/MainNode/Objects");
-        allBulletsAndHoles = GetNode<Node>("/root/MainNode/Objects/AllBulletsAndHoles");
+        AllBulletsAndHoles = GetNode<Node>("/root/MainNode/Objects/AllBulletsAndHoles");
         Input.MouseMode = MouseModeEnum.Captured;
         EmitSignal("MySignal");
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.GetType() == typeof(InputEventKey))
+        if (@event is InputEventKey)
         {
             if (((InputEventKey)@event).Keycode == Key.Escape)
             {
@@ -43,4 +43,13 @@ public partial class MainNode: Node
         Weapon.RotateY(Mathf.DegToRad(-90));
     }
 
+    public void CreateRemains(CollisionObject3D Wall, Vector3 Position, Vector3 Normal, PackedScene Hole)
+    {
+        Node3D newHole = Hole.Instantiate<Node3D>();
+        newHole.Position = Position+Normal/1000;
+        AllBulletsAndHoles.AddChild(newHole);
+        if (Normal.Y!=1 && Normal.Y != -1) newHole.LookAt(Position+Normal,Vector3.Up);
+        else newHole.LookAt(Position+Normal,Vector3.Forward);
+        newHole.Rotation = newHole.Rotation with { Z = Mathf.DegToRad(new Random().Next(0, 360)) };
+    }
 }

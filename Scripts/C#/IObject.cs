@@ -4,5 +4,4 @@ using System;
 interface IObject
 {
     void Die();
-
 }

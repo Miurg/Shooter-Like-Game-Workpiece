@@ -1,0 +1,119 @@
+using Godot;
+using Godot.Collections;
+using System;
+namespace player
+{
+    public partial class PlayerMain : Life
+    {
+        private PlayerCamera PlayerCamera;
+        private Vector3 _PlayerVelocity = Vector3.Zero;
+        private int _JumpForce = 10;
+        private int _NumberOfJumps = 1;
+
+        public override void _Ready()
+        {
+            MainNode = GetNode<MainNode>("/root/MainNode/");
+            PlayerCamera = GetNode<PlayerCamera>("PlayerCameraMain");
+            AdditionalMoveSpeed = (int)GetMeta("AdditionalSpeed");
+            AdditionalGravity = (int)GetMeta("AdditionalGravity");
+            _JumpForce = (int)GetMeta("JumpForce");
+        }
+
+        // Called every frame. 'delta' is the elapsed time since the previous frame.
+        public override void _Process(double delta)
+        {
+            Movement(delta);
+        }
+
+        public override void _Input(InputEvent @event)
+        {
+            if (@event is InputEventKey)
+            {
+                if (((InputEventKey)@event).Keycode == Key.E)
+                {
+                    GetTree().Quit();
+                }
+            }
+        }
+
+        const float TimeInAirForJump = 0.2f;
+        private bool _FirstJumpHappend = false;
+        private float _InAirTime = 0f;
+        private int _JumpButtonClicks = 0;
+
+        private void Movement(double delta)
+        {
+            Vector3 direction = new Vector3();
+            if (Input.IsActionPressed("left"))
+            {
+                direction.X = -1;
+            }
+            if (Input.IsActionPressed("right"))
+            {
+                direction.X = 1;
+            }
+            if (Input.IsActionPressed("bacward"))
+            {
+                direction.Z = 1;
+            }
+            if (Input.IsActionPressed("forward"))
+            {
+                direction.Z = -1;
+            }
+            if (Input.IsActionJustPressed("jump"))
+            {
+                if (_InAirTime < TimeInAirForJump || _JumpButtonClicks < _NumberOfJumps)
+                {
+                    Velocity = Velocity with { Y = _JumpForce };
+                    _InAirTime = TimeInAirForJump;
+                }
+                _JumpButtonClicks++;
+                _FirstJumpHappend = true;
+            }
+
+            _PlayerVelocity = direction.Normalized().Rotated(new Vector3(0, 1, 0), Rotation.Y) * MaxMoveSpeed;
+            _PlayerVelocity = _PlayerVelocity with { Y = Velocity.Y };
+            Vector2 maxVelocity = new Vector2(MaxMoveSpeed, MaxMoveSpeed).Normalized() * MaxMoveSpeed;
+            if (Math.Abs(Velocity.X) < maxVelocity.X
+                && Math.Abs(Velocity.Z) < MaxMoveSpeed
+                && _PlayerVelocity != new Vector3(0, Velocity.Y, 0))
+            {
+                Velocity = Velocity.Lerp(_PlayerVelocity, (float)delta * NormalMoveSpeed);
+            }
+            else
+            {
+                Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), (float)delta * NormalStopSpeed);
+            }
+
+            if (!IsOnFloor())
+            {
+                _InAirTime += (float)delta;
+                if (_FirstJumpHappend == false && _InAirTime > TimeInAirForJump && _JumpButtonClicks == 0) _JumpButtonClicks += 1;
+                ApplyGravityForce((float)delta);
+            }
+            MoveAndSlide();
+            if (IsOnFloor())
+            {
+                _FirstJumpHappend = false;
+                _JumpButtonClicks = 0;
+                _InAirTime = 0;
+            }
+        }
+
+        public override Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget)
+        {
+            return PlayerCamera.RayFromCamera(CollisionMask, NewRayTarget);
+        }
+
+        public override void ChangeHealth(int value, Life fromWho)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Die()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+}

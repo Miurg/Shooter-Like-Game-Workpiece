@@ -5,15 +5,18 @@ namespace player
 {
     public partial class PlayerMain : Life
     {
-        private PlayerCamera PlayerCamera;
+        PlayerCamera PlayerCamera;
+        HUD HUD;
         private Vector3 _PlayerVelocity = Vector3.Zero;
         private int _JumpForce = 10;
         private int _NumberOfJumps = 1;
+
 
         public override void _Ready()
         {
             MainNode = GetNode<MainNode>("/root/MainNode/");
             PlayerCamera = GetNode<PlayerCamera>("PlayerCameraMain");
+            HUD = GetNode<HUD>("/root/MainNode/HUD");
             AdditionalMoveSpeed = (int)GetMeta("AdditionalSpeed");
             AdditionalGravity = (int)GetMeta("AdditionalGravity");
             _JumpForce = (int)GetMeta("JumpForce");
@@ -114,6 +117,26 @@ namespace player
         {
             throw new NotImplementedException();
         }
+
+        public void HUDNormalSelected()
+        {
+            HUD.NormalSelected();
+        }
+
+        public void HUDUpdateSelected(int sizeXCurrent, int sizeYCurrent, int positionXCurrent, int positionYCurrent)
+        {
+            HUD.UpdateSelected(sizeXCurrent, sizeYCurrent, positionXCurrent, positionYCurrent);
+        }
+
+        public void MainPlaceWeapon(RigidBody3D Weapon)
+        {
+            Vector3 weaponPosition = new Vector3(Position.X, Position.Y + PlayerCamera.Position.Y, Position.Z) + 
+                new Vector3(0, 0, -1).Rotated(new Vector3(1, 0, 0), PlayerCamera.Rotation.X).Rotated(new Vector3(0, 1, 0), Rotation.Y);
+            Vector3 weaponImpulse = new Vector3(0, 0, -10).Rotated(new Vector3(1, 0, 0), PlayerCamera.Rotation.X).Rotated(new Vector3(0, 1, 0), Rotation.Y);
+            MainNode.PlaceWeapon(this, Weapon, weaponImpulse, weaponPosition);
+        }
+
+
     }
 
 }

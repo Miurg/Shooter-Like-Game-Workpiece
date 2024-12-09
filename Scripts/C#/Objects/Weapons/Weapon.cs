@@ -20,13 +20,18 @@ public abstract partial class Weapon : Node
     public float SpreadMin;
     public float SpreadSpeedUp;
     public float SpreadSpeedDown;
-    public int RoundsTotal;
+    private int _RoundsTotal;
+    private int _CurrentRounds;
+
+    public int RoundsTotal { get => _RoundsTotal; set => _RoundsTotal = value; }
+    public int CurrentRounds { get => _CurrentRounds; set => _CurrentRounds = value; }
 
     public void Atack(float spread)
     {
         if (CurrentOwner != null)
         {
-            CurrentMasterWeapon.RoundsCurrent -= 1;
+            EmitSignal("AtackInitiate");
+            CurrentRounds -= 1;
             ParticlesNode.AddChild(AtackParticle.Instantiate());
             Vector3 spreadVector = new Vector3(0, 0, -1);
             if (spread>0)

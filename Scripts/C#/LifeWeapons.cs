@@ -3,32 +3,80 @@ using System;
 
 public abstract partial class LifeWeapons : Node3D
 {
-    Weapon CurrentWeapon;
-	private bool _CurrentlyShoot = false;
-	private float _TimeFromLastShoot = 0f;
-	private float _SpreadCurrent = 0f;
-	private int _RoundsInPocket = 90;
-    private int _RoundsCurrent = 30;
+    private Weapon _CurrentWeapon;
+	private bool _CurrentlyAtack = false;
+	private float _TimeFromLastAtack = 0f;
+	private float _CurrentSpread = 0f;
+	private int _RoundsInPocket = 0;
 
-    public bool CurrentlyShoot { get => _CurrentlyShoot; set => _CurrentlyShoot = value; }
-    public float TimeFromLastShoot { get => _TimeFromLastShoot; set => _TimeFromLastShoot = value; }
-    public float SpreadCurrent { get => _SpreadCurrent; set => _SpreadCurrent = value; }
+    public bool CurrentlyAtack { get => _CurrentlyAtack; set => _CurrentlyAtack = value; }
+    public float TimeFromLastAtack { get => _TimeFromLastAtack; set => _TimeFromLastAtack = value; }
+    public float CurrentSpread { get => _CurrentSpread; set => _CurrentSpread = value; }
     public int RoundsInPocket { get => _RoundsInPocket; set => _RoundsInPocket = value; }
-    public int RoundsCurrent { get => _RoundsCurrent; set => _RoundsCurrent = value; }
+    public Weapon CurrentWeapon { get => _CurrentWeapon;  }
 
-	public void SetWeapon(PackedScene weapon)
+    public void SetCurrentWeapon(PackedScene weapon)
 	{
+        if (weapon == null)
+        {
+            _CurrentWeapon = null;
+            return;
+        }
 		Weapon newWeapon = weapon.Instantiate<Weapon>();
 		AddChild(newWeapon);
-		CurrentWeapon = newWeapon;
-	}
-    public override void _Ready()
-	{
+		_CurrentWeapon = newWeapon;
+        _CurrentWeapon.CurrentOwner = GetParent().GetParent<Life>();
+        _CurrentWeapon.CurrentMasterWeapon = GetParent<LifeWeapons>();
+    }
 
-	}
+    public void DeleteWeaponInHeands()
+    {
+        CurrentWeapon.QueueFree();
+        SetCurrentWeapon(null);
+    }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+
+    public void Atack(float delta)
+    {
+        if (CurrentWeapon != null)
+        {
+            if (CurrentlyAtack && TimeFromLastAtack>CurrentWeapon.RateOfFire && CurrentWeapon.CurrentRounds > 0)
+            {
+                CurrentWeapon.Atack(CurrentSpread);
+                TimeFromLastAtack = 0;
+                if (CurrentSpread <= CurrentWeapon.SpreadMax)
+                {
+                    CurrentSpread += CurrentWeapon.SpreadSpeedUp;
+                }
+            }
+            else if (TimeFromLastAtack<CurrentWeapon.RateOfFire) TimeFromLastAtack += delta;
+
+            if (CurrentSpread>CurrentWeapon.RateOfFire)
+            {
+                CurrentSpread -= CurrentWeapon.SpreadSpeedDown*delta;
+            }    
+        }
+        else if (CurrentSpread!=0)
+        {
+            CurrentSpread = 0;
+        }
+    }
+
+    public void Reload()
+    {
+        if (CurrentWeapon != null)
+        {
+            if (RoundsInPocket>CurrentWeapon.RoundsTotal || RoundsInPocket-(CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds) >=0)
+            {
+                RoundsInPocket -= CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds;
+                CurrentWeapon.CurrentRounds = CurrentWeapon.RoundsTotal;
+            }
+            else
+            {
+                CurrentWeapon.CurrentRounds = CurrentWeapon.CurrentRounds + RoundsInPocket;
+                RoundsInPocket = 0;
+            }
+        }
+    }
+
 }

@@ -1,6 +1,5 @@
 extends LifeWeapon
 @onready var playerMain = $".."
-var currentlyActiveWeapon:int = 0
 
 func _ready() -> void:
 	#setWeapon(preload("res://Nodes/Objects/Weapons/AK.tscn"))

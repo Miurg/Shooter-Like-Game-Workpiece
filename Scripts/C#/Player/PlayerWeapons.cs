@@ -3,11 +3,13 @@ using System;
 
 namespace player
 {
-    public partial class PlayetWeapons : Node
+    public partial class PlayerWeapons : LifeWeapons
     {
-        
+        CharacterBody3D PlayerMain;
+
         public override void _Ready()
         {
+            PlayerMain = GetNode<CharacterBody3D>("Player");
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.

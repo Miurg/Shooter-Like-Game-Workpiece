@@ -9,8 +9,9 @@ namespace player
     public partial class PlayerCamera : Camera3D
     {
         RayCast3D GeneralRay;
-        CharacterBody3D PlayerMain;
+        PlayerMain PlayerMain;
         Node3D Weapons;
+
 
         private float _RotationSpeed = 0.1f;
         private int _LerpWeight = 40;
@@ -20,7 +21,7 @@ namespace player
         public override void _Ready()
         {
             GeneralRay = GetNode<RayCast3D>("GeneralRay");
-            PlayerMain = GetNode<CharacterBody3D>("Player");
+            PlayerMain = GetNode<PlayerMain>("Player");
             Weapons = GetNode<Node3D>("Weapons");
             SpaceState = GetWorld3D().DirectSpaceState;
         }
@@ -49,10 +50,6 @@ namespace player
             base._PhysicsProcess(delta);
         }
 
-        [Signal]
-        public delegate void HUDSelectedChangeEventHandler(int sizeXCurrent, int sizeYCurrent, int positionXCurrent, int positionYCurrent);
-        [Signal]
-        public delegate void HUDSelectedNormalEventHandler();
 
         private Node3D _InstanceWeapon;
         private void Select()
@@ -78,11 +75,11 @@ namespace player
                     p1.X = Math.Max(p1.X, p.X);
                     p1.Y = Math.Max(p1.Y, p.Y);
                 }
-                EmitSignal("HUDSelectedChange", p2.X - p1.X, p2.Y - p1.Y, p1.X, p1.Y);
+                PlayerMain.HUDUpdateSelected((int)(p2.X - p1.X), (int)(p2.Y - p1.Y), (int)p1.X, (int)p1.Y);
             }
             else
             {
-                EmitSignal("HUDSelectedNormal");
+                PlayerMain.HUDNormalSelected();
                 _InstanceWeapon = null;
             }
         }

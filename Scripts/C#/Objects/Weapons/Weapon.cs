@@ -26,17 +26,16 @@ public abstract partial class Weapon : Node
     public int RoundsTotal { get => _RoundsTotal; set => _RoundsTotal = value; }
     public int CurrentRounds { get => _CurrentRounds; set => _CurrentRounds = value; }
 
-    public void Atack(float spread)
+    public void Attack(float spread)
     {
         if (CurrentOwner != null)
         {
-            EmitSignal("AtackInitiate");
             CurrentRounds -= 1;
             ParticlesNode.AddChild(AtackParticle.Instantiate());
-            Vector3 spreadVector = new Vector3(0, 0, -1);
+            Vector3 spreadVector = new(0, 0, -1);
             if (spread>0)
             {
-                Vector2 dotsForSpread = new Vector2(new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
+                Vector2 dotsForSpread = new(new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
                     new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
                 while (Math.Pow(dotsForSpread.X,2)+ Math.Pow(dotsForSpread.Y, 2)>spread)
                 {
@@ -45,7 +44,7 @@ public abstract partial class Weapon : Node
                 }
                 spreadVector = new Vector3(dotsForSpread.X,dotsForSpread.Y,-10).Normalized();
             }
-            Dictionary targetOfAtack = null;
+            Dictionary targetOfAtack;
             if (CurrentOwner.Name == "Player")
             {
                 AddChild(SoundForPlayer.Instantiate());
@@ -61,7 +60,7 @@ public abstract partial class Weapon : Node
                 CollisionObject3D newObj = (CollisionObject3D)targetOfAtack["collider"];
                 if (newObj.GetCollisionLayerValue(1))
                 {
-                    CurrentOwner.MainCreateRemains(newObj, (Vector3)targetOfAtack["position"], (Vector3)targetOfAtack["normal"], Remains);
+                    CurrentOwner.MainCreateRemainsFromWeapon(newObj, (Vector3)targetOfAtack["position"], (Vector3)targetOfAtack["normal"], Remains);
                 }
                 else
                 {

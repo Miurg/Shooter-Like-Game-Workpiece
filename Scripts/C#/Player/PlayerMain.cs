@@ -30,9 +30,9 @@ namespace player
 
         public override void _Input(InputEvent @event)
         {
-            if (@event is InputEventKey)
+            if (@event is InputEventKey key)
             {
-                if (((InputEventKey)@event).Keycode == Key.E)
+                if (key.Keycode == Key.E)
                 {
                     GetTree().Quit();
                 }
@@ -46,7 +46,7 @@ namespace player
 
         private void Movement(double delta)
         {
-            Vector3 direction = new Vector3();
+            Vector3 direction = new();
             if (Input.IsActionPressed("left"))
             {
                 direction.X = -1;
@@ -126,6 +126,20 @@ namespace player
         public void HUDUpdateSelected(int sizeXCurrent, int sizeYCurrent, int positionXCurrent, int positionYCurrent)
         {
             HUD.UpdateSelected(sizeXCurrent, sizeYCurrent, positionXCurrent, positionYCurrent);
+        }
+
+        public void HUDUpdateSpread(float spread)
+        {
+            HUD.SpreadWeapon = spread;
+        }
+
+        public void HUDRoundsPocket(int RoundsPocket)
+        {
+            HUD.RoundsPocket = RoundsPocket;
+        }
+        public void HUDRoundsCurrent(int RoundsCurrent)
+        {
+            HUD.RoundsCurrent = RoundsCurrent;
         }
 
         public void MainPlaceWeapon(RigidBody3D Weapon)

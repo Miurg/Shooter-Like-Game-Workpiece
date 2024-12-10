@@ -3,7 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using static Godot.Input;
 
-public partial class MainNode: Node
+public partial class MainNode : Node
 {
 	private CanvasLayer HUD;
     private Node Objects;
@@ -19,9 +19,9 @@ public partial class MainNode: Node
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventKey)
+        if (@event is InputEventKey key)
         {
-            if (((InputEventKey)@event).Keycode == Key.Escape)
+            if (key.Keycode == Key.Escape)
             {
                 GetTree().Quit();
             }
@@ -43,7 +43,7 @@ public partial class MainNode: Node
         Weapon.RotateY(Mathf.DegToRad(-90));
     }
 
-    public void CreateRemains(CollisionObject3D Wall, Vector3 Position, Vector3 Normal, PackedScene Hole)
+    public void CreateRemainsFromWeapon(CollisionObject3D Wall, Vector3 Position, Vector3 Normal, PackedScene Hole)
     {
         Node3D newHole = Hole.Instantiate<Node3D>();
         newHole.Position = Position+Normal/1000;

@@ -29,9 +29,9 @@ public abstract partial class Life : CharacterBody3D, ICharacter
         }
     }
 
-    public void MainCreateRemains(CollisionObject3D CollisionObject, Vector3 PositionOfHole, Vector3 NormalOfHole, PackedScene Remains)
+    public void MainCreateRemainsFromWeapon(CollisionObject3D CollisionObject, Vector3 PositionOfHole, Vector3 NormalOfHole, PackedScene Remains)
     {
-        MainNode.CreateRemains(CollisionObject, PositionOfHole, NormalOfHole, Remains);
+        MainNode.CreateRemainsFromWeapon(CollisionObject, PositionOfHole, NormalOfHole, Remains);
     }
     public int HealthPoint { get => HealthPoint; set => HealthPoint = value; }
 

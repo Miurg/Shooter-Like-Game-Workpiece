@@ -15,8 +15,8 @@ namespace player
 
         private float _RotationSpeed = 0.1f;
         private int _LerpWeight = 40;
-        private Vector2 _CameraInput = new Vector2();
-        private Vector2 _RotationVelocity = new Vector2();
+        private Vector2 _CameraInput = new();
+        private Vector2 _RotationVelocity = new();
         private PhysicsDirectSpaceState3D SpaceState;
         public override void _Ready()
         {

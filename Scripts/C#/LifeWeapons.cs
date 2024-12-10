@@ -4,12 +4,12 @@ using System;
 public abstract partial class LifeWeapons : Node3D
 {
     private Weapon _CurrentWeapon;
-	private bool _CurrentlyAtack = false;
+	private bool _CurrentlyAttack = false;
 	private float _TimeFromLastAtack = 0f;
 	private float _CurrentSpread = 0f;
 	private int _RoundsInPocket = 0;
 
-    public bool CurrentlyAtack { get => _CurrentlyAtack; set => _CurrentlyAtack = value; }
+    public bool CurrentlyAttack { get => _CurrentlyAttack; set => _CurrentlyAttack = value; }
     public float TimeFromLastAtack { get => _TimeFromLastAtack; set => _TimeFromLastAtack = value; }
     public float CurrentSpread { get => _CurrentSpread; set => _CurrentSpread = value; }
     public int RoundsInPocket { get => _RoundsInPocket; set => _RoundsInPocket = value; }
@@ -36,13 +36,13 @@ public abstract partial class LifeWeapons : Node3D
     }
 
 
-    public void Atack(float delta)
+    public void Attack(float delta)
     {
         if (CurrentWeapon != null)
         {
-            if (CurrentlyAtack && TimeFromLastAtack>CurrentWeapon.RateOfFire && CurrentWeapon.CurrentRounds > 0)
+            if (CurrentlyAttack && TimeFromLastAtack>CurrentWeapon.RateOfFire && CurrentWeapon.CurrentRounds > 0)
             {
-                CurrentWeapon.Atack(CurrentSpread);
+                CurrentWeapon.Attack(CurrentSpread);
                 TimeFromLastAtack = 0;
                 if (CurrentSpread <= CurrentWeapon.SpreadMax)
                 {

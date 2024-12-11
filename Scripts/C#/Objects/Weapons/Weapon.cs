@@ -2,14 +2,14 @@ using Godot;
 using Godot.Collections;
 using System;
 
-public abstract partial class Weapon : Node
+public abstract partial class Weapon : Node, IWeapon
 {
-    public PackedScene SceneOfWeapon;
-    public PackedScene Remains;
-    public PackedScene SoundForNPC;
-    public PackedScene SoundForPlayer;
-    public PackedScene AtackParticle;
-    public Node3D ParticlesNode;
+    protected PackedScene SceneOfWeapon;
+    protected PackedScene Remains;
+    protected PackedScene SoundForNPC;
+    protected PackedScene SoundForPlayer;
+    protected PackedScene AtackParticle;
+    protected Node3D ParticlesNode;
     public Life CurrentOwner;
     public LifeWeapons CurrentMasterWeapon;
     public float RateOfFire;

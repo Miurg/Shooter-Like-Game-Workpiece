@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class HUD : Node
+public partial class HUD : CanvasLayer
 {
 	Control IcondsSelected;
 	private Label _RoundsPocket;

@@ -5,12 +5,12 @@ using static Godot.Input;
 
 public partial class MainNode : Node
 {
-	private CanvasLayer HUD;
+	private HUD HUD;
     private Node Objects;
 	private Node AllBulletsAndHoles;
     public override void _Ready()
 	{
-		HUD = GetNode<CanvasLayer>("/root/MainNode/HUD");
+		HUD = GetNode<HUD>("/root/MainNode/HUD");
         Objects = GetNode<Node>("/root/MainNode/Objects");
         AllBulletsAndHoles = GetNode<Node>("/root/MainNode/Objects/AllBulletsAndHoles");
         Input.MouseMode = MouseModeEnum.Captured;

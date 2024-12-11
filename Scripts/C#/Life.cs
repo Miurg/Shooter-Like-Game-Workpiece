@@ -12,7 +12,7 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     protected int AdditionalMoveSpeed;
     protected int AdditionalGravity;
     protected int MaxMoveSpeed;
-    private PhysicsDirectSpaceState3D SpaceState;
+    protected PhysicsDirectSpaceState3D SpaceState;
     protected MainNode MainNode;
     public abstract Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget);
     public abstract void ChangeHealth(int value, Life fromWho);

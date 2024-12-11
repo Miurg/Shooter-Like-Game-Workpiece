@@ -20,7 +20,7 @@ public abstract partial class NPC : Life
             float angle = Mathf.RadToDeg(Mathf.Acos(thisDirection.Dot(toTargetDirection)));
             if (angle<=FieldOfView/2)
             {
-                return ((GodotObject)GetRayVision(0b00000000_00000000_00000000_00000001, ToLocal(Player.GlobalPosition))[0]) == null;
+                return (GetRayVision(0b00000000_00000000_00000000_00000001, ToLocal(Player.GlobalPosition))) == null;
             }
         }
         return false; 

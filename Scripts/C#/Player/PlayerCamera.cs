@@ -15,26 +15,27 @@ namespace player
 
         private float _RotationSpeed = 0.1f;
         private int _LerpWeight = 40;
-        private Vector2 _CameraInput = new();
+        public Vector2 _CameraInput;
         private Vector2 _RotationVelocity = new();
         private PhysicsDirectSpaceState3D SpaceState;
         public override void _Ready()
         {
             GeneralRay = GetNode<RayCast3D>("GeneralRay");
-            PlayerMain = GetNode<PlayerMain>("Player");
-            Weapons = GetNode<Node3D>("Weapons");
+            PlayerMain = GetNode<PlayerMain>("..");
+            Weapons = GetNode<Node3D>("../Weapons");
             SpaceState = GetWorld3D().DirectSpaceState;
         }
 
         public override void _Process(double delta)
         {
-            _RotationVelocity = _CameraInput * _RotationVelocity;
-            RotateX(-Mathf.DegToRad(_RotationVelocity.Y));
+            _RotationVelocity = _CameraInput * _RotationSpeed;
+            this.RotateX(-Mathf.DegToRad(_RotationVelocity.Y));
             RotationDegrees = RotationDegrees with { X = Mathf.Clamp(RotationDegrees.X, -90, 90) };
 
             PlayerMain.RotateY(-Mathf.DegToRad(_RotationVelocity.X));
-            Weapons.Rotation = Rotation;
+            Weapons.Rotation = Rotation; 
             _CameraInput = Vector2.Zero;
+            
         }
 
         public override void _Input(InputEvent @event)
@@ -47,18 +48,19 @@ namespace player
 
         public override void _PhysicsProcess(double delta)
         {
-            base._PhysicsProcess(delta);
+            Select();
         }
 
 
-        private Node3D _InstanceWeapon;
+        public Node3D InstanceWeapon = null;
         private void Select()
         {
             GeneralRay.ForceRaycastUpdate();
+
             if (GeneralRay.IsColliding())
             {
-                _InstanceWeapon = (Node3D)GeneralRay.GetCollider();
-                MeshInstance3D meshInstance = _InstanceWeapon.GetNode<MeshInstance3D>("MeshInstance3D");
+                InstanceWeapon = (Node3D)GeneralRay.GetCollider();
+                MeshInstance3D meshInstance = InstanceWeapon.GetNode<MeshInstance3D>("MeshInstance3D");
                 Vector3[] faces = meshInstance.Mesh.GetFaces();
                 Vector2[] unproject = new Vector2[faces.Length];
                 for (int i = 0; i<faces.Length;i++)
@@ -72,15 +74,15 @@ namespace player
                 {
                     p1.X = Math.Min(p1.X, p.X);
                     p1.Y = Math.Min(p1.Y, p.Y);
-                    p1.X = Math.Max(p1.X, p.X);
-                    p1.Y = Math.Max(p1.Y, p.Y);
+                    p2.X = Math.Max(p2.X, p.X);
+                    p2.Y = Math.Max(p2.Y, p.Y);
                 }
                 PlayerMain.HUDUpdateSelected((int)(p2.X - p1.X), (int)(p2.Y - p1.Y), (int)p1.X, (int)p1.Y);
             }
             else
             {
                 PlayerMain.HUDNormalSelected();
-                _InstanceWeapon = null;
+                InstanceWeapon = null;
             }
         }
 

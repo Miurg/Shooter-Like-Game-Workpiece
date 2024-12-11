@@ -1,10 +1,11 @@
 using Godot;
 using Godot.Collections;
+using player;
 using System;
 
-public abstract partial class Weapon : Node, IWeapon
+public abstract partial class Weapon : RigidBody3D, IWeapon
 {
-    protected PackedScene SceneOfWeapon;
+    public PackedScene SceneOfWeapon;
     protected PackedScene Remains;
     protected PackedScene SoundForNPC;
     protected PackedScene SoundForPlayer;
@@ -20,11 +21,21 @@ public abstract partial class Weapon : Node, IWeapon
     public float SpreadMin;
     public float SpreadSpeedUp;
     public float SpreadSpeedDown;
-    private int _RoundsTotal;
-    private int _CurrentRounds;
+    private int _RoundsTotal = 30;
+    private int _CurrentRounds = 30;
 
     public int RoundsTotal { get => _RoundsTotal; set => _RoundsTotal = value; }
-    public int CurrentRounds { get => _CurrentRounds; set => _CurrentRounds = value; }
+    public int CurrentRounds { 
+        get => _CurrentRounds; 
+        set 
+        {
+            if (CurrentOwner.Name == "Player")
+            {
+                ((PlayerMain)CurrentOwner).HUDRoundsCurrent(value);
+            }
+            _CurrentRounds = value; 
+        } 
+    }
 
     public void Attack(float spread)
     {
@@ -35,12 +46,12 @@ public abstract partial class Weapon : Node, IWeapon
             Vector3 spreadVector = new(0, 0, -1);
             if (spread>0)
             {
-                Vector2 dotsForSpread = new(new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
-                    new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
+                Vector2 dotsForSpread = new Vector2((float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
+                    (float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
                 while (Math.Pow(dotsForSpread.X,2)+ Math.Pow(dotsForSpread.Y, 2)>spread)
                 {
-                    dotsForSpread = new Vector2(new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
-                        new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
+                    dotsForSpread = new Vector2((float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
+                        (float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
                 }
                 spreadVector = new Vector3(dotsForSpread.X,dotsForSpread.Y,-10).Normalized();
             }

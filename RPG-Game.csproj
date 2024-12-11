@@ -6,4 +6,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>RPGGame</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\C#\Objects\NPC\" />
+  </ItemGroup>
 </Project>

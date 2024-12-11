@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://5ccf5pn5m8jk"]
 
-[ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCAngry.gd" id="1_v51a8"]
+[ext_resource type="Script" path="res://Scripts/C#/Objects/NPC/NPCRonin.cs" id="1_wlw1b"]
 [ext_resource type="PackedScene" uid="uid://cx18da4pifem0" path="res://Meshes/copskeleton.glb" id="2_pcm81"]
-[ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCWeapons.gd" id="3_b5lqe"]
+[ext_resource type="Script" path="res://Scripts/C#/Objects/NPC/NPCWeapon.cs" id="3_8urfl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1e7d"]
 
@@ -10,13 +10,14 @@
 transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 0, 0, 0)
 collision_layer = 2
 collision_mask = 35
-script = ExtResource("1_v51a8")
+script = ExtResource("1_wlw1b")
+MaxMoveSpeed = 6
 metadata/healthPoint = 5
-metadata/moveSpeed = 4.0
 metadata/fieldOfView = 90
 metadata/maxMoveSpeed = 7.0
 metadata/timeUntilUnsee = 5.0
 metadata/maxDistanceOfView = 100
+metadata/additionalMoveSpeed = 4
 
 [node name="copskeleton" parent="." instance=ExtResource("2_pcm81")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
@@ -33,4 +34,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8487, -0.121696)
 target_position = Vector3(0, 0, -6)
 
 [node name="MasterWeapon" type="Node3D" parent="."]
-script = ExtResource("3_b5lqe")
+script = ExtResource("3_8urfl")

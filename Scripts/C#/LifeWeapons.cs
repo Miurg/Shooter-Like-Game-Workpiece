@@ -3,33 +3,34 @@ using System;
 
 public abstract partial class LifeWeapons : Node3D
 {
-    private Weapon _CurrentWeapon;
-	private bool _CurrentlyAttack = false;
+    protected Weapon _CurrentWeapon;
+	private bool _CurrentlyAttack;
 	private float _TimeFromLastAtack = 0f;
 	private float _CurrentSpread = 0f;
-	private int _RoundsInPocket = 0;
+	private int _RoundsPocket = 90;
 
-    public bool CurrentlyAttack { get => _CurrentlyAttack; set => _CurrentlyAttack = value; }
-    public float TimeFromLastAtack { get => _TimeFromLastAtack; set => _TimeFromLastAtack = value; }
-    public float CurrentSpread { get => _CurrentSpread; set => _CurrentSpread = value; }
-    public int RoundsInPocket { get => _RoundsInPocket; set => _RoundsInPocket = value; }
-    public Weapon CurrentWeapon { get => _CurrentWeapon;  }
+    public virtual bool CurrentlyAttack { get => _CurrentlyAttack; set => _CurrentlyAttack = value; }
+    public virtual float TimeFromLastAtack { get => _TimeFromLastAtack; set => _TimeFromLastAtack = value; }
+    public virtual float CurrentSpread { get => _CurrentSpread; set => _CurrentSpread = value; }
+    public virtual int RoundsPocket { get => _RoundsPocket; set => _RoundsPocket = value; }
+    public virtual Weapon CurrentWeapon { get => _CurrentWeapon;  }
 
-    public void SetCurrentWeapon(PackedScene weapon)
+    virtual public void SetCurrentWeapon(Weapon weapon)
 	{
         if (weapon == null)
         {
             _CurrentWeapon = null;
             return;
         }
-		Weapon newWeapon = weapon.Instantiate<Weapon>();
-		AddChild(newWeapon);
-		_CurrentWeapon = newWeapon;
-        _CurrentWeapon.CurrentOwner = GetParent().GetParent<Life>();
-        _CurrentWeapon.CurrentMasterWeapon = GetParent<LifeWeapons>();
+		Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
+        AddChild(newWeapon);
+        weapon.QueueFree();
+        _CurrentWeapon = newWeapon;
+        _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
+        _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
     }
 
-    public void DeleteWeaponInHeands()
+    virtual public void DeleteWeaponInHeands()
     {
         CurrentWeapon.QueueFree();
         SetCurrentWeapon(null);
@@ -49,7 +50,7 @@ public abstract partial class LifeWeapons : Node3D
                     CurrentSpread += CurrentWeapon.SpreadSpeedUp;
                 }
             }
-            else if (TimeFromLastAtack<CurrentWeapon.RateOfFire) TimeFromLastAtack += delta;
+            else if (TimeFromLastAtack<=CurrentWeapon.RateOfFire) TimeFromLastAtack += delta;
 
             if (CurrentSpread>CurrentWeapon.RateOfFire)
             {
@@ -66,15 +67,15 @@ public abstract partial class LifeWeapons : Node3D
     {
         if (CurrentWeapon != null)
         {
-            if (RoundsInPocket>CurrentWeapon.RoundsTotal || RoundsInPocket-(CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds) >=0)
+            if (RoundsPocket>CurrentWeapon.RoundsTotal || RoundsPocket-(CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds) >=0)
             {
-                RoundsInPocket -= CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds;
+                RoundsPocket -= CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds;
                 CurrentWeapon.CurrentRounds = CurrentWeapon.RoundsTotal;
             }
             else
             {
-                CurrentWeapon.CurrentRounds = CurrentWeapon.CurrentRounds + RoundsInPocket;
-                RoundsInPocket = 0;
+                CurrentWeapon.CurrentRounds = CurrentWeapon.CurrentRounds + RoundsPocket;
+                RoundsPocket = 0;
             }
         }
     }

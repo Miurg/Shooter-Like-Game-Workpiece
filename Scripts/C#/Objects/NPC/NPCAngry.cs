@@ -13,13 +13,14 @@ public abstract partial class NPCAngry : NPC
     protected Vector3 NextPath;
     protected Vector3 PreviousPath;
     protected Vector3 TryingLookTo;
-    bool playerVisible = false;
-    bool playerVisibleFromTime = false;
+    protected bool playerVisible = false;
+    protected bool playerVisibleFromTime = false;
 
     protected void Movement(float delta)
     {
         if ((MasterWeapon.CurrentWeapon != null) && (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) && IsPlayerVisible())
         {
+            GD.Print(MasterWeapon.CurrentWeapon);
             MasterWeapon.CurrentlyAttack = true;
             Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
             LookAt(Player.Position);
@@ -27,7 +28,7 @@ public abstract partial class NPCAngry : NPC
         else if (!NavAgent.IsNavigationFinished() || IsPlayerVisible())
         {
             MasterWeapon.CurrentlyAttack = false;
-            Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed, delta * NormalMoveSpeed + AdditionalMoveSpeed);
+            Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed, delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
             Vector3 newLook = new Vector3(NextPath.X,Position.Y, NextPath.Z);
             if (newLook!=Position)
             {
@@ -44,7 +45,7 @@ public abstract partial class NPCAngry : NPC
 
     public override Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget)
     {
-        Vector3 rayStart = VisionRay.Position;
+        Vector3 rayStart = VisionRay.GlobalPosition;
         Vector3 rayEnd = rayStart + NewRayTarget.Rotated(new Vector3(1, 0, 0), Rotation.X).Rotated(new Vector3(0, 1, 0), Rotation.Y);
         Dictionary newGeneralRay = SpaceState.IntersectRay(PhysicsRayQueryParameters3D.Create(rayStart, rayEnd, CollisionMask));
         if (newGeneralRay.ContainsKey("collider"))

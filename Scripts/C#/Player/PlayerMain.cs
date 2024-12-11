@@ -6,20 +6,19 @@ namespace player
     public partial class PlayerMain : Life
     {
         PlayerCamera PlayerCamera;
+        PlayerWeapons PlayerWeapons;
         HUD HUD;
         private Vector3 _PlayerVelocity = Vector3.Zero;
-        private int _JumpForce = 10;
-        private int _NumberOfJumps = 1;
+        [Export] private int _JumpForce = 10;
+        [Export] private int _NumberOfJumps = 1;
 
 
         public override void _Ready()
         {
             MainNode = GetNode<MainNode>("/root/MainNode/");
             PlayerCamera = GetNode<PlayerCamera>("PlayerCameraMain");
+            PlayerWeapons = GetNode<PlayerWeapons>("Weapons");
             HUD = GetNode<HUD>("/root/MainNode/HUD");
-            AdditionalMoveSpeed = (int)GetMeta("AdditionalSpeed");
-            AdditionalGravity = (int)GetMeta("AdditionalGravity");
-            _JumpForce = (int)GetMeta("JumpForce");
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -32,9 +31,28 @@ namespace player
         {
             if (@event is InputEventKey key)
             {
-                if (key.Keycode == Key.E)
+                if (key.Keycode == Key.E && @event.IsPressed())
                 {
-                    GetTree().Quit();
+                    PlayerWeapons.SetCurrentWeapon(((Weapon)PlayerCamera.InstanceWeapon));
+                }
+                if (key.Keycode == Key.G && @event.IsPressed())
+                {
+                    PlayerWeapons.DeleteWeaponInHeands();
+                }
+                if (key.Keycode == Key.R && @event.IsPressed())
+                {
+                    PlayerWeapons.Reload();
+                }
+            }
+            if (@event is InputEventMouseButton button)
+            {
+                if (button.ButtonIndex == MouseButton.Left && @event.IsPressed())
+                {
+                    PlayerWeapons.CurrentlyAttack = true;
+                }
+                if (button.ButtonIndex == MouseButton.Left && !@event.IsPressed())
+                {
+                    PlayerWeapons.CurrentlyAttack = false;
                 }
             }
         }
@@ -55,7 +73,7 @@ namespace player
             {
                 direction.X = 1;
             }
-            if (Input.IsActionPressed("bacward"))
+            if (Input.IsActionPressed("backward"))
             {
                 direction.Z = 1;
             }
@@ -73,10 +91,11 @@ namespace player
                 _JumpButtonClicks++;
                 _FirstJumpHappend = true;
             }
-
+      
             _PlayerVelocity = direction.Normalized().Rotated(new Vector3(0, 1, 0), Rotation.Y) * MaxMoveSpeed;
             _PlayerVelocity = _PlayerVelocity with { Y = Velocity.Y };
             Vector2 maxVelocity = new Vector2(MaxMoveSpeed, MaxMoveSpeed).Normalized() * MaxMoveSpeed;
+            
             if (Math.Abs(Velocity.X) < maxVelocity.X
                 && Math.Abs(Velocity.Z) < MaxMoveSpeed
                 && _PlayerVelocity != new Vector3(0, Velocity.Y, 0))
@@ -110,7 +129,7 @@ namespace player
 
         public override void ChangeHealth(int value, Life fromWho)
         {
-            throw new NotImplementedException();
+            GD.Print("Papali");
         }
 
         public override void Die()

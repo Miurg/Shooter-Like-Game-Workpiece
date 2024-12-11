@@ -9,9 +9,9 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     public const int NormalMaxSpeedDown = 20;
     public const int NormalStopSpeed = 20;
     public const int NormalMoveSpeed = 4;
-    protected int AdditionalMoveSpeed;
-    protected int AdditionalGravity;
-    protected int MaxMoveSpeed;
+    [Export] protected int AdditionalMoveSpeed;
+    [Export] protected int AdditionalGravity;
+    [Export] protected int MaxMoveSpeed;
     protected PhysicsDirectSpaceState3D SpaceState;
     protected MainNode MainNode;
     public abstract Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget);
@@ -21,7 +21,7 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     {
         if (Velocity.Y >= -NormalMaxSpeedDown)
         {
-            Velocity = Velocity with { Y = (float)(Velocity.Y - (NormalGravityForce+AdditionalGravity * delta)) };
+            Velocity = Velocity with { Y = (float)(Velocity.Y - ((NormalGravityForce+AdditionalGravity) * delta)) };
         }
         else
         {
@@ -33,7 +33,7 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     {
         MainNode.CreateRemainsFromWeapon(CollisionObject, PositionOfHole, NormalOfHole, Remains);
     }
-    public int HealthPoint { get => HealthPoint; set => HealthPoint = value; }
+    public int HealthPoint;
 
 
     protected RayCast3D VisionRay;

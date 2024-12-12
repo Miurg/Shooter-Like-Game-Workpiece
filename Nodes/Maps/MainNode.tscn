@@ -1,10 +1,10 @@
 [gd_scene load_steps=19 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Entities/Player.tscn" id="2_61xqg"]
-[ext_resource type="Script" path="res://Scripts/C#/MainNode.cs" id="2_y8yku"]
+[ext_resource type="Script" path="res://Scripts/MainNode.cs" id="2_y8yku"]
 [ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/Weapons/AK.tscn" id="3_xsu1f"]
 [ext_resource type="PackedScene" uid="uid://5ccf5pn5m8jk" path="res://Nodes/Entities/Entity.tscn" id="5_e81lh"]
-[ext_resource type="Script" path="res://Scripts/C#/HUD.cs" id="5_o64we"]
+[ext_resource type="Script" path="res://Scripts/HUD.cs" id="5_o64we"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
 [ext_resource type="Texture2D" uid="uid://h2c26xfqbvji" path="res://2DContent/HUD/HUD-Aim.png" id="8_s6t32"]
 [ext_resource type="Texture2D" uid="uid://byguv38k0d85e" path="res://2DContent/HUD/HUD-SelectedUpLeft.png" id="9_sxm0b"]

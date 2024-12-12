@@ -20,7 +20,6 @@ public abstract partial class NPCAngry : NPC
     {
         if ((MasterWeapon.CurrentWeapon != null) && (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) && IsPlayerVisible())
         {
-            GD.Print(MasterWeapon.CurrentWeapon);
             MasterWeapon.CurrentlyAttack = true;
             Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
             LookAt(Player.Position);

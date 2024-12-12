@@ -42,6 +42,7 @@ namespace player
             weapon.QueueFree();
             newWeapon.Rotation = new Vector3(0, 0, 0);
             newWeapon.Position = new Vector3(0.331f, 0, -0.419f);
+            newWeapon.Freeze = true;
             _CurrentWeapon = newWeapon;
             _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
             _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();

@@ -29,6 +29,13 @@ public abstract partial class Life : CharacterBody3D, ICharacter
         }
     }
 
+    public virtual void MainPlaceWeapon(RigidBody3D Weapon)
+    {
+        Vector3 weaponPosition = this.GlobalPosition;
+        Vector3 weaponImpulse = new Vector3 (0,0,0);
+        MainNode.PlaceWeapon(this, Weapon, weaponImpulse, weaponPosition);
+    }
+
     public void MainCreateRemainsFromWeapon(CollisionObject3D CollisionObject, Vector3 PositionOfHole, Vector3 NormalOfHole, PackedScene Remains)
     {
         MainNode.CreateRemainsFromWeapon(CollisionObject, PositionOfHole, NormalOfHole, Remains);

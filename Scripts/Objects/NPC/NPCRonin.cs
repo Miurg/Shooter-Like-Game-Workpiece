@@ -13,18 +13,21 @@ public partial class NPCRonin : NPCAngry
         await ToSignal(GetTree(), "physics_frame");
         SetProcess(true);
         SetPhysicsProcess(true);
+
         Player = GetNode<PlayerMain>("../Player");
         MasterWeapon = GetNode<LifeWeapons>("MasterWeapon");
         Mesh = GetNode<Node3D>("Ronin");
         NavAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
         VisionRay = GetNode<RayCast3D>("VisionRay");
         MainNode = GetNode<MainNode>("/root/MainNode/");
+
         AdditionalMoveSpeed = (int)GetMeta("additionalMoveSpeed");
         MaxMoveSpeed = (int)GetMeta("maxMoveSpeed");
         FieldOfView = (int)GetMeta("fieldOfView");
         HealthPoint = (int)GetMeta("healthPoint");
         TimeUntilUnsee = (int)GetMeta("timeUntilUnsee");
         MaxDistanceOfView = (int)GetMeta("maxDistanceOfView");
+
         CurrentTimeSee = 0;
         SpaceState = GetWorld3D().DirectSpaceState;
         TryingLookTo = Transform * new Vector3(0, 0, -1);

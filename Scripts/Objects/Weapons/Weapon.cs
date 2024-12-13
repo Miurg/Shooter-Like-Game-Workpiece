@@ -21,18 +21,14 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
     public float SpreadMin;
     public float SpreadSpeedUp;
     public float SpreadSpeedDown;
-    private int _RoundsTotal = 30;
-    private int _CurrentRounds = 30;
+    protected int _RoundsTotal = 30;
+    protected int _CurrentRounds = 30;
 
     public int RoundsTotal { get => _RoundsTotal; set => _RoundsTotal = value; }
     public int CurrentRounds { 
         get => _CurrentRounds; 
         set 
         {
-            if (CurrentOwner.Name == "Player")
-            {
-                ((PlayerMain)CurrentOwner).HUDRoundsCurrent(value);
-            }
             _CurrentRounds = value; 
         } 
     }

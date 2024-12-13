@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://ca0u2hdyonmfj"]
 
 [ext_resource type="AudioStream" uid="uid://bs4gbryx3b5m0" path="res://Sounds/AKShoot.mp3" id="1_w57dm"]
-[ext_resource type="Script" path="res://Scripts/Sounds/AKShootSound.gd" id="2_5mau8"]
+[ext_resource type="Script" path="res://Scripts/Sounds/AKShootSoundNPC.gd" id="2_eyx1v"]
 
 [node name="AKShoot" type="AudioStreamPlayer3D"]
 stream = ExtResource("1_w57dm")
 volume_db = -31.71
-script = ExtResource("2_5mau8")
+script = ExtResource("2_eyx1v")
 
 [connection signal="finished" from="." to="." method="_on_finished"]

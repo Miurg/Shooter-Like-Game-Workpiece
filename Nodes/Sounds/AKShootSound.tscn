@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://de2vuimhd1vl8"]
+[gd_scene load_steps=3 format=3 uid="uid://de2vuimhd1vl8"]
 
 [ext_resource type="AudioStream" uid="uid://bs4gbryx3b5m0" path="res://Sounds/AKShoot.mp3" id="1_iea78"]
+[ext_resource type="Script" path="res://Scripts/Sounds/AKShootSound.gd" id="2_y5s12"]
 
 [node name="AKShootSound" type="AudioStreamPlayer"]
 stream = ExtResource("1_iea78")
 volume_db = -34.702
 autoplay = true
+script = ExtResource("2_y5s12")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

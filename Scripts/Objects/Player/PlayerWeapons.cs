@@ -11,7 +11,7 @@ namespace player
             get => base.CurrentSpread;
             set
             {
-                PlayerMain.HUDUpdateSpread(value);
+                PlayerMain.HUD.SpreadWeapon = value;
                 base.CurrentSpread = value; 
             }
         }
@@ -20,7 +20,7 @@ namespace player
             get => base.RoundsPocket; 
             set
             {
-                PlayerMain.HUDRoundsPocket(value);
+                PlayerMain.HUD.RoundsPocket = value;
                 base.RoundsPocket = value;
             }
         }
@@ -39,6 +39,7 @@ namespace player
             DeleteWeaponInHeands();
             Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
             AddChild(newWeapon);
+            newWeapon.CurrentRounds = weapon.CurrentRounds;
             newWeapon.Rotation = new Vector3(0, 0, 0);
             newWeapon.Position = new Vector3(0.331f, 0, -0.419f);
             newWeapon.Freeze = true;
@@ -54,6 +55,7 @@ namespace player
             if (CurrentWeapon != null)
             {
                 Weapon newWeapon = ResourceLoader.Load<PackedScene>(CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
+                newWeapon.CurrentRounds = CurrentWeapon.CurrentRounds;
                 PlayerMain.MainPlaceWeapon(newWeapon);
                 CurrentWeapon.Die();
             }
@@ -62,6 +64,10 @@ namespace player
         public override void _PhysicsProcess(double delta)
         {
             Attack((float)delta);
+            if (CurrentWeapon != null) 
+            {
+                PlayerMain.HUD.RoundsCurrent = CurrentWeapon.CurrentRounds;
+            }
         }
     }
 }

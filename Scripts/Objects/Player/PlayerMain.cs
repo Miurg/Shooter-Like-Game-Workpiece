@@ -7,7 +7,7 @@ namespace player
     {
         PlayerCamera PlayerCamera;
         PlayerWeapons PlayerWeapons;
-        HUD HUD;
+        public HUD HUD;
         private Vector3 _PlayerVelocity = Vector3.Zero;
         [Export] private int _JumpForce = 10;
         [Export] private int _NumberOfJumps = 1;
@@ -140,31 +140,8 @@ namespace player
             throw new NotImplementedException();
         }
 
-        public void HUDNormalSelected()
-        {
-            HUD.NormalSelected();
-        }
 
-        public void HUDUpdateSelected(int sizeXCurrent, int sizeYCurrent, int positionXCurrent, int positionYCurrent)
-        {
-            HUD.UpdateSelected(sizeXCurrent, sizeYCurrent, positionXCurrent, positionYCurrent);
-        }
-
-        public void HUDUpdateSpread(float spread)
-        {
-            HUD.SpreadWeapon = spread;
-        }
-
-        public void HUDRoundsPocket(int RoundsPocket)
-        {
-            HUD.RoundsPocket = RoundsPocket;
-        }
-        public void HUDRoundsCurrent(int RoundsCurrent)
-        {
-            HUD.RoundsCurrent = RoundsCurrent;
-        }
-
-        public void MainPlaceWeapon(RigidBody3D Weapon)
+        public override void MainPlaceWeapon(RigidBody3D Weapon)
         {
             Vector3 weaponPosition = new Vector3(Position.X, Position.Y + PlayerCamera.Position.Y, Position.Z) + 
                 new Vector3(0, 0, -1).Rotated(new Vector3(1, 0, 0), PlayerCamera.Rotation.X).Rotated(new Vector3(0, 1, 0), Rotation.Y);

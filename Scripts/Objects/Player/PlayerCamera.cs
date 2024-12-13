@@ -77,11 +77,11 @@ namespace player
                     p2.X = Math.Max(p2.X, p.X);
                     p2.Y = Math.Max(p2.Y, p.Y);
                 }
-                PlayerMain.HUDUpdateSelected((int)(p2.X - p1.X), (int)(p2.Y - p1.Y), (int)p1.X, (int)p1.Y);
+                PlayerMain.HUD.UpdateSelected((int)(p2.X - p1.X), (int)(p2.Y - p1.Y), (int)p1.X, (int)p1.Y);
             }
             else
             {
-                PlayerMain.HUDNormalSelected();
+                PlayerMain.HUD.NormalSelected();
                 InstanceWeapon = null;
             }
         }

@@ -4,7 +4,7 @@ using System;
 
 public partial class AK : Weapon
 {
-	public override void _Ready()
+    public override void _Ready()
 	{
 		SpreadMax = 5;
 		SpreadMin = 0;

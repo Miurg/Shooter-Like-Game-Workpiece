@@ -32,7 +32,10 @@ public abstract partial class LifeWeapons : Node3D
 
     virtual public void DeleteWeaponInHeands()
     {
-        CurrentWeapon.Die();
+        if (_CurrentWeapon != null)
+        {
+            CurrentWeapon.Die();
+        }
     }
 
 
@@ -51,7 +54,7 @@ public abstract partial class LifeWeapons : Node3D
             }
             else if (TimeFromLastAtack<=CurrentWeapon.RateOfFire) TimeFromLastAtack += delta;
 
-            if (CurrentSpread>CurrentWeapon.RateOfFire)
+            if (CurrentSpread>CurrentWeapon.SpreadMin)
             {
                 CurrentSpread -= CurrentWeapon.SpreadSpeedDown*delta;
             }    

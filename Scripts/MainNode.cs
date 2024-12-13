@@ -33,6 +33,7 @@ public partial class MainNode : Node
 
     public void PlaceWeapon(Node3D FromWho, RigidBody3D Weapon, Vector3 Impulse, Vector3 Position)
     {
+
         Objects.AddChild(Weapon);
         Weapon.Position = Position;
         Weapon.ApplyImpulse(Impulse);

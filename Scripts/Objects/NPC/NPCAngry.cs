@@ -5,6 +5,7 @@ using System;
 
 public abstract partial class NPCAngry : NPC
 {
+    protected LifeWeapons MasterWeapon;
     protected Node3D Mesh;
     protected NavigationAgent3D NavAgent;
     protected Vector3 TargetToMove;
@@ -74,9 +75,14 @@ public abstract partial class NPCAngry : NPC
             TryingLookTo = new Vector3(FromWho.Position.X, Position.Y, FromWho.Position.Z);
         }
     }
-
     public override void Die()
     {
+        if (MasterWeapon.CurrentWeapon!=null)
+        {
+            Weapon newWeapon = ResourceLoader.Load<PackedScene>(MasterWeapon.CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
+            newWeapon.CurrentRounds = MasterWeapon.CurrentWeapon.CurrentRounds;
+            MainPlaceWeapon(newWeapon);
+        }
         this.QueueFree();
     }
 }

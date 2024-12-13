@@ -5,7 +5,6 @@ using System;
 public abstract partial class NPC : Life
 {
     protected PlayerMain Player;
-    protected LifeWeapons MasterWeapon;
     protected int FieldOfView;
     protected int MaxDistanceOfView;
     float RotationSpeed = (float)Math.PI;

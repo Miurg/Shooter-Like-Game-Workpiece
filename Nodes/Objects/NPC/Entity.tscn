@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://5ccf5pn5m8jk"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCRonin.cs" id="1_wlw1b"]
-[ext_resource type="PackedScene" uid="uid://cx18da4pifem0" path="res://Meshes/NPC/copskeleton.glb" id="2_pcm81"]
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCWeapon.cs" id="3_8urfl"]
+[ext_resource type="PackedScene" uid="uid://h1m5dn7xnpkh" path="res://Meshes/NPC/Ronin.glb" id="3_bndb4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1e7d"]
 
@@ -19,9 +19,6 @@ metadata/timeUntilUnsee = 5.0
 metadata/maxDistanceOfView = 100
 metadata/additionalMoveSpeed = 4
 
-[node name="copskeleton" parent="." instance=ExtResource("2_pcm81")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.961952, 0)
 shape = SubResource("CapsuleShape3D_s1e7d")
@@ -35,3 +32,6 @@ target_position = Vector3(0, 0, -6)
 
 [node name="MasterWeapon" type="Node3D" parent="."]
 script = ExtResource("3_8urfl")
+
+[node name="Ronin" parent="." instance=ExtResource("3_bndb4")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

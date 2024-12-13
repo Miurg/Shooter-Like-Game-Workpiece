@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-interface IObject
+public interface IObject
 {
     void Die();
 }

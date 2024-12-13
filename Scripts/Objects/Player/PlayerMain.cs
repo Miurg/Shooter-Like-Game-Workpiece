@@ -33,7 +33,10 @@ namespace player
             {
                 if (key.Keycode == Key.E && @event.IsPressed())
                 {
-                    PlayerWeapons.SetCurrentWeapon(((Weapon)PlayerCamera.InstanceWeapon));
+                    if (PlayerCamera.InstanceWeapon != null) 
+                    {
+                        PlayerWeapons.SetCurrentWeapon(((Weapon)PlayerCamera.InstanceWeapon));
+                    }
                 }
                 if (key.Keycode == Key.G && @event.IsPressed())
                 {

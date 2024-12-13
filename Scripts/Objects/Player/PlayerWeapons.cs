@@ -33,13 +33,12 @@ namespace player
         {
             if (weapon == null)
             {
-                _CurrentWeapon = null;
+                _CurrentWeapon = weapon;
                 return;
             }
-            if (CurrentWeapon != null) DeleteWeaponInHeands();
+            DeleteWeaponInHeands();
             Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
             AddChild(newWeapon);
-            weapon.QueueFree();
             newWeapon.Rotation = new Vector3(0, 0, 0);
             newWeapon.Position = new Vector3(0.331f, 0, -0.419f);
             newWeapon.Freeze = true;
@@ -47,6 +46,7 @@ namespace player
             _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
             _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
             CurrentSpread = _CurrentWeapon.SpreadMin;
+            weapon.Die();
         }
 
         public override void DeleteWeaponInHeands()
@@ -55,9 +55,8 @@ namespace player
             {
                 Weapon newWeapon = ResourceLoader.Load<PackedScene>(CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
                 PlayerMain.MainPlaceWeapon(newWeapon);
+                CurrentWeapon.Die();
             }
-            CurrentWeapon.QueueFree();
-            SetCurrentWeapon(null);
         }
 
         public override void _PhysicsProcess(double delta)

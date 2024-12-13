@@ -80,4 +80,13 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
             }
         }
     }
+
+    public void Die()
+    {
+        if (CurrentMasterWeapon is LifeWeapons)
+        {
+            CurrentMasterWeapon.SetCurrentWeapon(null);
+        }
+        QueueFree();
+    }
 }

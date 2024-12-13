@@ -15,7 +15,7 @@ public partial class NPCRonin : NPCAngry
         SetPhysicsProcess(true);
         Player = GetNode<PlayerMain>("../Player");
         MasterWeapon = GetNode<LifeWeapons>("MasterWeapon");
-        Mesh = GetNode<Node3D>("copskeleton");
+        Mesh = GetNode<Node3D>("Ronin");
         NavAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
         VisionRay = GetNode<RayCast3D>("VisionRay");
         MainNode = GetNode<MainNode>("/root/MainNode/");

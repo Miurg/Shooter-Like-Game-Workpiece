@@ -18,9 +18,12 @@ public partial class NPCWeapon : LifeWeapons
     public override void _PhysicsProcess(double delta)
     {
         Attack((float)delta);
-        if (CurrentWeapon.CurrentRounds==0)
+        if (CurrentWeapon != null)
         {
-            Reload();
+            if (CurrentWeapon.CurrentRounds == 0)
+            {
+                Reload();
+            }
         }
     }
 
@@ -33,12 +36,12 @@ public partial class NPCWeapon : LifeWeapons
         }
         Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
         AddChild(newWeapon);
-        weapon.QueueFree();
         newWeapon.Freeze = true;
         newWeapon.Rotation = new Vector3(0, 0, 0);
         newWeapon.Position = new Vector3(0.5f, 1.5f, -0.4f);
         _CurrentWeapon = newWeapon;
         _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
         _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
+        weapon.Die();
     }
 }

@@ -24,16 +24,15 @@ public abstract partial class LifeWeapons : Node3D
         }
 		Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
         AddChild(newWeapon);
-        weapon.QueueFree();
         _CurrentWeapon = newWeapon;
         _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
         _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
+        weapon.Die();
     }
 
     virtual public void DeleteWeaponInHeands()
     {
-        CurrentWeapon.QueueFree();
-        SetCurrentWeapon(null);
+        CurrentWeapon.Die();
     }
 
 

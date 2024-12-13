@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://5ccf5pn5m8jk"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCRonin.cs" id="1_wlw1b"]
-[ext_resource type="PackedScene" uid="uid://cx18da4pifem0" path="res://Meshes/copskeleton.glb" id="2_pcm81"]
+[ext_resource type="PackedScene" uid="uid://cx18da4pifem0" path="res://Meshes/NPC/copskeleton.glb" id="2_pcm81"]
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCWeapon.cs" id="3_8urfl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1e7d"]

@@ -3,18 +3,18 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cp6iesmfayioc"
-path="res://.godot/imported/fatguy.glb-a5e781d90c9a1cfb8a48473879e3bc55.scn"
+uid="uid://cx18da4pifem0"
+path="res://.godot/imported/copskeleton.glb-d546b6c079915fa50e0386d5bf68e215.scn"
 
 [deps]
 
-source_file="res://Meshes/fatguy.glb"
-dest_files=["res://.godot/imported/fatguy.glb-a5e781d90c9a1cfb8a48473879e3bc55.scn"]
+source_file="res://Meshes/NPC/copskeleton.glb"
+dest_files=["res://.godot/imported/copskeleton.glb-d546b6c079915fa50e0386d5bf68e215.scn"]
 
 [params]
 
-nodes/root_type=""
-nodes/root_name=""
+nodes/root_type="Node3D"
+nodes/root_name="NodeForMesh"
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
@@ -33,7 +33,7 @@ animation/import_rest_as_RESET=false
 import_script/path=""
 _subresources={
 "animations": {
-"steps": {
+"Run": {
 "save_to_file/enabled": false,
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "",
@@ -1833,23 +1833,9 @@ _subresources={
 "slices/amount": 0
 }
 },
-"meshes": {
-"fatguy_Cube": {
-"generate/lightmap_uv": 0,
-"generate/lods": 0,
-"generate/shadow_meshes": 0,
-"lods/normal_merge_angle": 60.0,
-"lods/normal_split_angle": 25.0,
-"save_to_file/enabled": true,
-"save_to_file/path": "res://Meshes/fatguy_Cube.res"
-}
-},
 "nodes": {
-"PATH:Vitalya/Skeleton3D": {
+"PATH:skeleton/Skeleton3D": {
 "rest_pose/external_animation_library": null
-},
-"PATH:Vitalya/Skeleton3D/Body": {
-"mesh_instance/cast_shadow": 2
 }
 }
 }

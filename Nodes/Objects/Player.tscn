@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://cek4uotwsepq1"]
 
-[ext_resource type="Script" path="res://Scripts/Player/PlayerMain.cs" id="1_tfta5"]
-[ext_resource type="PackedScene" uid="uid://cp6iesmfayioc" path="res://Meshes/fatguy.glb" id="2_1iigt"]
-[ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.cs" id="3_oakdx"]
-[ext_resource type="Script" path="res://Scripts/Player/PlayerWeapons.cs" id="4_hjgso"]
+[ext_resource type="Script" path="res://Scripts/Objects/Player/PlayerMain.cs" id="1_tfta5"]
+[ext_resource type="PackedScene" uid="uid://cp6iesmfayioc" path="res://Meshes/Player/fatguy.glb" id="2_1iigt"]
+[ext_resource type="Script" path="res://Scripts/Objects/Player/PlayerCamera.cs" id="3_oakdx"]
+[ext_resource type="Script" path="res://Scripts/Objects/Player/PlayerWeapons.cs" id="4_hjgso"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_x6ib1"]
 height = 1.58061

@@ -6,12 +6,20 @@ namespace player
     public partial class PlayerWeapons : LifeWeapons
     {
         PlayerMain PlayerMain;
+        [Signal]
+        public delegate void CurrentSpreadChangeEventHandler (float CurrentSpread);
+
+        [Signal]
+        public delegate void RoundsPocketChangeEventHandler (int RoundsPocket);
+
+        [Signal]
+        public delegate void CurrentRoundsChangeEventHandler (int CurrentRounds);
 
         public override float CurrentSpread { 
             get => base.CurrentSpread;
             set
             {
-                PlayerMain.HUD.SpreadWeapon = value;
+                EmitSignal("CurrentSpreadChange", value);
                 base.CurrentSpread = value; 
             }
         }
@@ -20,7 +28,7 @@ namespace player
             get => base.RoundsPocket; 
             set
             {
-                PlayerMain.HUD.RoundsPocket = value;
+                EmitSignal("RoundsPocketChange", value);
                 base.RoundsPocket = value;
             }
         }
@@ -66,7 +74,7 @@ namespace player
             Attack((float)delta);
             if (CurrentWeapon != null) 
             {
-                PlayerMain.HUD.RoundsCurrent = CurrentWeapon.CurrentRounds;
+                EmitSignal("CurrentRoundsChange", CurrentWeapon.CurrentRounds);
             }
         }
     }

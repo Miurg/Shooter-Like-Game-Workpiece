@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://5ccf5pn5m8jk"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCRonin.cs" id="1_wlw1b"]
+[ext_resource type="PackedScene" uid="uid://cynl7ma6hdv60" path="res://Meshes/MeshesNodes/ronin.tscn" id="3_4jf40"]
 [ext_resource type="Script" path="res://Scripts/Objects/NPC/NPCWeapon.cs" id="3_8urfl"]
-[ext_resource type="PackedScene" uid="uid://h1m5dn7xnpkh" path="res://Meshes/NPC/Ronin.glb" id="3_bndb4"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1e7d"]
 
@@ -33,5 +33,5 @@ target_position = Vector3(0, 0, -6)
 [node name="MasterWeapon" type="Node3D" parent="."]
 script = ExtResource("3_8urfl")
 
-[node name="Ronin" parent="." instance=ExtResource("3_bndb4")]
+[node name="Ronin" parent="." instance=ExtResource("3_4jf40")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

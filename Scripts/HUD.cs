@@ -1,4 +1,5 @@
 using Godot;
+using player;
 using System;
 
 public partial class HUD : CanvasLayer
@@ -14,12 +15,12 @@ public partial class HUD : CanvasLayer
 
 	private float _SpreadWeapon;
 
+	[Export] PlayerWeapons PlayerWeapons;
 
     public float SpreadWeapon { get => _SpreadWeapon;
 			set
 			{
 				_SpreadWeapon = value;
-				SpreadApply();
 			}
 		}
 
@@ -41,9 +42,33 @@ public partial class HUD : CanvasLayer
 
     public override void _Ready()
 	{
+        PlayerWeapons = GetNode<PlayerWeapons>("/root/MainNode/Objects/Player/Weapons");
+		PlayerWeapons.CurrentSpreadChange += UpdateSpread;
+		PlayerWeapons.CurrentRoundsChange += UpdateCurrentRounds;
+        PlayerWeapons.RoundsPocketChange += UpdateRoundsPocket;
         IcondsSelected = GetNode<Control>("IconsSelected");
         _RoundsPocket = GetNode<Label>("HBoxContainer/RoundsPocket");
         _RoundsCurrent = GetNode<Label>("HBoxContainer/RoundsCurrent");
+    }
+
+    public void UpdateRoundsPocket(int value)
+    {
+        RoundsPocket = value;
+
+    }
+
+    public void UpdateCurrentRounds(int value)
+	{
+		RoundsCurrent = value;
+
+    }
+
+	public void UpdateSpread(float spread)
+	{
+		SpreadWeapon = spread;
+        IcondsSelected.Size = new Vector2(_SelectedSizeX * (SpreadWeapon + 1), _SelectedSizeY * (SpreadWeapon + 1));
+        IcondsSelected.Position = new Vector2((_SelectedPositionX + _SelectedSizeX / 2) - (IcondsSelected.Size.X / 2),
+            (_SelectedPositionY + _SelectedSizeY / 2) - (IcondsSelected.Size.Y / 2));
     }
 
 	public void UpdateSelected(int sizeXCurrent, int sizeYCurrent, int positionXCurrent, int positionYCurrent)
@@ -66,14 +91,6 @@ public partial class HUD : CanvasLayer
 	{
 		IcondsSelected.Size = IcondsSelected.Size.Lerp(new Vector2(_SelectedSizeX, _SelectedSizeY), 10 * delta);
 		IcondsSelected.Position = IcondsSelected.Position.Lerp(new Vector2(_SelectedPositionX, _SelectedPositionY), 10 * delta);
-
-    }
-
-	public void SpreadApply()
-	{
-		IcondsSelected.Size = new Vector2(_SelectedSizeX * (SpreadWeapon + 1), _SelectedSizeY * (SpreadWeapon + 1));
-		IcondsSelected.Position = new Vector2((_SelectedPositionX+_SelectedSizeX/2)-(IcondsSelected.Size.X/2),
-			(_SelectedPositionY + _SelectedSizeY / 2) - (IcondsSelected.Size.Y / 2));
 
     }
 

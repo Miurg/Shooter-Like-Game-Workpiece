@@ -103,7 +103,7 @@ namespace player
                 && Math.Abs(Velocity.Z) < MaxMoveSpeed
                 && _PlayerVelocity != new Vector3(0, Velocity.Y, 0))
             {
-                Velocity = Velocity.Lerp(_PlayerVelocity, (float)delta * NormalMoveSpeed);
+                Velocity = Velocity.Lerp(_PlayerVelocity, (float)delta * (NormalMoveSpeed + AdditionalMoveSpeed));
             }
             else
             {

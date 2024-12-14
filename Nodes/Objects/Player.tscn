@@ -14,7 +14,7 @@ collision_layer = 16
 collision_mask = 43
 slide_on_ceiling = false
 script = ExtResource("1_tfta5")
-AdditionalMoveSpeed = 6
+AdditionalMoveSpeed = 1
 MaxMoveSpeed = 10
 
 [node name="fatguy" parent="." instance=ExtResource("2_1iigt")]

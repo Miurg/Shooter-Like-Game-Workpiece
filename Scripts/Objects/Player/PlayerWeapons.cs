@@ -32,9 +32,17 @@ namespace player
                 base.RoundsPocket = value;
             }
         }
-        public override void _Ready()
+        public override async void _Ready()
         {
             PlayerMain = GetNode<PlayerMain>("..");
+            SetProcess(false);
+            SetPhysicsProcess(false);
+            await ToSignal(GetTree(), "physics_frame");
+            await ToSignal(GetTree(), "physics_frame");
+            SetProcess(true);
+            SetPhysicsProcess(true);
+            EmitSignal("CurrentSpreadChange", CurrentSpread);
+            EmitSignal("RoundsPocketChange", RoundsPocket);
         }
 
         public override void SetCurrentWeapon(Weapon weapon)

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbddw3g4jcah0"]
+
+[ext_resource type="Texture2D" uid="uid://d2hcxuvbjivff" path="res://2DContent/Scratch.png" id="1_a5bci"]
+[ext_resource type="PackedScene" uid="uid://dxbtjvix0mfan" path="res://Nodes/Particles/HoleParticles.tscn" id="2_78k5g"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_brktp"]
+resource_local_to_scene = true
+lifetime_randomness = 1.0
+direction = Vector3(0, 0, 0)
+spread = 90.0
+initial_velocity_min = 303.45
+initial_velocity_max = 400.0
+gravity = Vector3(0, -9, 0)
+scale_max = 5.0
+
+[node name="Scratch" type="Sprite3D"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+texture = ExtResource("1_a5bci")
+
+[node name="Hole" parent="." instance=ExtResource("2_78k5g")]
+process_material = SubResource("ParticleProcessMaterial_brktp")

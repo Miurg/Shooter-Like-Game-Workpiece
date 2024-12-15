@@ -8,7 +8,7 @@ public abstract partial class LifeWeapons : Node3D
 	private float _TimeFromLastAtack = 0f;
 	private float _CurrentSpread = 0f;
     [Export] private int _CurrentPocketRounds = 90;
-    [Export] protected int[] PocketRounds = new int[2];
+    [Export] protected int[] PocketRounds = new int[3];
 
     [Signal]
     public delegate void OnAttackEventHandler();

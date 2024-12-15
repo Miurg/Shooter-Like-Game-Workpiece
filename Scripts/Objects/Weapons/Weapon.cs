@@ -9,7 +9,7 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
     protected PackedScene Remains;
     protected PackedScene SoundForNPC;
     protected PackedScene SoundForPlayer;
-    protected PackedScene AtackParticle;
+    protected PackedScene AtackParticle = null;
     protected Node3D ParticlesNode;
     public Life CurrentOwner;
     public LifeWeapons CurrentMasterWeapon;
@@ -40,7 +40,7 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
         if (CurrentOwner != null)
         {
             CurrentRounds -= 1;
-            if (ParticlesNode != null) ParticlesNode.AddChild(AtackParticle.Instantiate());
+            if (AtackParticle != null) ParticlesNode.AddChild(AtackParticle.Instantiate());
             Vector3 spreadVector = new(0, 0, -1);
             if (spread>0)
             {

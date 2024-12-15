@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://d23oakmchgmnf"]
+
+[ext_resource type="AudioStream" uid="uid://cmg8ecg4c67ia" path="res://Sounds/KatanaAttack.mp3" id="1_vhxjm"]
+[ext_resource type="Script" path="res://Scripts/Sounds/AKShootSound.gd" id="2_vpwud"]
+
+[node name="KatanaAttackSound" type="AudioStreamPlayer"]
+stream = ExtResource("1_vhxjm")
+volume_db = -31.71
+script = ExtResource("2_vpwud")

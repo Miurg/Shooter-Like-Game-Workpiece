@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cntvc0u4iq3aa"]
+
+[ext_resource type="AudioStream" uid="uid://cmg8ecg4c67ia" path="res://Sounds/KatanaAttack.mp3" id="1_snj3q"]
+[ext_resource type="Script" path="res://Scripts/Sounds/AKShootSoundNPC.gd" id="2_fmtg8"]
+
+[node name="KatanaAttackSoundNpc" type="AudioStreamPlayer3D"]
+stream = ExtResource("1_snj3q")
+volume_db = -31.71
+script = ExtResource("2_fmtg8")

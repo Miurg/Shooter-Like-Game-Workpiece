@@ -55,9 +55,11 @@ namespace player
 
         public void Recoil()
         {
-            float recoil = (float)new Random().Next((int)((PlayerWeapons.CurrentWeapon.RecoilStrength-1) * 10),(int)(PlayerWeapons.CurrentWeapon.RecoilStrength * 10)) / 10;
-            this.RotateX(Mathf.DegToRad(recoil));
-            GD.Print(recoil);
+            if ((PlayerWeapons.CurrentWeapon.RecoilStrength!=0))
+            {
+                float recoil = (float)new Random().Next((int)((PlayerWeapons.CurrentWeapon.RecoilStrength - 1) * 10), (int)(PlayerWeapons.CurrentWeapon.RecoilStrength * 10)) / 10;
+                this.RotateX(Mathf.DegToRad(recoil));
+            }
         }
 
         public Node3D InstanceWeapon = null;

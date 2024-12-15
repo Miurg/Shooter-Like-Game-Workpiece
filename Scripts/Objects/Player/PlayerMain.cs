@@ -12,6 +12,8 @@ namespace player
         [Export] private int _JumpForce = 10;
         [Export] private int _NumberOfJumps = 1;
 
+        [Signal]
+        public delegate void HPChangeEventHandler(int HP);
 
         public override void _Ready()
         {
@@ -132,7 +134,8 @@ namespace player
 
         public override void ChangeHealth(int value, Life fromWho)
         {
-            GD.Print("Papali");
+            HealthPoint -= value;
+            EmitSignal("HPChange", HealthPoint);
         }
 
         public override void Die()

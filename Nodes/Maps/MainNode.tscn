@@ -214,6 +214,10 @@ size_flags_vertical = 8
 [node name="RoundsCurrent" type="Label" parent="HUD/HBoxContainer"]
 layout_mode = 2
 
+[node name="HP" type="Label" parent="HUD/HBoxContainer"]
+layout_mode = 2
+text = "HP:10"
+
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22786, -0.00618124, -1.25165)
 navigation_mesh = SubResource("NavigationMesh_lh6rd")

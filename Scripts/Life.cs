@@ -9,6 +9,7 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     public const int NormalMaxSpeedDown = 20;
     public const int NormalStopSpeed = 20;
     public const int NormalMoveSpeed = 4;
+    [Export]  public int HealthPoint;
     [Export] protected int AdditionalMoveSpeed;
     [Export] protected int AdditionalGravity;
     [Export] protected int MaxMoveSpeed;
@@ -40,7 +41,6 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     {
         MainNode.CreateRemainsFromWeapon(CollisionObject, PositionOfHole, NormalOfHole, Remains);
     }
-    public int HealthPoint;
 
 
     protected RayCast3D VisionRay;

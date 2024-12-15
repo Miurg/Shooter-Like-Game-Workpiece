@@ -7,6 +7,7 @@ public partial class HUD : CanvasLayer
 	Control IcondsSelected;
 	private Label _RoundsPocket;
 	private Label _RoundsCurrent;
+	private Label _HP;
 
 	private int _SelectedPositionX;
     private int _SelectedPositionY;
@@ -16,6 +17,7 @@ public partial class HUD : CanvasLayer
 	private float _SpreadWeapon;
 
 	[Export] PlayerWeapons PlayerWeapons;
+	[Export] PlayerMain PlayerMain;
 
     public float SpreadWeapon { get => _SpreadWeapon;
 			set
@@ -24,7 +26,8 @@ public partial class HUD : CanvasLayer
 			}
 		}
 
-    public int RoundsPocket { get 
+    public int RoundsPocket { 
+		get 
 		{
             if (int.TryParse(_RoundsPocket.Text, out int result)) return result;
             else return 0;
@@ -40,15 +43,25 @@ public partial class HUD : CanvasLayer
         set => _RoundsCurrent.Text = value.ToString();
     }
 
+    public int HP { 
+		set
+		{
+			_HP.Text = "HP:" + value.ToString();
+		}
+	}
+
     public override void _Ready()
 	{
         PlayerWeapons = GetNode<PlayerWeapons>("/root/MainNode/Objects/Player/Weapons");
 		PlayerWeapons.CurrentSpreadChange += UpdateSpread;
 		PlayerWeapons.CurrentRoundsChange += UpdateCurrentRounds;
         PlayerWeapons.RoundsPocketChange += UpdateRoundsPocket;
+        PlayerMain = GetNode<PlayerMain>("/root/MainNode/Objects/Player");
+        PlayerMain.HPChange += UpdateHP;
         IcondsSelected = GetNode<Control>("IconsSelected");
         _RoundsPocket = GetNode<Label>("HBoxContainer/RoundsPocket");
         _RoundsCurrent = GetNode<Label>("HBoxContainer/RoundsCurrent");
+		_HP = GetNode<Label>("HBoxContainer/HP");
     }
 
     public void UpdateRoundsPocket(int value)
@@ -63,7 +76,13 @@ public partial class HUD : CanvasLayer
 
     }
 
-	public void UpdateSpread(float spread)
+	public void UpdateHP(int value)
+	{
+		HP = value;
+	}
+
+
+    public void UpdateSpread(float spread)
 	{
 		SpreadWeapon = spread;
         IcondsSelected.Size = new Vector2(_SelectedSizeX * (SpreadWeapon + 1), _SelectedSizeY * (SpreadWeapon + 1));

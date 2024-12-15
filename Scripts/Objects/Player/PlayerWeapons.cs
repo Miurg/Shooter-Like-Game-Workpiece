@@ -10,7 +10,7 @@ namespace player
         public delegate void CurrentSpreadChangeEventHandler (float CurrentSpread);
 
         [Signal]
-        public delegate void RoundsPocketChangeEventHandler (int RoundsPocket);
+        public delegate void PocketRoundsChangeEventHandler (int RoundsPocket);
 
         [Signal]
         public delegate void CurrentRoundsChangeEventHandler (int CurrentRounds);
@@ -23,13 +23,13 @@ namespace player
                 base.CurrentSpread = value; 
             }
         }
-        public override int RoundsPocket
+        public override int CurrentPocketRounds
         {
-            get => base.RoundsPocket; 
+            get => base.CurrentPocketRounds; 
             set
             {
-                EmitSignal("RoundsPocketChange", value);
-                base.RoundsPocket = value;
+                EmitSignal("PocketRoundsChange", value);
+                base.CurrentPocketRounds = value;
             }
         }
         public override async void _Ready()
@@ -42,7 +42,7 @@ namespace player
             SetProcess(true);
             SetPhysicsProcess(true);
             EmitSignal("CurrentSpreadChange", CurrentSpread);
-            EmitSignal("RoundsPocketChange", RoundsPocket);
+            EmitSignal("PocketRoundsChange", CurrentPocketRounds);
         }
 
         public override void SetCurrentWeapon(Weapon weapon)
@@ -59,6 +59,7 @@ namespace player
             newWeapon.Rotation = new Vector3(0, 0, 0);
             newWeapon.Position = new Vector3(0.331f, 0, -0.419f);
             newWeapon.Freeze = true;
+            CurrentPocketRounds = PocketRounds[(int)newWeapon.NameOfWeapon];
             _CurrentWeapon = newWeapon;
             _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
             _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
@@ -70,6 +71,7 @@ namespace player
         {
             if (CurrentWeapon != null)
             {
+                PocketRounds[(int)_CurrentWeapon.NameOfWeapon] = CurrentPocketRounds;
                 Weapon newWeapon = ResourceLoader.Load<PackedScene>(CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
                 newWeapon.CurrentRounds = CurrentWeapon.CurrentRounds;
                 PlayerMain.MainPlaceWeapon(newWeapon);

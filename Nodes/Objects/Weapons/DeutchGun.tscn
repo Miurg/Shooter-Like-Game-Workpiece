@@ -1,22 +1,40 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxwywc5wgakru"]
+[gd_scene load_steps=6 format=3 uid="uid://bxwywc5wgakru"]
 
 [ext_resource type="PackedScene" uid="uid://ct36a7n8rpbc6" path="res://Meshes/Weapon/gun.glb" id="1_16y86"]
+[ext_resource type="Script" path="res://Scripts/Objects/Weapons/DeutchGun.cs" id="1_is646"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j3te5"]
+size = Vector3(2.56122, 0.657349, 0.214905)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68yci"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_0bdiw"]
+material = SubResource("StandardMaterial3D_68yci")
+size = Vector3(2.48, 0.755, 0.275)
 
 [node name="DeutchGun" type="RigidBody3D"]
+collision_layer = 8
+collision_mask = 59
+script = ExtResource("1_is646")
+RecoilStrength = 3.0
+RateOfFire = 0.01
+SpreadMin = 1.0
+SpreadSpeedUp = 0.1
+SpreadSpeedDown = 1.0
+_RoundsTotal = 90
+_CurrentRounds = 90
 
 [node name="gun" parent="." instance=ExtResource("1_16y86")]
-transform = Transform3D(0.845784, 0, 0, 0, 0.845784, 0, 0, 0, 0.845784, 0, 0, 0)
+transform = Transform3D(-3.69704e-08, 0, 0.845784, 0, 0.845784, 0, -0.845784, 0, -3.69704e-08, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 shape = SubResource("BoxShape3D_j3te5")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.00887711, 0, 0, 0, -0.0138433, 0, 0, 0, 0.00691543, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0308942, -0.142636, 2.70086e-09)
+visible = false
 mesh = SubResource("BoxMesh_0bdiw")
 
 [node name="Particles" type="Node3D" parent="."]
-transform = Transform3D(0.412417, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.412417, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0546073, -1.40501)

@@ -13,16 +13,18 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
     protected Node3D ParticlesNode;
     public Life CurrentOwner;
     public LifeWeapons CurrentMasterWeapon;
-    public float RateOfFire;
-    public int MaxDistanceForNPC;
-    public int Damage;
-    public string NameOfWeapon;
-    public float SpreadMax;
-    public float SpreadMin;
-    public float SpreadSpeedUp;
-    public float SpreadSpeedDown;
-    protected int _RoundsTotal = 30;
-    protected int _CurrentRounds = 30;
+    public eNameOfWeapon NameOfWeapon;
+    [Export] public float RecoilStrength = 1;
+    [Export] public float RateOfFire = 0.1f;
+    [Export] public int MaxDistanceForNPC = 20;
+    [Export] public int MaxDistanceForPlayer = 100;
+    [Export] public int Damage = 1;
+    [Export] public float SpreadMax = 5;
+    [Export] public float SpreadMin = 0;
+    [Export] public float SpreadSpeedUp = 0.5f;
+    [Export] public float SpreadSpeedDown = 3;
+    [Export] protected int _RoundsTotal = 30;
+    [Export] protected int _CurrentRounds = 30;
 
     public int RoundsTotal { get => _RoundsTotal; set => _RoundsTotal = value; }
     public int CurrentRounds { 
@@ -38,7 +40,7 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
         if (CurrentOwner != null)
         {
             CurrentRounds -= 1;
-            ParticlesNode.AddChild(AtackParticle.Instantiate());
+            if (ParticlesNode != null) ParticlesNode.AddChild(AtackParticle.Instantiate());
             Vector3 spreadVector = new(0, 0, -1);
             if (spread>0)
             {
@@ -55,7 +57,7 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
             if (CurrentOwner.Name == "Player")
             {
                 AddChild(SoundForPlayer.Instantiate());
-                targetOfAtack = CurrentOwner.GetWeaponRay(0b00000000_00000000_00000000_00000011, spreadVector * 100);
+                targetOfAtack = CurrentOwner.GetWeaponRay(0b00000000_00000000_00000000_00000011, spreadVector * MaxDistanceForPlayer);
             }
             else
             {

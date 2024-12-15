@@ -7,12 +7,16 @@ public abstract partial class LifeWeapons : Node3D
 	private bool _CurrentlyAttack;
 	private float _TimeFromLastAtack = 0f;
 	private float _CurrentSpread = 0f;
-	private int _RoundsPocket = 90;
+    [Export] private int _CurrentPocketRounds = 90;
+    [Export] protected int[] PocketRounds = new int[2];
+
+    [Signal]
+    public delegate void OnAttackEventHandler();
 
     public virtual bool CurrentlyAttack { get => _CurrentlyAttack; set => _CurrentlyAttack = value; }
     public virtual float TimeFromLastAtack { get => _TimeFromLastAtack; set => _TimeFromLastAtack = value; }
     public virtual float CurrentSpread { get => _CurrentSpread; set => _CurrentSpread = value; }
-    public virtual int RoundsPocket { get => _RoundsPocket; set => _RoundsPocket = value; }
+    public virtual int CurrentPocketRounds { get => _CurrentPocketRounds; set => _CurrentPocketRounds = value; }
     public virtual Weapon CurrentWeapon { get => _CurrentWeapon;  }
 
     virtual public void SetCurrentWeapon(Weapon weapon)
@@ -45,6 +49,7 @@ public abstract partial class LifeWeapons : Node3D
         {
             if (CurrentlyAttack && TimeFromLastAtack>CurrentWeapon.RateOfFire && CurrentWeapon.CurrentRounds > 0)
             {
+                EmitSignal("OnAttack");
                 CurrentWeapon.Attack(CurrentSpread);
                 TimeFromLastAtack = 0;
                 if (CurrentSpread <= CurrentWeapon.SpreadMax)
@@ -69,15 +74,15 @@ public abstract partial class LifeWeapons : Node3D
     {
         if (CurrentWeapon != null)
         {
-            if (RoundsPocket>CurrentWeapon.RoundsTotal || RoundsPocket-(CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds) >=0)
+            if (CurrentPocketRounds>CurrentWeapon.RoundsTotal || CurrentPocketRounds-(CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds) >=0)
             {
-                RoundsPocket -= CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds;
+                CurrentPocketRounds -= CurrentWeapon.RoundsTotal - CurrentWeapon.CurrentRounds;
                 CurrentWeapon.CurrentRounds = CurrentWeapon.RoundsTotal;
             }
             else
             {
-                CurrentWeapon.CurrentRounds = CurrentWeapon.CurrentRounds + RoundsPocket;
-                RoundsPocket = 0;
+                CurrentWeapon.CurrentRounds = CurrentWeapon.CurrentRounds + CurrentPocketRounds;
+                CurrentPocketRounds = 0;
             }
         }
     }

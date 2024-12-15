@@ -10,7 +10,7 @@ namespace player
     {
         RayCast3D GeneralRay;
         PlayerMain PlayerMain;
-        Node3D Weapons;
+        PlayerWeapons PlayerWeapons;
 
 
         private float _RotationSpeed = 0.1f;
@@ -22,20 +22,22 @@ namespace player
         {
             GeneralRay = GetNode<RayCast3D>("GeneralRay");
             PlayerMain = GetNode<PlayerMain>("..");
-            Weapons = GetNode<Node3D>("../Weapons");
+            PlayerWeapons = GetNode<PlayerWeapons>("../Weapons");
+            PlayerWeapons.OnAttack += Recoil;
             SpaceState = GetWorld3D().DirectSpaceState;
         }
 
         public override void _Process(double delta)
         {
             _RotationVelocity = _CameraInput * _RotationSpeed;
+
             this.RotateX(-Mathf.DegToRad(_RotationVelocity.Y));
             RotationDegrees = RotationDegrees with { X = Mathf.Clamp(RotationDegrees.X, -90, 90) };
 
             PlayerMain.RotateY(-Mathf.DegToRad(_RotationVelocity.X));
-            Weapons.Rotation = Rotation; 
+            PlayerWeapons.Rotation = Rotation; 
+
             _CameraInput = Vector2.Zero;
-            
         }
 
         public override void _Input(InputEvent @event)
@@ -51,6 +53,12 @@ namespace player
             Select();
         }
 
+        public void Recoil()
+        {
+            float recoil = (float)new Random().Next((int)((PlayerWeapons.CurrentWeapon.RecoilStrength-1) * 10),(int)(PlayerWeapons.CurrentWeapon.RecoilStrength * 10)) / 10;
+            this.RotateX(Mathf.DegToRad(recoil));
+            GD.Print(recoil);
+        }
 
         public Node3D InstanceWeapon = null;
         private void Select()

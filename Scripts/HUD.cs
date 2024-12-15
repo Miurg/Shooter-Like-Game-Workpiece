@@ -55,7 +55,7 @@ public partial class HUD : CanvasLayer
         PlayerWeapons = GetNode<PlayerWeapons>("/root/MainNode/Objects/Player/Weapons");
 		PlayerWeapons.CurrentSpreadChange += UpdateSpread;
 		PlayerWeapons.CurrentRoundsChange += UpdateCurrentRounds;
-        PlayerWeapons.RoundsPocketChange += UpdateRoundsPocket;
+        PlayerWeapons.PocketRoundsChange += UpdateRoundsPocket;
         PlayerMain = GetNode<PlayerMain>("/root/MainNode/Objects/Player");
         PlayerMain.HPChange += UpdateHP;
         IcondsSelected = GetNode<Control>("IconsSelected");

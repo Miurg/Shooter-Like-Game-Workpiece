@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=24 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Objects/Player.tscn" id="2_61xqg"]
 [ext_resource type="Script" path="res://Scripts/MainNode.cs" id="2_y8yku"]
@@ -7,12 +7,15 @@
 [ext_resource type="Script" path="res://Scripts/HUD.cs" id="5_o64we"]
 [ext_resource type="PackedScene" uid="uid://cerw4hdnkacus" path="res://Nodes/Objects/Weapons/Katana.tscn" id="6_kpknp"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
-[ext_resource type="Texture2D" uid="uid://h2c26xfqbvji" path="res://2DContent/HUD/HUD-Aim.png" id="8_s6t32"]
+[ext_resource type="Texture2D" uid="uid://ckrbt0w67jydr" path="res://2DContent/HUD/HUD-Aim-Up.png" id="9_fr25a"]
 [ext_resource type="Texture2D" uid="uid://byguv38k0d85e" path="res://2DContent/HUD/HUD-SelectedUpLeft.png" id="9_sxm0b"]
+[ext_resource type="Texture2D" uid="uid://dvibrqibuqrdg" path="res://2DContent/HUD/HUD-Aim-Right.png" id="10_28u6v"]
 [ext_resource type="Texture2D" uid="uid://dyqx8783by6hr" path="res://2DContent/HUD/HUD-SelectedDownRight.png" id="10_eqq20"]
+[ext_resource type="Texture2D" uid="uid://brqaccjnr657u" path="res://2DContent/HUD/HUD-Aim-Left.png" id="11_pwpfx"]
 [ext_resource type="Texture2D" uid="uid://lr4n4lyrq0mu" path="res://2DContent/HUD/HUD-SelectedUpRight.png" id="11_vkndm"]
 [ext_resource type="Texture2D" uid="uid://c0ssn5nvc0sur" path="res://2DContent/HUD/HUD-SelectedDownLeft.png" id="12_7uyuv"]
 [ext_resource type="PackedScene" uid="uid://bxwywc5wgakru" path="res://Nodes/Objects/Weapons/DeutchGun.tscn" id="12_81uk0"]
+[ext_resource type="Texture2D" uid="uid://c7w0oxaueypjk" path="res://2DContent/HUD/HUD-Aim-Down.png" id="12_bolb7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
 
@@ -130,18 +133,73 @@ offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("7_13kh3")
 
-[node name="IconAim" type="VBoxContainer" parent="HUD"]
+[node name="IconsAim" type="Control" parent="HUD"]
+layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = -17.0
+offset_right = 17.0
+offset_bottom = 17.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Aim" type="Sprite2D" parent="HUD/IconAim"]
+[node name="BoxContainer" type="BoxContainer" parent="HUD/IconsAim"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+grow_horizontal = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="HUD/IconsAim/BoxContainer"]
+position = Vector2(0, 17)
 scale = Vector2(5, 5)
-texture = ExtResource("8_s6t32")
+texture = ExtResource("9_fr25a")
+
+[node name="BoxContainer2" type="BoxContainer" parent="HUD/IconsAim"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="HUD/IconsAim/BoxContainer2"]
+position = Vector2(-17, 0)
+scale = Vector2(5, 5)
+texture = ExtResource("10_28u6v")
+
+[node name="BoxContainer3" type="BoxContainer" parent="HUD/IconsAim"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="HUD/IconsAim/BoxContainer3"]
+position = Vector2(17, 0)
+scale = Vector2(5, 5)
+texture = ExtResource("11_pwpfx")
+
+[node name="BoxContainer4" type="BoxContainer" parent="HUD/IconsAim"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="HUD/IconsAim/BoxContainer4"]
+position = Vector2(0, -17)
+scale = Vector2(5, 5)
+texture = ExtResource("12_bolb7")
 
 [node name="IconsSelected" type="Control" parent="HUD"]
 layout_mode = 3

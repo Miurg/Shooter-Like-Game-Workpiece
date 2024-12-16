@@ -4,12 +4,18 @@ using System;
 
 public partial class HUD : CanvasLayer
 {
-	Control IcondsSelected;
+	Control IconsSelected;
+	Control IconsAim;
 	private Label _RoundsPocket;
 	private Label _RoundsCurrent;
 	private Label _HP;
 
-	private int _SelectedPositionX;
+	private int _NormalPositionX;
+	private int _NormalPositionY;
+    private int _NormalSizeX;
+    private int _NormalSizeY;
+
+    private int _SelectedPositionX;
     private int _SelectedPositionY;
 	private int _SelectedSizeX;
 	private int _SelectedSizeY;
@@ -52,13 +58,18 @@ public partial class HUD : CanvasLayer
 
     public override void _Ready()
 	{
+        _NormalPositionX = (int)((GetViewport().GetVisibleRect().Size.X / 2) - 34 / 2);
+		_NormalPositionY = (int)((GetViewport().GetVisibleRect().Size.Y / 2) - 34 / 2);
+		_NormalSizeX = 34;
+		_NormalSizeY = 34;
         PlayerWeapons = GetNode<PlayerWeapons>("/root/MainNode/Objects/Player/Weapons");
 		PlayerWeapons.CurrentSpreadChange += UpdateSpread;
 		PlayerWeapons.CurrentRoundsChange += UpdateCurrentRounds;
         PlayerWeapons.PocketRoundsChange += UpdateRoundsPocket;
         PlayerMain = GetNode<PlayerMain>("/root/MainNode/Objects/Player");
         PlayerMain.HPChange += UpdateHP;
-        IcondsSelected = GetNode<Control>("IconsSelected");
+        IconsAim = GetNode<Control>("IconsAim");
+        IconsSelected = GetNode<Control>("IconsSelected");
         _RoundsPocket = GetNode<Label>("HBoxContainer/RoundsPocket");
         _RoundsCurrent = GetNode<Label>("HBoxContainer/RoundsCurrent");
 		_HP = GetNode<Label>("HBoxContainer/HP");
@@ -85,39 +96,46 @@ public partial class HUD : CanvasLayer
     public void UpdateSpread(float spread)
 	{
 		SpreadWeapon = spread;
-        IcondsSelected.Size = new Vector2(_SelectedSizeX * (SpreadWeapon + 1), _SelectedSizeY * (SpreadWeapon + 1));
-        IcondsSelected.Position = new Vector2((_SelectedPositionX + _SelectedSizeX / 2) - (IcondsSelected.Size.X / 2),
-            (_SelectedPositionY + _SelectedSizeY / 2) - (IcondsSelected.Size.Y / 2));
-    }
+        if (SpreadWeapon > 0)
+		{
+            IconsAim.Size = new Vector2(_NormalSizeX * (spread + 1), _NormalSizeY * (spread + 1));
+            IconsAim.Position = new Vector2((_NormalPositionX + _NormalSizeX / 2) - (IconsAim.Size.X / 2),
+                (_NormalPositionY + _NormalSizeY / 2) - (IconsAim.Size.Y / 2));
+        }
+		else
+		{
+            IconsAim.Size = new Vector2(_NormalSizeX, _NormalSizeY);
+            IconsAim.Position = new Vector2(_NormalPositionX, _NormalPositionY);
+        }
 
+    }
+	public bool NowSelected = false;
 	public void UpdateSelected(int sizeXCurrent, int sizeYCurrent, int positionXCurrent, int positionYCurrent)
 	{
 		_SelectedSizeX = sizeXCurrent;
 		_SelectedSizeY = sizeYCurrent;
 		_SelectedPositionX = positionXCurrent;
 		_SelectedPositionY = positionYCurrent;
-	}
+		NowSelected = true;
+    }
 
-	public void NormalSelected()
+	public void NormalSelected(float delta)
 	{
-		_SelectedSizeX = 34;
-		_SelectedSizeY = 34;
-		_SelectedPositionX = (int)((GetViewport().GetVisibleRect().Size.X/2)- _SelectedSizeX/2);
-		_SelectedPositionY = (int)((GetViewport().GetVisibleRect().Size.Y / 2) - _SelectedSizeY / 2);
-	}
+        IconsSelected.Size = IconsSelected.Size.Lerp(new Vector2(IconsAim.Size.X, IconsAim.Size.Y), 10 * delta);
+        IconsSelected.Position = IconsSelected.Position.Lerp(new Vector2(IconsAim.Position.X, IconsAim.Position.Y), 10 * delta);
+    }
 
 	public void SelectedApply(float delta)
 	{
-		IcondsSelected.Size = IcondsSelected.Size.Lerp(new Vector2(_SelectedSizeX, _SelectedSizeY), 10 * delta);
-		IcondsSelected.Position = IcondsSelected.Position.Lerp(new Vector2(_SelectedPositionX, _SelectedPositionY), 10 * delta);
+		IconsSelected.Size = IconsSelected.Size.Lerp(new Vector2(_SelectedSizeX, _SelectedSizeY), 10 * delta);
+		IconsSelected.Position = IconsSelected.Position.Lerp(new Vector2(_SelectedPositionX, _SelectedPositionY), 10 * delta);
 
     }
 
 	public override void _Process(double delta)
 	{
-		if (SpreadWeapon <= 0)
-		{
-			SelectedApply((float)delta);
-		}
-	}
+		if (NowSelected) SelectedApply((float)delta);
+		else NormalSelected((float)delta);
+
+    }
 }

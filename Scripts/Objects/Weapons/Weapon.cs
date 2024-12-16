@@ -44,12 +44,12 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
             Vector3 spreadVector = new(0, 0, -1);
             if (spread>0)
             {
-                Vector2 dotsForSpread = new Vector2((float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
-                    (float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
+                Vector2 dotsForSpread = new Vector2((float)new Random().Next((int)(-spread * 100), (int)(spread * 100)) / 100,
+                    (float)new Random().Next((int)(-spread * 100), (int)(spread * 100)) / 100);
                 while (Math.Pow(dotsForSpread.X,2)+ Math.Pow(dotsForSpread.Y, 2)>spread)
                 {
-                    dotsForSpread = new Vector2((float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10,
-                        (float)new Random().Next((int)(-spread * 10), (int)(spread * 10)) / 10);
+                    dotsForSpread = new Vector2((float)new Random().Next((int)(-spread * 100), (int)(spread * 100)) / 100,
+                        (float)new Random().Next((int)(-spread * 100), (int)(spread * 100)) / 100);
                 }
                 spreadVector = new Vector3(dotsForSpread.X,dotsForSpread.Y,-10).Normalized();
             }

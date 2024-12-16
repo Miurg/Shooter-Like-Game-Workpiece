@@ -91,7 +91,7 @@ namespace player
             }
             else
             {
-                PlayerMain.HUD.NormalSelected();
+                PlayerMain.HUD.NowSelected = false;
                 InstanceWeapon = null;
             }
         }

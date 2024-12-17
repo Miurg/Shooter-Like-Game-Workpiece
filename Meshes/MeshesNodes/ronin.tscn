@@ -1,19 +1,117 @@
-[gd_scene load_steps=3 format=3 uid="uid://cynl7ma6hdv60"]
+[gd_scene load_steps=20 format=3 uid="uid://cynl7ma6hdv60"]
 
-[ext_resource type="PackedScene" uid="uid://cx4v2apfndhuv" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
+[ext_resource type="PackedScene" uid="uid://bll6eq7lf1atp" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
 
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_u0mir"]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5ous7"]
+animation = &"AttackRun"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_iay3v"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_jwjqb"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_lfx2a"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ft3oi"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2bqk7"]
+animation = &"Die"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yt1f6"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_gmlgm"]
+animation = &"Run"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jgd61"]
+animation = &"Run_Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lmrja"]
+animation = &"Run_Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vtvc1"]
+animation = &"Walk_Back"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_vlwgc"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_gmlgm")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_jgd61")
+blend_point_1/pos = Vector2(1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_lmrja")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_vtvc1")
+blend_point_3/pos = Vector2(0, -1)
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_smq7y"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_geq3h"]
+animation = &"Walk_Right"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_an71a"]
+animation = &"Walk_Left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_8a05q"]
+animation = &"Walk_Back"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_klxxd"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_smq7y")
+blend_point_0/pos = Vector2(0, 1)
+blend_point_1/node = SubResource("AnimationNodeAnimation_geq3h")
+blend_point_1/pos = Vector2(1, 0)
+blend_point_2/node = SubResource("AnimationNodeAnimation_an71a")
+blend_point_2/pos = Vector2(-1, 0)
+blend_point_3/node = SubResource("AnimationNodeAnimation_8a05q")
+blend_point_3/pos = Vector2(0, -1)
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2f0v"]
+graph_offset = Vector2(283.13, -12.1042)
+nodes/AttackRun/node = SubResource("AnimationNodeAnimation_5ous7")
+nodes/AttackRun/position = Vector2(1877.64, 446.861)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_ft3oi")
+nodes/Blend2/position = Vector2(960, 100)
+"nodes/Blend2 2/node" = SubResource("AnimationNodeBlend2_iay3v")
+"nodes/Blend2 2/position" = Vector2(1360, 100)
+"nodes/Blend2 3/node" = SubResource("AnimationNodeBlend2_jwjqb")
+"nodes/Blend2 3/position" = Vector2(2060, 120)
+"nodes/Blend2 4/node" = SubResource("AnimationNodeBlend2_lfx2a")
+"nodes/Blend2 4/position" = Vector2(1700, 120)
+nodes/Die/node = SubResource("AnimationNodeAnimation_2bqk7")
+nodes/Die/position = Vector2(1160, 360)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_yt1f6")
+nodes/Idle/position = Vector2(680, 120)
+nodes/Run/node = SubResource("AnimationNodeBlendSpace2D_vlwgc")
+nodes/Run/position = Vector2(720, 380)
+nodes/Walk/node = SubResource("AnimationNodeBlendSpace2D_klxxd")
+nodes/Walk/position = Vector2(1420, 360)
+nodes/output/position = Vector2(2400, 140)
+node_connections = [&"Blend2", 0, &"Idle", &"Blend2", 1, &"Run", &"Blend2 2", 0, &"Blend2", &"Blend2 2", 1, &"Die", &"Blend2 3", 0, &"Blend2 4", &"Blend2 3", 1, &"AttackRun", &"Blend2 4", 0, &"Blend2 2", &"Blend2 4", 1, &"Walk", &"output", 0, &"Blend2 3"]
 
 [node name="Ronin" instance=ExtResource("1_4ub0d")]
 
 [node name="Skeleton3D" parent="skeleton" index="0"]
+bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
+bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
+bones/5/rotation = Quaternion(7.88861e-31, 7.10716e-15, 1.11022e-16, 1)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
+bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
+bones/9/rotation = Quaternion(-0.198339, -6.79636e-15, -4.72876e-08, 0.980134)
+bones/10/rotation = Quaternion(8.07794e-28, 7.29278e-15, 3.61112e-35, 1)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
-bones/18/rotation = Quaternion(2.66925e-08, 2.66925e-08, -0.707107, 0.707107)
-bones/20/scale = Vector3(1, 1, 1)
-bones/22/rotation = Quaternion(1.22224e-07, 1.53133e-07, 0.707107, 0.707107)
+bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
+bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)
+bones/15/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
+bones/16/rotation = Quaternion(-0.707107, 0, 0, 0.707107)
+bones/19/rotation = Quaternion(0, 0.707107, 0.707107, 0)
+bones/20/rotation = Quaternion(-0.707107, -1.37679e-07, 1.37679e-07, 0.707107)
+bones/21/rotation = Quaternion(3.5527e-15, -3.55271e-14, -8.47034e-22, 1)
+bones/22/rotation = Quaternion(1.22225e-07, 1.53133e-07, 0.707107, 0.707107)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
-tree_root = SubResource("AnimationNodeBlendSpace1D_u0mir")
+tree_root = SubResource("AnimationNodeBlendTree_j2f0v")
 anim_player = NodePath("../AnimationPlayer")
-parameters/blend_position = 0.980597
+parameters/Blend2/blend_amount = 0.0
+"parameters/Blend2 2/blend_amount" = 0.0
+"parameters/Blend2 3/blend_amount" = 0.0
+"parameters/Blend2 4/blend_amount" = 0.0
+parameters/Run/blend_position = Vector2(0, 0)
+parameters/Walk/blend_position = Vector2(0, 0)

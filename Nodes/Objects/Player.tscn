@@ -14,7 +14,6 @@ collision_layer = 16
 collision_mask = 43
 slide_on_ceiling = false
 script = ExtResource("1_tfta5")
-HealthPoint = 10
 AdditionalMoveSpeed = 1
 MaxMoveSpeed = 10
 
@@ -40,4 +39,3 @@ shape = SubResource("CylinderShape3D_x6ib1")
 [node name="Weapons" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.104, -0.185)
 script = ExtResource("4_hjgso")
-PocketRounds = PackedInt32Array(30, 90)

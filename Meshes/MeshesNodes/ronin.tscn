@@ -1,9 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://cynl7ma6hdv60"]
 
-[ext_resource type="PackedScene" uid="uid://bc13m77n4sbec" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
+[ext_resource type="PackedScene" uid="uid://cx4v2apfndhuv" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
 
-[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_he0yw"]
-graph_offset = Vector2(-465.173, -56.2608)
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_u0mir"]
 
 [node name="Ronin" instance=ExtResource("1_4ub0d")]
 
@@ -15,5 +14,6 @@ bones/20/scale = Vector3(1, 1, 1)
 bones/22/rotation = Quaternion(1.22224e-07, 1.53133e-07, 0.707107, 0.707107)
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
-tree_root = SubResource("AnimationNodeBlendTree_he0yw")
+tree_root = SubResource("AnimationNodeBlendSpace1D_u0mir")
 anim_player = NodePath("../AnimationPlayer")
+parameters/blend_position = 0.980597

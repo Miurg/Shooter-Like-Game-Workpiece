@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cynl7ma6hdv60"]
+[gd_scene load_steps=20 format=3 uid="uid://cynl7ma6hdv60"]
 
 [ext_resource type="PackedScene" uid="uid://bll6eq7lf1atp" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
 
@@ -11,15 +11,7 @@ animation = &"AttackRun"
 
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_lfx2a"]
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_wp6g8"]
-
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ft3oi"]
-
-[sub_resource type="GDScript" id="GDScript_ycj51"]
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0310n"]
-animation = &"Die_Idle"
-script = SubResource("GDScript_ycj51")
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2bqk7"]
 animation = &"Die"
@@ -83,12 +75,8 @@ nodes/Blend2/position = Vector2(960, 100)
 "nodes/Blend2 3/position" = Vector2(2060, 100)
 "nodes/Blend2 4/node" = SubResource("AnimationNodeBlend2_lfx2a")
 "nodes/Blend2 4/position" = Vector2(1700, 100)
-"nodes/Blend2 5/node" = SubResource("AnimationNodeBlend2_wp6g8")
-"nodes/Blend2 5/position" = Vector2(2400, 100)
 nodes/Die/node = SubResource("AnimationNodeAnimation_2bqk7")
 nodes/Die/position = Vector2(1900, 320)
-"nodes/Die in Idle/node" = SubResource("AnimationNodeAnimation_0310n")
-"nodes/Die in Idle/position" = Vector2(2240, 320)
 nodes/Idle/node = SubResource("AnimationNodeAnimation_yt1f6")
 nodes/Idle/position = Vector2(740, 100)
 nodes/Run/node = SubResource("AnimationNodeBlendSpace2D_vlwgc")
@@ -96,18 +84,18 @@ nodes/Run/position = Vector2(1120, 320)
 nodes/Walk/node = SubResource("AnimationNodeBlendSpace2D_klxxd")
 nodes/Walk/position = Vector2(680, 300)
 nodes/output/position = Vector2(2720, 140)
-node_connections = [&"Blend2", 0, &"Idle", &"Blend2", 1, &"Walk", &"Blend2 2", 0, &"Blend2", &"Blend2 2", 1, &"Run", &"Blend2 3", 0, &"Blend2 4", &"Blend2 3", 1, &"Die", &"Blend2 4", 0, &"Blend2 2", &"Blend2 4", 1, &"AttackRun", &"Blend2 5", 0, &"Blend2 3", &"Blend2 5", 1, &"Die in Idle", &"output", 0, &"Blend2 5"]
+node_connections = [&"Blend2", 0, &"Idle", &"Blend2", 1, &"Walk", &"Blend2 2", 0, &"Blend2", &"Blend2 2", 1, &"Run", &"Blend2 3", 0, &"Blend2 4", &"Blend2 3", 1, &"Die", &"Blend2 4", 0, &"Blend2 2", &"Blend2 4", 1, &"AttackRun", &"output", 0, &"Blend2 3"]
 
 [node name="Ronin" instance=ExtResource("1_4ub0d")]
 
 [node name="Skeleton3D" parent="skeleton" index="0"]
 bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
 bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
-bones/5/rotation = Quaternion(0.0379775, 0.17589, -0.124414, 0.975778)
+bones/5/rotation = Quaternion(0.0391381, 0.181265, -0.128216, 0.974255)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
 bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
-bones/9/rotation = Quaternion(-0.153679, -0.150501, -0.613993, 0.759438)
-bones/10/rotation = Quaternion(-0.441173, -0.336243, -0.180001, 0.812347)
+bones/9/rotation = Quaternion(-0.151126, -0.15418, -0.629004, 0.746822)
+bones/10/rotation = Quaternion(-0.452467, -0.344851, -0.184609, 0.801418)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
 bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
 bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)
@@ -127,6 +115,5 @@ parameters/Blend2/blend_amount = 0.0
 "parameters/Blend2 2/blend_amount" = 0.0
 "parameters/Blend2 3/blend_amount" = 0.0
 "parameters/Blend2 4/blend_amount" = 0.0
-"parameters/Blend2 5/blend_amount" = 0.0
 parameters/Run/blend_position = Vector2(0, 0)
 parameters/Walk/blend_position = Vector2(0, 0)

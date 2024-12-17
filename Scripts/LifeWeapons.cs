@@ -19,6 +19,7 @@ public abstract partial class LifeWeapons : Node3D
     public virtual int CurrentPocketRounds { get => _CurrentPocketRounds; set => _CurrentPocketRounds = value; }
     public virtual Weapon CurrentWeapon { get => _CurrentWeapon;  }
 
+
     virtual public void SetCurrentWeapon(Weapon weapon)
 	{
         if (weapon == null)
@@ -45,29 +46,32 @@ public abstract partial class LifeWeapons : Node3D
 
     public void Attack(float delta)
     {
+        if (CurrentlyAttack && TimeFromLastAtack>CurrentWeapon.RateOfFire && CurrentWeapon.CurrentRounds > 0)
+        {
+            EmitSignal("OnAttack");
+            CurrentWeapon.Attack(CurrentSpread);
+            TimeFromLastAtack = 0;
+            SpreadUp();
+        }
+        else if (TimeFromLastAtack<=CurrentWeapon.RateOfFire) TimeFromLastAtack += delta;
+    }
+
+    public void SpreadUp()
+    {
+        if (CurrentSpread <= CurrentWeapon.SpreadMax)
+        {
+            CurrentSpread += CurrentWeapon.SpreadSpeedUp;
+        }
+    }
+
+    public void SpreadDown(float delta)
+    {
         if (CurrentWeapon != null)
         {
-            if (CurrentlyAttack && TimeFromLastAtack>CurrentWeapon.RateOfFire && CurrentWeapon.CurrentRounds > 0)
-            {
-                EmitSignal("OnAttack");
-                CurrentWeapon.Attack(CurrentSpread);
-                TimeFromLastAtack = 0;
-                if (CurrentSpread <= CurrentWeapon.SpreadMax)
-                {
-                    CurrentSpread += CurrentWeapon.SpreadSpeedUp;
-                }
-            }
-            else if (TimeFromLastAtack<=CurrentWeapon.RateOfFire) TimeFromLastAtack += delta;
-
-            if (CurrentSpread>CurrentWeapon.SpreadMin)
-            {
-                CurrentSpread -= CurrentWeapon.SpreadSpeedDown*delta;
-            }    
+            if (CurrentSpread > CurrentWeapon.SpreadMin) 
+                CurrentSpread -= CurrentWeapon.SpreadSpeedDown * delta;
         }
-        else if (CurrentSpread!=0)
-        {
-            CurrentSpread = 0;
-        }
+        else if (CurrentSpread != 0) CurrentSpread = 0;
     }
 
     public void Reload()

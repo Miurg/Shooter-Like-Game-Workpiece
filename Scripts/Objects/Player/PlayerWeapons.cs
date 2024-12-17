@@ -81,7 +81,8 @@ namespace player
 
         public override void _PhysicsProcess(double delta)
         {
-            Attack((float)delta);
+            if (_CurrentWeapon != null) Attack((float)delta);
+            SpreadDown((float)delta);
             if (CurrentWeapon != null) 
             {
                 EmitSignal("CurrentRoundsChange", CurrentWeapon.CurrentRounds);

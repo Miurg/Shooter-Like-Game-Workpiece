@@ -11,13 +11,12 @@ transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 0, 0, 0)
 collision_layer = 2
 collision_mask = 35
 script = ExtResource("1_wlw1b")
+TimeUntilUnsee = 5.0
+FieldOfView = 90
+MaxDistanceOfView = 5
+HealthPoint = 5
+AdditionalMoveSpeed = 4
 MaxMoveSpeed = 6
-metadata/healthPoint = 5
-metadata/fieldOfView = 90
-metadata/maxMoveSpeed = 7.0
-metadata/timeUntilUnsee = 5.0
-metadata/maxDistanceOfView = 100
-metadata/additionalMoveSpeed = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.961952, 0)
@@ -32,7 +31,8 @@ target_position = Vector3(0, 0, -6)
 
 [node name="MasterWeapon" type="Node3D" parent="."]
 script = ExtResource("3_8urfl")
-PocketRounds = PackedInt32Array(0, 0)
+_TimeForForceReload = 5.0
+PocketRounds = PackedInt32Array(90, 90, 90)
 
 [node name="Ronin" parent="." instance=ExtResource("3_4jf40")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

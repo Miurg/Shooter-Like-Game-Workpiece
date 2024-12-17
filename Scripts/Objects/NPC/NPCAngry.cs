@@ -9,13 +9,13 @@ public abstract partial class NPCAngry : NPC
     protected Node3D Mesh;
     protected NavigationAgent3D NavAgent;
     protected Vector3 TargetToMove;
-    protected float TimeUntilUnsee;
+    [Export] protected float TimeUntilUnsee;
     protected float CurrentTimeSee;
     protected Vector3 NextPath;
     protected Vector3 PreviousPath;
     protected Vector3 TryingLookTo;
-    protected bool playerVisible = false;
-    protected bool playerVisibleFromTime = false;
+    public bool playerVisible = false;
+    public bool playerVisibleFromTime = false;
 
     protected void Movement(float delta)
     {
@@ -84,5 +84,35 @@ public abstract partial class NPCAngry : NPC
             MainPlaceWeapon(newWeapon);
         }
         this.QueueFree();
+    }
+    public override void _PhysicsProcess(double delta)
+    {
+        if (IsPlayerVisible())
+        {
+            playerVisible = true;
+            CurrentTimeSee = TimeUntilUnsee;
+        }
+        else playerVisible = false;
+
+        if (CurrentTimeSee > 0)
+        {
+            playerVisibleFromTime = true;
+            NavAgent.TargetPosition = Player.Position;
+            CurrentTimeSee -= (float)delta;
+        }
+        else playerVisibleFromTime = false;
+
+        if (!NavAgent.IsNavigationFinished()) NextPath = NavAgent.GetNextPathPosition();
+    }
+
+    public override void _Process(double delta)
+    {
+        SlowLookAt(TryingLookTo, (float)delta);
+        Movement((float)delta);
+        if (!IsOnFloor())
+        {
+            ApplyGravityForce((float)delta);
+        }
+        MoveAndSlide();
     }
 }

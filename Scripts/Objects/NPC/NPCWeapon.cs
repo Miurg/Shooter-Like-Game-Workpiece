@@ -1,10 +1,13 @@
 using Godot;
+using player;
 using System;
 
 public partial class NPCWeapon : LifeWeapons
 {
+    NPCAngry NPCMain;
     public override async void _Ready()
     {
+        NPCMain = GetNode<NPCAngry>("..");
         SetProcess(false);
         SetPhysicsProcess(false); 
         await ToSignal(GetTree(), "physics_frame");
@@ -15,16 +18,27 @@ public partial class NPCWeapon : LifeWeapons
         SetCurrentWeapon(newWeapon);
     }
 
+    [Export] private float _TimeForForceReload;
+    private float _CurrentTimeForForceReload = 0;
     public override void _PhysicsProcess(double delta)
     {
-        Attack((float)delta);
-        if (CurrentWeapon != null)
+        if (_CurrentWeapon != null)
         {
+            Attack((float)delta);
+            if (_CurrentTimeForForceReload >= _TimeForForceReload)
+            {
+                Reload();
+            }
             if (CurrentWeapon.CurrentRounds == 0)
             {
                 Reload();
             }
+        } 
+        if (NPCMain.playerVisible == false && _CurrentTimeForForceReload<_TimeForForceReload)
+        {
+            _CurrentTimeForForceReload += (float)delta;
         }
+        SpreadDown((float)delta);
     }
 
     override public void SetCurrentWeapon(Weapon weapon)

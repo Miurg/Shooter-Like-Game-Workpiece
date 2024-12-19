@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://cynl7ma6hdv60"]
+[gd_scene load_steps=21 format=3 uid="uid://cynl7ma6hdv60"]
 
 [ext_resource type="PackedScene" uid="uid://bll6eq7lf1atp" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
+[ext_resource type="Script" path="res://Meshes/MeshesNodes/ronin.gd" id="2_vr1b8"]
 
 [sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_lfx2a"]
 
@@ -64,11 +65,11 @@ blend_point_3/node = SubResource("AnimationNodeAnimation_8a05q")
 blend_point_3/pos = Vector2(0, -1)
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2f0v"]
-graph_offset = Vector2(301.849, -37.8488)
+graph_offset = Vector2(422.386, -27.1797)
 "nodes/ Attack Run/node" = SubResource("AnimationNodeBlend2_lfx2a")
 "nodes/ Attack Run/position" = Vector2(1700, 100)
-"nodes/ Run Blend/node" = SubResource("AnimationNodeBlend2_iay3v")
-"nodes/ Run Blend/position" = Vector2(1340, 100)
+"nodes/ Run/node" = SubResource("AnimationNodeBlend2_iay3v")
+"nodes/ Run/position" = Vector2(1340, 100)
 nodes/AttackRun/node = SubResource("AnimationNodeAnimation_5ous7")
 nodes/AttackRun/position = Vector2(1520, 340)
 nodes/Die/node = SubResource("AnimationNodeAnimation_2bqk7")
@@ -77,25 +78,25 @@ nodes/Die/position = Vector2(1880, 340)
 "nodes/Die /position" = Vector2(2060, 100)
 nodes/Idle/node = SubResource("AnimationNodeAnimation_yt1f6")
 nodes/Idle/position = Vector2(720, 100)
-nodes/Run/node = SubResource("AnimationNodeBlendSpace2D_vlwgc")
-nodes/Run/position = Vector2(1120, 340)
-nodes/Walk/node = SubResource("AnimationNodeBlendSpace2D_klxxd")
-nodes/Walk/position = Vector2(680, 340)
-"nodes/Walk Blend/node" = SubResource("AnimationNodeBlend2_ft3oi")
-"nodes/Walk Blend/position" = Vector2(980, 100)
+nodes/RunAnim/node = SubResource("AnimationNodeBlendSpace2D_vlwgc")
+nodes/RunAnim/position = Vector2(1120, 340)
+nodes/Walk/node = SubResource("AnimationNodeBlend2_ft3oi")
+nodes/Walk/position = Vector2(980, 100)
+nodes/WalkAnim/node = SubResource("AnimationNodeBlendSpace2D_klxxd")
+nodes/WalkAnim/position = Vector2(680, 340)
 nodes/output/position = Vector2(2480, 120)
-node_connections = [&" Attack Run", 0, &" Run Blend", &" Attack Run", 1, &"AttackRun", &" Run Blend", 0, &"Walk Blend", &" Run Blend", 1, &"Run", &"Die ", 0, &" Attack Run", &"Die ", 1, &"Die", &"Walk Blend", 0, &"Idle", &"Walk Blend", 1, &"Walk", &"output", 0, &"Die "]
+node_connections = [&" Attack Run", 0, &" Run", &" Attack Run", 1, &"AttackRun", &" Run", 0, &"Walk", &" Run", 1, &"RunAnim", &"Die ", 0, &" Attack Run", &"Die ", 1, &"Die", &"Walk", 0, &"Idle", &"Walk", 1, &"WalkAnim", &"output", 0, &"Die "]
 
 [node name="Ronin" instance=ExtResource("1_4ub0d")]
+script = ExtResource("2_vr1b8")
 
 [node name="Skeleton3D" parent="skeleton" index="0"]
-bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
+bones/1/rotation = Quaternion(0.00710747, 0, 0, 0.999975)
 bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
-bones/5/rotation = Quaternion(0.0036922, 0.0171001, -0.0120956, 0.999774)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
 bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
-bones/9/rotation = Quaternion(-0.197953, -0.0148449, -0.0605624, 0.978226)
-bones/10/rotation = Quaternion(-0.0433973, -0.0330755, -0.0177063, 0.998353)
+bones/9/rotation = Quaternion(-0.198339, 1.04211e-14, -4.72876e-08, 0.980134)
+bones/10/rotation = Quaternion(9.31323e-10, -3.51108e-15, 2.22045e-16, 1)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
 bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
 bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)
@@ -112,8 +113,8 @@ bones/22/rotation = Quaternion(1.22225e-07, 1.53133e-07, 0.707107, 0.707107)
 tree_root = SubResource("AnimationNodeBlendTree_j2f0v")
 anim_player = NodePath("../AnimationPlayer")
 "parameters/ Attack Run/blend_amount" = 0.0
-"parameters/ Run Blend/blend_amount" = 0.0
+"parameters/ Run/blend_amount" = 0.0
 "parameters/Die /blend_amount" = 0.0
-parameters/Run/blend_position = Vector2(0, 0)
-parameters/Walk/blend_position = Vector2(0, 0)
-"parameters/Walk Blend/blend_amount" = 0.0
+parameters/RunAnim/blend_position = Vector2(0, 0)
+parameters/Walk/blend_amount = 0
+parameters/WalkAnim/blend_position = Vector2(0, 0)

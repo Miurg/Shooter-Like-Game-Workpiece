@@ -3,17 +3,17 @@
 [ext_resource type="PackedScene" uid="uid://bll6eq7lf1atp" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
 [ext_resource type="Script" path="res://Meshes/MeshesNodes/ronin.gd" id="2_vr1b8"]
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_lfx2a"]
-
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_iay3v"]
-
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5ous7"]
 animation = &"AttackRun"
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_jwjqb"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_lfx2a"]
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2bqk7"]
 animation = &"Die"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_jwjqb"]
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yt1f6"]
 animation = &"Idle"
@@ -40,7 +40,8 @@ blend_point_2/pos = Vector2(-1, 0)
 blend_point_3/node = SubResource("AnimationNodeAnimation_vtvc1")
 blend_point_3/pos = Vector2(0, -1)
 
-[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ft3oi"]
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_iay3v"]
+sync = true
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_smq7y"]
 animation = &"Walk"
@@ -64,28 +65,31 @@ blend_point_2/pos = Vector2(-1, 0)
 blend_point_3/node = SubResource("AnimationNodeAnimation_8a05q")
 blend_point_3/pos = Vector2(0, -1)
 
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_ft3oi"]
+sync = true
+
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2f0v"]
-graph_offset = Vector2(711.527, 83.62)
-"nodes/ AttackRun/node" = SubResource("AnimationNodeBlend2_lfx2a")
-"nodes/ AttackRun/position" = Vector2(1700, 100)
-"nodes/ Run/node" = SubResource("AnimationNodeBlend2_iay3v")
-"nodes/ Run/position" = Vector2(1340, 100)
-nodes/AttackRun/node = SubResource("AnimationNodeAnimation_5ous7")
-nodes/AttackRun/position = Vector2(1520, 340)
+graph_offset = Vector2(346.13, 41.4711)
+nodes/Attack/node = SubResource("AnimationNodeAnimation_5ous7")
+nodes/Attack/position = Vector2(1520, 340)
+nodes/AttackRunBlend/node = SubResource("AnimationNodeBlend2_lfx2a")
+nodes/AttackRunBlend/position = Vector2(1700, 100)
 nodes/Die/node = SubResource("AnimationNodeAnimation_2bqk7")
 nodes/Die/position = Vector2(1880, 340)
-"nodes/Die /node" = SubResource("AnimationNodeBlend2_jwjqb")
-"nodes/Die /position" = Vector2(2060, 100)
+nodes/DieBlend/node = SubResource("AnimationNodeBlend2_jwjqb")
+nodes/DieBlend/position = Vector2(2060, 100)
 nodes/Idle/node = SubResource("AnimationNodeAnimation_yt1f6")
 nodes/Idle/position = Vector2(720, 100)
-nodes/RunAnim/node = SubResource("AnimationNodeBlendSpace2D_vlwgc")
-nodes/RunAnim/position = Vector2(1120, 340)
-nodes/Walk/node = SubResource("AnimationNodeBlend2_ft3oi")
-nodes/Walk/position = Vector2(980, 100)
-nodes/WalkAnim/node = SubResource("AnimationNodeBlendSpace2D_klxxd")
-nodes/WalkAnim/position = Vector2(720, 340)
+nodes/Run/node = SubResource("AnimationNodeBlendSpace2D_vlwgc")
+nodes/Run/position = Vector2(1120, 340)
+nodes/RunBlend/node = SubResource("AnimationNodeBlend2_iay3v")
+nodes/RunBlend/position = Vector2(1340, 100)
+nodes/Walk/node = SubResource("AnimationNodeBlendSpace2D_klxxd")
+nodes/Walk/position = Vector2(720, 340)
+nodes/WalkBlend/node = SubResource("AnimationNodeBlend2_ft3oi")
+nodes/WalkBlend/position = Vector2(980, 100)
 nodes/output/position = Vector2(2380, 120)
-node_connections = [&" AttackRun", 0, &" Run", &" AttackRun", 1, &"AttackRun", &" Run", 0, &"Walk", &" Run", 1, &"RunAnim", &"Die ", 0, &" AttackRun", &"Die ", 1, &"Die", &"Walk", 0, &"Idle", &"Walk", 1, &"WalkAnim", &"output", 0, &"Die "]
+node_connections = [&"AttackRunBlend", 0, &"RunBlend", &"AttackRunBlend", 1, &"Attack", &"DieBlend", 0, &"AttackRunBlend", &"DieBlend", 1, &"Die", &"RunBlend", 0, &"WalkBlend", &"RunBlend", 1, &"Run", &"WalkBlend", 0, &"Idle", &"WalkBlend", 1, &"Walk", &"output", 0, &"DieBlend"]
 
 [node name="Ronin" instance=ExtResource("1_4ub0d")]
 script = ExtResource("2_vr1b8")
@@ -93,11 +97,11 @@ script = ExtResource("2_vr1b8")
 [node name="Skeleton3D" parent="skeleton" index="0"]
 bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
 bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
-bones/5/rotation = Quaternion(0.0391381, 0.181265, -0.128216, 0.974255)
+bones/5/rotation = Quaternion(0.0230794, 0.10689, -0.0756077, 0.991123)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
 bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
-bones/9/rotation = Quaternion(-0.151126, -0.15418, -0.629004, 0.746822)
-bones/10/rotation = Quaternion(-0.452467, -0.344851, -0.184609, 0.801418)
+bones/9/rotation = Quaternion(-0.181692, -0.0954702, -0.389487, 0.897872)
+bones/10/rotation = Quaternion(-0.277523, -0.211516, -0.113231, 0.93028)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
 bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
 bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)
@@ -113,9 +117,9 @@ bones/22/rotation = Quaternion(1.22225e-07, 1.53133e-07, 0.707107, 0.707107)
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource("AnimationNodeBlendTree_j2f0v")
 anim_player = NodePath("../AnimationPlayer")
-"parameters/ AttackRun/blend_amount" = 0.0
-"parameters/ Run/blend_amount" = 0.0
-"parameters/Die /blend_amount" = 0.0
-parameters/RunAnim/blend_position = Vector2(0, 0)
-parameters/Walk/blend_amount = 0
-parameters/WalkAnim/blend_position = Vector2(0, 0)
+parameters/AttackRunBlend/blend_amount = 0
+parameters/DieBlend/blend_amount = 0.0
+parameters/Run/blend_position = Vector2(0, 0)
+parameters/RunBlend/blend_amount = 0.0
+parameters/Walk/blend_position = Vector2(0, 0)
+parameters/WalkBlend/blend_amount = 0.0

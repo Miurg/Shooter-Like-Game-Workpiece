@@ -1,11 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=25 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Objects/Player.tscn" id="2_61xqg"]
 [ext_resource type="Script" path="res://Scripts/MainNode.cs" id="2_y8yku"]
 [ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/Weapons/AK.tscn" id="3_xsu1f"]
 [ext_resource type="PackedScene" uid="uid://5ccf5pn5m8jk" path="res://Nodes/Objects/NPC/Entity.tscn" id="5_e81lh"]
 [ext_resource type="Script" path="res://Scripts/HUD.cs" id="5_o64we"]
-[ext_resource type="PackedScene" path="res://Nodes/Objects/Weapons/Katana.tscn" id="6_kpknp"]
+[ext_resource type="PackedScene" uid="uid://cerw4hdnkacus" path="res://Nodes/Objects/Weapons/Katana.tscn" id="6_kpknp"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
 [ext_resource type="Texture2D" uid="uid://ckrbt0w67jydr" path="res://2DContent/HUD/HUD-Aim-Up.png" id="9_fr25a"]
 [ext_resource type="Texture2D" uid="uid://byguv38k0d85e" path="res://2DContent/HUD/HUD-SelectedUpLeft.png" id="9_sxm0b"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://c0ssn5nvc0sur" path="res://2DContent/HUD/HUD-SelectedDownLeft.png" id="12_7uyuv"]
 [ext_resource type="PackedScene" uid="uid://bxwywc5wgakru" path="res://Nodes/Objects/Weapons/DeutchGun.tscn" id="12_81uk0"]
 [ext_resource type="Texture2D" uid="uid://c7w0oxaueypjk" path="res://2DContent/HUD/HUD-Aim-Down.png" id="12_bolb7"]
+[ext_resource type="Texture2D" uid="uid://00misl1kbvh7" path="res://2DContent/Hole.png" id="17_t4uv2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
 
@@ -115,9 +116,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0443001, 1.52473, -0.14565
 
 [node name="Katana" parent="Objects" instance=ExtResource("6_kpknp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5871, 1.02701, -2.36233)
-
-[node name="Entity8" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, -6.42241, 0.493818, 8.22879)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.743343, 0.66891, 0, -0.66891, 0.743343, 0, 0, 0)
@@ -288,6 +286,11 @@ layout_mode = 2
 [node name="HP" type="Label" parent="HUD/HBoxContainer"]
 layout_mode = 2
 text = "HP:10"
+
+[node name="Hole" type="Sprite2D" parent="HUD"]
+position = Vector2(1034, 471)
+scale = Vector2(0.0120882, 0.0127245)
+texture = ExtResource("17_t4uv2")
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22786, -0.00618124, -1.25165)

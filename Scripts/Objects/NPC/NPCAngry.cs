@@ -19,13 +19,13 @@ public abstract partial class NPCAngry : NPC
 
     protected void Movement(float delta)
     {
-        if ((MasterWeapon.CurrentWeapon != null) && (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) && IsPlayerVisible())
+        if ((MasterWeapon.CurrentWeapon != null) && (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) && playerVisible)
         {
             MasterWeapon.CurrentlyAttack = true;
             Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
             LookAt(Player.Position);
         }
-        else if (!NavAgent.IsNavigationFinished() || IsPlayerVisible())
+        else if (!NavAgent.IsNavigationFinished() || playerVisible)
         {
             MasterWeapon.CurrentlyAttack = false;
             Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed, delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };

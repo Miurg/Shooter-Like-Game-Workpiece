@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://i4rst45eqxrr" path="res://Nodes/Objects/Weapons/AK.tscn" id="3_xsu1f"]
 [ext_resource type="PackedScene" uid="uid://5ccf5pn5m8jk" path="res://Nodes/Objects/NPC/Entity.tscn" id="5_e81lh"]
 [ext_resource type="Script" path="res://Scripts/HUD.cs" id="5_o64we"]
-[ext_resource type="PackedScene" path="res://Nodes/Objects/Weapons/Katana.tscn" id="6_kpknp"]
+[ext_resource type="PackedScene" uid="uid://cerw4hdnkacus" path="res://Nodes/Objects/Weapons/Katana.tscn" id="6_kpknp"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
 [ext_resource type="Texture2D" uid="uid://ckrbt0w67jydr" path="res://2DContent/HUD/HUD-Aim-Up.png" id="9_fr25a"]
 [ext_resource type="Texture2D" uid="uid://byguv38k0d85e" path="res://2DContent/HUD/HUD-SelectedUpLeft.png" id="9_sxm0b"]
@@ -90,6 +90,7 @@ skeleton = NodePath("../../../NavigationRegion3D/Map")
 
 [node name="Entity" parent="Objects" instance=ExtResource("5_e81lh")]
 transform = Transform3D(0.486469, 0, 0.87369, 0, 0.999993, 0, -0.87369, 0, 0.486469, 4.99568, 0.567, 2.78159)
+TimeUntilUnsee = 10.0
 
 [node name="Entity2" parent="Objects" instance=ExtResource("5_e81lh")]
 transform = Transform3D(0.0341144, 0, -0.999411, 0, 0.999993, 0, 0.999411, 0, 0.0341144, 8.14049, 0.5, -3.57182)
@@ -120,8 +121,7 @@ transform = Transform3D(1, 0, 0, 0, 0.743343, 0.66891, 0, -0.66891, 0.743343, 0,
 light_bake_mode = 1
 shadow_enabled = true
 shadow_bias = 0.01
-shadow_blur = 1.5
-directional_shadow_split_2 = 0.24
+shadow_blur = 1.197
 directional_shadow_blend_splits = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

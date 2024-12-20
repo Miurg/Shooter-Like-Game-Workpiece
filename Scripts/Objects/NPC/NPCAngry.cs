@@ -2,6 +2,7 @@ using Godot;
 using Godot.Collections;
 using player;
 using System;
+using System.Security;
 
 public abstract partial class NPCAngry : NPC
 {
@@ -27,6 +28,7 @@ public abstract partial class NPCAngry : NPC
         }
         else if (!NavAgent.IsNavigationFinished() || playerVisible)
         {
+            myGDScriptNode.Set("curAnim", 2);
             MasterWeapon.CurrentlyAttack = false;
             Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed, delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
             Vector3 newLook = new Vector3(NextPath.X,Position.Y, NextPath.Z);
@@ -37,6 +39,7 @@ public abstract partial class NPCAngry : NPC
         }
         else
         {
+            myGDScriptNode.Set("curAnim", 0);
             Velocity = Velocity.Lerp(new Vector3(0,Velocity.Y,0), delta * NormalStopSpeed);
         }
     }

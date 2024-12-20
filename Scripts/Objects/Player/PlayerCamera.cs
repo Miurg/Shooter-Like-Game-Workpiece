@@ -95,7 +95,6 @@ namespace player
                 InstanceWeapon = null;
             }
         }
-
         public Dictionary RayFromCamera(uint CollisionMask,Vector3 NewRayTarget)
         {
             Vector3 rayStart = ProjectRayOrigin(GetViewport().GetVisibleRect().Size / 2);

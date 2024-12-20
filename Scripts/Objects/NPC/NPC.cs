@@ -8,8 +8,8 @@ public abstract partial class NPC : Life
     [Export] protected int FieldOfView;
     [Export]  protected int MaxDistanceOfView;
     float RotationSpeed = (float)Math.PI;
-
-
+    protected GDScript myGDScript = GD.Load<GDScript>("res://Meshes/MeshesNodes/ronin.gd");
+    protected GodotObject myGDScriptNode;
     public bool IsPlayerVisible()
     {
         if (Position.DistanceTo(Player.Position)<MaxDistanceOfView)

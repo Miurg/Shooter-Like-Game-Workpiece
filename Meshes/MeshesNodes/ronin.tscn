@@ -69,7 +69,6 @@ blend_point_3/pos = Vector2(0, -1)
 sync = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2f0v"]
-graph_offset = Vector2(346.13, 41.4711)
 nodes/Attack/node = SubResource("AnimationNodeAnimation_5ous7")
 nodes/Attack/position = Vector2(1520, 340)
 nodes/AttackRunBlend/node = SubResource("AnimationNodeBlend2_lfx2a")

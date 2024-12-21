@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/HUD.cs" id="5_o64we"]
 [ext_resource type="PackedScene" uid="uid://cerw4hdnkacus" path="res://Nodes/Objects/Weapons/Katana.tscn" id="6_kpknp"]
 [ext_resource type="Script" path="res://Scripts/fps.gd" id="7_13kh3"]
+[ext_resource type="PackedScene" uid="uid://bcsm1jd3x6o8p" path="res://Nodes/Objects/Obstacles/Door.tscn" id="7_33s5d"]
 [ext_resource type="Texture2D" uid="uid://ckrbt0w67jydr" path="res://2DContent/HUD/HUD-Aim-Up.png" id="9_fr25a"]
 [ext_resource type="Texture2D" uid="uid://byguv38k0d85e" path="res://2DContent/HUD/HUD-SelectedUpLeft.png" id="9_sxm0b"]
 [ext_resource type="Texture2D" uid="uid://dvibrqibuqrdg" path="res://2DContent/HUD/HUD-Aim-Right.png" id="10_28u6v"]
@@ -16,7 +17,6 @@
 [ext_resource type="Texture2D" uid="uid://c0ssn5nvc0sur" path="res://2DContent/HUD/HUD-SelectedDownLeft.png" id="12_7uyuv"]
 [ext_resource type="PackedScene" uid="uid://bxwywc5wgakru" path="res://Nodes/Objects/Weapons/DeutchGun.tscn" id="12_81uk0"]
 [ext_resource type="Texture2D" uid="uid://c7w0oxaueypjk" path="res://2DContent/HUD/HUD-Aim-Down.png" id="12_bolb7"]
-[ext_resource type="Texture2D" uid="uid://00misl1kbvh7" path="res://2DContent/Hole.png" id="17_t4uv2"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
 
@@ -49,11 +49,6 @@ script = ExtResource("2_y8yku")
 [node name="Objects" type="Node" parent="."]
 
 [node name="AllBulletsAndHoles" type="Node" parent="Objects"]
-
-[node name="Player" parent="Objects" instance=ExtResource("2_61xqg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98348, 3.44008, 2.575)
-collision_mask = 33
-platform_on_leave = 2
 
 [node name="AK" parent="Objects" instance=ExtResource("3_xsu1f")]
 transform = Transform3D(0.988504, 0.151192, 0, -0.151192, 0.988504, 0, 0, 0, 1, 2.95104, 3.13129, -0.164835)
@@ -89,33 +84,42 @@ shape = SubResource("BoxShape3D_04f5y")
 mesh = SubResource("BoxMesh_bm2qy")
 skeleton = NodePath("../../../NavigationRegion3D/Map")
 
-[node name="Entity" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(0.486469, 0, 0.87369, 0, 0.999993, 0, -0.87369, 0, 0.486469, 4.99568, 0.567, 2.78159)
-TimeUntilUnsee = 10.0
-
-[node name="Entity2" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(0.0341144, 0, -0.999411, 0, 0.999993, 0, 0.999411, 0, 0.0341144, 8.14049, 0.5, -3.57182)
-
-[node name="Entity3" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(-0.0510109, 0, -0.998691, 0, 0.999993, 0, 0.998691, 0, -0.0510109, 9.39922, 0.5, -8.23538)
-
-[node name="Entity4" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 13.0951, 0.5, -7.4345)
-
-[node name="Entity5" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 9.75459, 0.5, -3.57182)
-
-[node name="Entity6" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 10.9864, 0.5, -8.23538)
-
-[node name="Entity7" parent="Objects" instance=ExtResource("5_e81lh")]
-transform = Transform3D(-0.000209493, 0, -0.999993, 0, 0.999993, 0, 0.999993, 0, -0.000209493, -2.04525, 0.5, 11.0657)
-
 [node name="DeutchGun" parent="Objects" instance=ExtResource("12_81uk0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0443001, 1.52473, -0.145652)
 
 [node name="Katana" parent="Objects" instance=ExtResource("6_kpknp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5871, 1.02701, -2.36233)
+
+[node name="NPC and Player" type="Node3D" parent="Objects"]
+
+[node name="Player" parent="Objects/NPC and Player" instance=ExtResource("2_61xqg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98348, 3.44008, 2.575)
+collision_mask = 37
+platform_on_leave = 2
+
+[node name="Entity" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(0.486469, 0, 0.87369, 0, 0.999993, 0, -0.87369, 0, 0.486469, 4.99568, 0.567, 2.78159)
+TimeUntilUnsee = 10.0
+
+[node name="Entity2" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(0.0341144, 0, -0.999411, 0, 0.999993, 0, 0.999411, 0, 0.0341144, 8.14049, 0.5, -3.57182)
+
+[node name="Entity3" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(-0.0510109, 0, -0.998691, 0, 0.999993, 0, 0.998691, 0, -0.0510109, 9.39922, 0.5, -8.23538)
+
+[node name="Entity4" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 13.0951, 0.5, -7.4345)
+
+[node name="Entity5" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 9.75459, 0.5, -3.57182)
+
+[node name="Entity6" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(0.999993, 0, 0, 0, 0.999993, 0, 0, 0, 0.999993, 10.9864, 0.5, -8.23538)
+
+[node name="Entity7" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+transform = Transform3D(-0.000209493, 0, -0.999993, 0, 0.999993, 0, 0.999993, 0, -0.000209493, -2.04525, 0.5, 11.0657)
+
+[node name="Obstacles" type="Node3D" parent="Objects"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.743343, 0.66891, 0, -0.66891, 0.743343, 0, 0, 0)
@@ -287,11 +291,6 @@ layout_mode = 2
 layout_mode = 2
 text = "HP:10"
 
-[node name="Hole" type="Sprite2D" parent="HUD"]
-position = Vector2(1034, 471)
-scale = Vector2(0.0120882, 0.0127245)
-texture = ExtResource("17_t4uv2")
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22786, -0.00618124, -1.25165)
 navigation_mesh = SubResource("NavigationMesh_lh6rd")
@@ -354,5 +353,19 @@ mesh = SubResource("BoxMesh_bm2qy")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Map/MeshInstance3D6/StaticBody3D"]
 shape = SubResource("BoxShape3D_04f5y")
 
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="NavigationRegion3D/Map"]
+transform = Transform3D(-8.93427, 0, 0.532788, 0, 3.37854, 0, -5.62491, 0, -0.846249, -19.1709, 2.13658, 14.5043)
+mesh = SubResource("BoxMesh_bm2qy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="NavigationRegion3D/Map/MeshInstance3D7"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Map/MeshInstance3D7/StaticBody3D"]
+shape = SubResource("BoxShape3D_04f5y")
+
+[node name="Door" parent="NavigationRegion3D/Map" instance=ExtResource("7_33s5d")]
+transform = Transform3D(-0.538155, 0.00601667, -0.842825, 0.0076307, 0.999968, 0.00226617, 0.842811, -0.0052118, -0.538184, -19.4336, 0.50291, 12.5421)
+collision_layer = 4
+SpeedOpening = 100.0
+
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.9725, 1.68425, 3.00943)
+transform = Transform3D(-0.402124, 0, 0.915585, 0, 1, 0, -0.915585, 0, -0.402124, -16.1955, 1.68425, 10.5912)

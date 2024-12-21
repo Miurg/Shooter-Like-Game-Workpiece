@@ -29,8 +29,14 @@ script = ExtResource("3_oakdx")
 
 [node name="GeneralRay" type="RayCast3D" parent="PlayerCameraMain"]
 target_position = Vector3(0, 0, -2)
-collision_mask = 8
+collision_mask = 4
 debug_shape_thickness = 5
+
+[node name="WeaponRay" type="RayCast3D" parent="PlayerCameraMain"]
+target_position = Vector3(0, 0, -2)
+collision_mask = 8
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.748391, 0)

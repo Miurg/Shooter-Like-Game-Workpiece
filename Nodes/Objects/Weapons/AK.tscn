@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://i4rst45eqxrr"]
+[gd_scene load_steps=7 format=3 uid="uid://i4rst45eqxrr"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Weapons/AK.cs" id="1_50nk6"]
 [ext_resource type="PackedScene" uid="uid://26fp8tri0e1t" path="res://Meshes/Weapon/AK47.glb" id="1_befwx"]
@@ -13,6 +13,8 @@ no_depth_test = true
 lightmap_size_hint = Vector2i(9, 15)
 material = SubResource("StandardMaterial3D_8djek")
 size = Vector3(0.04, 0.34, 1.155)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_78pm2"]
 
 [node name="AK" type="RigidBody3D"]
 collision_layer = 8
@@ -34,5 +36,13 @@ mesh = SubResource("BoxMesh_a846g")
 
 [node name="Particles" type="Node3D" parent="."]
 transform = Transform3D(0.265, 0, 0, 0, 0.265, 0, 0, 0, 0.265, 0, 0.105561, -0.5861)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1.305, 0, 0, 0, -5.70434e-08, -1.305, 0, 1.305, -5.70434e-08, 0, 2.66683e-08, -0.610099)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 0.44066, 0)
+shape = SubResource("CapsuleShape3D_78pm2")
 
 [connection signal="child_order_changed" from="." to="." method="_on_child_order_changed"]

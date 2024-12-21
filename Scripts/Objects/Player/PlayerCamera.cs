@@ -8,7 +8,8 @@ namespace player
 {
     public partial class PlayerCamera : Camera3D
     {
-        RayCast3D GeneralRay;
+        public RayCast3D GeneralRay;
+        RayCast3D WeaponRay;
         PlayerMain PlayerMain;
         PlayerWeapons PlayerWeapons;
 
@@ -21,6 +22,7 @@ namespace player
         public override void _Ready()
         {
             GeneralRay = GetNode<RayCast3D>("GeneralRay");
+            WeaponRay = GetNode<RayCast3D>("WeaponRay");
             PlayerMain = GetNode<PlayerMain>("..");
             PlayerWeapons = GetNode<PlayerWeapons>("../Weapons");
             PlayerWeapons.OnAttack += Recoil;
@@ -65,11 +67,11 @@ namespace player
         public Node3D InstanceWeapon = null;
         private void Select()
         {
-            GeneralRay.ForceRaycastUpdate();
+            WeaponRay.ForceRaycastUpdate();
 
-            if (GeneralRay.IsColliding())
+            if (WeaponRay.IsColliding())
             {
-                InstanceWeapon = (Node3D)GeneralRay.GetCollider();
+                InstanceWeapon = (Node3D)((Node3D)WeaponRay.GetCollider()).GetParent();
                 MeshInstance3D meshInstance = InstanceWeapon.GetNode<MeshInstance3D>("MeshInstance3D");
                 Vector3[] faces = meshInstance.Mesh.GetFaces();
                 Vector2[] unproject = new Vector2[faces.Length];

@@ -5,7 +5,7 @@ var curAnim = IDLE
 
 @onready var animation_tree: AnimationTree = $AnimationTree
 
-@export var blend_speed = 15 
+@export var blend_speed = 15
 
 var run_val:float = 0
 var walk_val:float = 0

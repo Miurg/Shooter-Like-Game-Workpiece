@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bxwywc5wgakru"]
+[gd_scene load_steps=7 format=3 uid="uid://bxwywc5wgakru"]
 
 [ext_resource type="PackedScene" uid="uid://ct36a7n8rpbc6" path="res://Meshes/Weapon/gun.glb" id="1_16y86"]
 [ext_resource type="Script" path="res://Scripts/Objects/Weapons/DeutchGun.cs" id="1_is646"]
@@ -11,6 +11,8 @@ size = Vector3(2.56122, 0.657349, 0.214905)
 [sub_resource type="BoxMesh" id="BoxMesh_0bdiw"]
 material = SubResource("StandardMaterial3D_68yci")
 size = Vector3(2.48, 0.755, 0.275)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8clf8"]
 
 [node name="DeutchGun" type="RigidBody3D"]
 collision_layer = 8
@@ -38,3 +40,11 @@ mesh = SubResource("BoxMesh_0bdiw")
 
 [node name="Particles" type="Node3D" parent="."]
 transform = Transform3D(0.412417, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0546073, -1.40501)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(3.03, 0, 0, 0, -1.32446e-07, -3.03, 0, 3.03, -1.32446e-07, 0, 5.6143e-08, -1.2844)
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 0.44066, 0)
+shape = SubResource("CapsuleShape3D_8clf8")

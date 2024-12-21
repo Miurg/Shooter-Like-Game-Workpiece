@@ -38,6 +38,10 @@ namespace player
                     {
                         PlayerWeapons.SetCurrentWeapon(((Weapon)PlayerCamera.InstanceWeapon));
                     }
+                    if (PlayerCamera.GeneralRay.IsColliding())
+                    {
+                        ((Door)PlayerCamera.GeneralRay.GetCollider()).Activate();
+                    }
                 }
                 if (key.Keycode == Key.G && @event.IsPressed())
                 {

@@ -69,7 +69,7 @@ blend_point_3/pos = Vector2(0, -1)
 sync = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2f0v"]
-graph_offset = Vector2(170.148, 26.9247)
+graph_offset = Vector2(60.7669, 63.2435)
 nodes/Attack/node = SubResource("AnimationNodeAnimation_5ous7")
 nodes/Attack/position = Vector2(1520, 340)
 nodes/AttackRunBlend/node = SubResource("AnimationNodeBlend2_lfx2a")
@@ -95,13 +95,13 @@ node_connections = [&"AttackRunBlend", 0, &"RunBlend", &"AttackRunBlend", 1, &"A
 script = ExtResource("2_vr1b8")
 
 [node name="Skeleton3D" parent="skeleton" index="0"]
-bones/1/rotation = Quaternion(-0.00273657, 0, 0, 0.999996)
+bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
 bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
-bones/5/rotation = Quaternion(2.78986e-31, 7.10604e-15, 3.92638e-17, 1)
+bones/5/rotation = Quaternion(0.0391381, 0.181265, -0.128216, 0.974255)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
 bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
-bones/9/rotation = Quaternion(-0.198339, 4.33201e-15, -4.72876e-08, 0.980134)
-bones/10/rotation = Quaternion(6.01954e-10, 3.09782e-16, 1.43517e-16, 1)
+bones/9/rotation = Quaternion(-0.154687, -0.149005, -0.60789, 0.76442)
+bones/10/rotation = Quaternion(-0.436589, -0.332749, -0.178131, 0.816662)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
 bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
 bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)

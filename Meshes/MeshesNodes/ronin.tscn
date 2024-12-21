@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://cynl7ma6hdv60"]
 
-[ext_resource type="PackedScene" uid="uid://bll6eq7lf1atp" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
+[ext_resource type="PackedScene" uid="uid://xqo38wkaah02" path="res://Meshes/NPC/Ronin.glb" id="1_4ub0d"]
 [ext_resource type="Script" path="res://Meshes/MeshesNodes/ronin.gd" id="2_vr1b8"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5ous7"]
@@ -69,6 +69,7 @@ blend_point_3/pos = Vector2(0, -1)
 sync = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j2f0v"]
+graph_offset = Vector2(170.148, 26.9247)
 nodes/Attack/node = SubResource("AnimationNodeAnimation_5ous7")
 nodes/Attack/position = Vector2(1520, 340)
 nodes/AttackRunBlend/node = SubResource("AnimationNodeBlend2_lfx2a")
@@ -94,13 +95,13 @@ node_connections = [&"AttackRunBlend", 0, &"RunBlend", &"AttackRunBlend", 1, &"A
 script = ExtResource("2_vr1b8")
 
 [node name="Skeleton3D" parent="skeleton" index="0"]
-bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
+bones/1/rotation = Quaternion(-0.00273657, 0, 0, 0.999996)
 bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
-bones/5/rotation = Quaternion(0.0230794, 0.10689, -0.0756077, 0.991123)
+bones/5/rotation = Quaternion(2.78986e-31, 7.10604e-15, 3.92638e-17, 1)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
 bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
-bones/9/rotation = Quaternion(-0.181692, -0.0954702, -0.389487, 0.897872)
-bones/10/rotation = Quaternion(-0.277523, -0.211516, -0.113231, 0.93028)
+bones/9/rotation = Quaternion(-0.198339, 4.33201e-15, -4.72876e-08, 0.980134)
+bones/10/rotation = Quaternion(6.01954e-10, 3.09782e-16, 1.43517e-16, 1)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
 bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
 bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)

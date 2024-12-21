@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cerw4hdnkacus"]
+[gd_scene load_steps=6 format=3 uid="uid://cerw4hdnkacus"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Weapons/Katana.cs" id="1_m7vdy"]
 [ext_resource type="PackedScene" uid="uid://d2rvjljht5sx" path="res://Meshes/Weapon/Katana.glb" id="1_onldh"]
@@ -7,6 +7,8 @@
 size = Vector3(0.0966797, 0.910614, 0.0772095)
 
 [sub_resource type="BoxMesh" id="BoxMesh_68xlo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i6qun"]
 
 [node name="Katana" type="RigidBody3D"]
 collision_layer = 8
@@ -34,3 +36,10 @@ visible = false
 mesh = SubResource("BoxMesh_68xlo")
 
 [node name="Particles" type="Node3D" parent="."]
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.495, 0, 0, 0, 0.495, 0, 0, 0, 0.495, 0, 0.44066, 0)
+shape = SubResource("CapsuleShape3D_i6qun")

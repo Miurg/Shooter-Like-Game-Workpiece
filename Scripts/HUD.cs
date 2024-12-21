@@ -62,11 +62,11 @@ public partial class HUD : CanvasLayer
 		_NormalPositionY = (int)((GetViewport().GetVisibleRect().Size.Y / 2) - 34 / 2);
 		_NormalSizeX = 34;
 		_NormalSizeY = 34;
-        PlayerWeapons = GetNode<PlayerWeapons>("/root/MainNode/Objects/Player/Weapons");
+        PlayerWeapons = GetNode<PlayerWeapons>("/root/MainNode/Objects/NPC and Player/Player/Weapons");
 		PlayerWeapons.CurrentSpreadChange += UpdateSpread;
 		PlayerWeapons.CurrentRoundsChange += UpdateCurrentRounds;
         PlayerWeapons.PocketRoundsChange += UpdateRoundsPocket;
-        PlayerMain = GetNode<PlayerMain>("/root/MainNode/Objects/Player");
+        PlayerMain = GetNode<PlayerMain>("/root/MainNode/Objects/NPC and Player/Player");
         PlayerMain.HPChange += UpdateHP;
         IconsAim = GetNode<Control>("IconsAim");
         IconsSelected = GetNode<Control>("IconsSelected");

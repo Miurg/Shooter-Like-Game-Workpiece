@@ -64,6 +64,7 @@ jump={
 
 3d_physics/layer_1="Floor and walls"
 3d_physics/layer_2="NPC"
+3d_physics/layer_3="Doors"
 3d_physics/layer_4="Weapons"
 3d_physics/layer_5="Player"
 3d_physics/layer_6="Moving objects"

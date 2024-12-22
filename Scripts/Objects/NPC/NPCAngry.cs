@@ -6,6 +6,7 @@ using System.Security;
 
 public abstract partial class NPCAngry : NPC
 {
+    protected RayCast3D WeaponRay;
     protected LifeWeapons MasterWeapon;
     protected NavigationAgent3D NavAgent;
     protected Vector3 TargetToMove;
@@ -17,7 +18,7 @@ public abstract partial class NPCAngry : NPC
     public bool playerVisible = false;
     public bool playerVisibleFromTime = false;
 
-    protected void Movement(float delta)
+    protected override void Movement(float delta)
     {
         if ((MasterWeapon.CurrentWeapon != null) && (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) && playerVisible)
         {
@@ -47,8 +48,13 @@ public abstract partial class NPCAngry : NPC
 
     public override Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget)
     {
-        Vector3 rayStart = VisionRay.GlobalPosition;
-        Vector3 rayEnd = rayStart + NewRayTarget.Rotated(new Vector3(1, 0, 0), Rotation.X).Rotated(new Vector3(0, 1, 0), Rotation.Y);
+        Vector3 rayStart = WeaponRay.GlobalPosition;
+        Vector3 directionToPlayer = Position.DirectionTo(Player.Position);
+        Vector3 rayEnd = rayStart + NewRayTarget
+            .Rotated(new Vector3(1, 0, 0),
+            Mathf.Atan2(directionToPlayer.Y, Mathf.Sqrt(directionToPlayer.X * directionToPlayer.X + directionToPlayer.Z * directionToPlayer.Z)))
+            .Rotated(new Vector3(0, 1, 0),
+            Mathf.Atan2(directionToPlayer.X, directionToPlayer.Z) + Mathf.Pi);
         Dictionary newGeneralRay = SpaceState.IntersectRay(PhysicsRayQueryParameters3D.Create(rayStart, rayEnd, CollisionMask));
         if (newGeneralRay.ContainsKey("collider"))
         {

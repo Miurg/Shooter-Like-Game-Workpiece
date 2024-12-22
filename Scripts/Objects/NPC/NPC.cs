@@ -47,4 +47,5 @@ public abstract partial class NPC : Life
             return null;
         }
     }
+    protected abstract void Movement(float delta);
 }

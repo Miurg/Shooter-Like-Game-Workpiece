@@ -20,6 +20,7 @@ public partial class NPCRonin : NPCAngry
         NavAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
         VisionRay = GetNode<RayCast3D>("VisionRay");
         MainNode = GetNode<MainNode>("/root/MainNode/");
+        WeaponRay = GetNode<RayCast3D>("WeaponRay");
 
         CurrentTimeSee = 0;
         SpaceState = GetWorld3D().DirectSpaceState;

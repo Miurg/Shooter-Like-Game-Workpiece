@@ -14,7 +14,6 @@ public partial class Door : StaticBody3D, IObject
 	{
 		_MinAngle = Rotation.Y;
 		_MaxAngle = Rotation.Y + Mathf.DegToRad(AngleToOpen);
-        GD.Print(_MinAngle, _MaxAngle);
     }
 
 	public override void _Process(double delta)

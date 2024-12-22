@@ -7,7 +7,6 @@
 size = Vector3(1, 0.0560303, 1.90857)
 
 [node name="Door" type="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 script = ExtResource("1_akuj0")
 AngleToOpen = 90.0
 

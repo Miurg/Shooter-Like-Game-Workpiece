@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=26 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Objects/Player.tscn" id="2_61xqg"]
 [ext_resource type="Script" path="res://Scripts/MainNode.cs" id="2_y8yku"]
@@ -42,6 +42,13 @@ diffuse_mode = 1
 material = SubResource("StandardMaterial3D_2qs63")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_m6owh"]
+
+[sub_resource type="Curve3D" id="Curve3D_qifla"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1.746, 0, -3.321, 0, 0, 0, 0, 0, 0, -3.52906, -0.0237117, -0.581063, 0, 0, 0, 0, 0, 0, -0.993, 0, 1.78, 0, 0, 0, 0, 0, 0, 1.531, 0, -0.877, 0, 0, 0, 0, 0, 0, -1.746, 0, -3.321),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0)
+}
+point_count = 5
 
 [node name="MainNode" type="Node3D"]
 script = ExtResource("2_y8yku")
@@ -97,9 +104,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.98348, 3.44008, 2.575)
 collision_mask = 37
 platform_on_leave = 2
 
-[node name="Entity" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
+[node name="Entity" parent="Objects/NPC and Player" node_paths=PackedStringArray("PatrolPath", "PatrolPath") instance=ExtResource("5_e81lh")]
 transform = Transform3D(0.486469, 0, 0.87369, 0, 0.999993, 0, -0.87369, 0, 0.486469, 4.99568, 0.567, 2.78159)
+PatrolPath = NodePath("../../../NavigationRegion3D/Map/PatrolPaths/Path3D")
 TimeUntilUnsee = 10.0
+PatrolPath = NodePath("../../../NavigationRegion3D/Map/PatrolPaths/Path3D")
 
 [node name="Entity2" parent="Objects/NPC and Player" instance=ExtResource("5_e81lh")]
 transform = Transform3D(0.0341144, 0, -0.999411, 0, 0.999993, 0, 0.999411, 0, 0.0341144, 8.14049, 0.5, -3.57182)
@@ -292,7 +301,6 @@ layout_mode = 2
 text = "HP:10"
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.22786, -0.00618124, -1.25165)
 navigation_mesh = SubResource("NavigationMesh_lh6rd")
 
 [node name="Map" type="Node3D" parent="NavigationRegion3D"]
@@ -366,6 +374,12 @@ shape = SubResource("BoxShape3D_04f5y")
 transform = Transform3D(-0.538155, 0.00601667, -0.842825, 0.0076307, 0.999968, 0.00226617, 0.842811, -0.0052118, -0.538184, -19.4336, 0.50291, 12.5421)
 collision_layer = 4
 SpeedOpening = 100.0
+
+[node name="PatrolPaths" type="Node3D" parent="NavigationRegion3D/Map"]
+
+[node name="Path3D" type="Path3D" parent="NavigationRegion3D/Map/PatrolPaths"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.125, 0.889322, -7.648)
+curve = SubResource("Curve3D_qifla")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(-0.402124, 0, 0.915585, 0, 1, 0, -0.915585, 0, -0.402124, -16.1955, 1.68425, 10.5912)

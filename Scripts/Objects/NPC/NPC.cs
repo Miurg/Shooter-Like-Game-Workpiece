@@ -6,7 +6,7 @@ public abstract partial class NPC : Life
 {
     protected PlayerMain Player;
     [Export] protected int FieldOfView;
-    [Export]  protected int MaxDistanceOfView;
+    [Export] protected int MaxDistanceOfView;
     float RotationSpeed = (float)Math.PI;
     protected Node3D Mesh;
     public bool IsPlayerVisible()
@@ -47,4 +47,5 @@ public abstract partial class NPC : Life
             return null;
         }
     }
+    protected abstract void Movement(float delta);
 }

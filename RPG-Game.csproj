@@ -6,8 +6,4 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>RPGGame</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Scripts\C#\**" />
-    <EmbeddedResource Remove="Scripts\C#\**" />
-  </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=32 format=4 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Objects/Player.tscn" id="2_61xqg"]
 [ext_resource type="Script" path="res://Scripts/MainNode.cs" id="2_y8yku"]
@@ -17,6 +17,9 @@
 [ext_resource type="Texture2D" uid="uid://c0ssn5nvc0sur" path="res://2DContent/HUD/HUD-SelectedDownLeft.png" id="12_7uyuv"]
 [ext_resource type="PackedScene" uid="uid://bxwywc5wgakru" path="res://Nodes/Objects/Weapons/DeutchGun.tscn" id="12_81uk0"]
 [ext_resource type="Texture2D" uid="uid://c7w0oxaueypjk" path="res://2DContent/HUD/HUD-Aim-Down.png" id="12_bolb7"]
+[ext_resource type="Script" path="res://addons/qodot/src/nodes/qodot_map.gd" id="18_p87jt"]
+[ext_resource type="Resource" uid="uid://c36hv0o6g0udo" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="19_hcvxw"]
+[ext_resource type="Script" path="res://addons/qodot/src/nodes/qodot_entity.gd" id="20_f46iw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
 
@@ -49,6 +52,25 @@ _data = {
 "tilts": PackedFloat32Array(0, 0, 0, 0, 0)
 }
 point_count = 5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y0tpv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tdyea"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_thfyb"]
+_surfaces = [{
+"aabb": AABB(-4, -1, -4, 8, 2, 8),
+"attribute_data": PackedByteArray("zm82QacRlsEXyKTBpxGWwQYyicKy3FNB9JttQrLcU0EAAIDCAAAAtgAAgEIAAAC2AACAQgAAQEIAAIDCAABAQgAAgMIAAIDCAACAwgAAgEIAAIBCAACAQgAAgEIAAIDCAACAwv7/f8EAAIBC/v9/wQAAgEL+/39BAACAwv7/f0EAAIDCAAAANgAAgMIAAEDCAACAQgAAQMIAAIBCAAAANuSJnUAgDVLBPLETQiANUsGe2KlCcPmWQcROLMJw+ZZB"),
+"format": 34359742487,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAAACAAMABAAFAAYABAAGAAcACAAJAAoACAAKAAsADAANAA4ADAAOAA8AEAARABIAEAASABMAFAAVABYAFAAWABcA"),
+"material": SubResource("StandardMaterial3D_tdyea"),
+"name": "__TB_empty",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/v9/PwAAgD8AAIDA/v9/vwAAgD8AAIDAAACAwAAAgL8AAIDAAACAQAAAgL8AAIDA/v9/vwAAgD8AAIDA/v9/vwAAgD8AAIBAAACAwAAAgL8AAIBAAACAwAAAgL8AAIDAAACAQAAAgL8AAIDAAACAwAAAgL8AAIDAAACAwAAAgL8AAIBAAACAQAAAgL8AAIBA/v9/PwAAgD8AAIDA/v9/PwAAgD8AAIBA/v9/vwAAgD8AAIBA/v9/vwAAgD8AAIDA/v9/PwAAgD8AAIDAAACAQAAAgL8AAIDAAACAQAAAgL8AAIBA/v9/PwAAgD8AAIBA/v9/vwAAgD8AAIBA/v9/PwAAgD8AAIBAAACAQAAAgL8AAIBAAACAwAAAgL8AAIBA/////////z//////////P/////////8//////////z/MTMzM/3//v8xMzMz/f/+/zEzMzP9//7/MTMzM/3//v/9/AAD/f/8//38AAP9//z//fwAA/3//P/9/AAD/f/8//3////9//7//f////3//v/9/////f/+//3////9//78ys8zM/3//vzKzzMz/f/+/MrPMzP9//78ys8zM/3//v/9//3////+//3//f////7//f/9/////v/9//3////+/")
+}]
 
 [node name="MainNode" type="Node3D"]
 script = ExtResource("2_y8yku")
@@ -387,3 +409,23 @@ end_position = Vector3(-6.50449, -0.0918515, -4.01102)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(-0.402124, 0, 0.915585, 0, 1, 0, -0.915585, 0, -0.402124, -16.1955, 1.68425, 10.5912)
+
+[node name="QodotMap" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.889, 0.612648, 0)
+script = ExtResource("18_p87jt")
+map_file = "D:/rpg-game/Qodot maps/unnamed.map"
+entity_fgd = ExtResource("19_hcvxw")
+texture_file_extensions = PackedStringArray("png", "jpg", "jpeg", "bmp")
+default_material = SubResource("StandardMaterial3D_y0tpv")
+
+[node name="entity_0_worldspawn" type="Node3D" parent="QodotMap"]
+script = ExtResource("20_f46iw")
+properties = {
+"_tb_mod": "textures",
+"classname": "worldspawn"
+}
+
+[node name="entity_0_mesh_instance" type="MeshInstance3D" parent="QodotMap/entity_0_worldspawn"]
+cast_shadow = 2
+gi_mode = 0
+mesh = SubResource("ArrayMesh_thfyb")

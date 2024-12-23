@@ -95,13 +95,13 @@ node_connections = [&"AttackRunBlend", 0, &"RunBlend", &"AttackRunBlend", 1, &"A
 script = ExtResource("2_vr1b8")
 
 [node name="Skeleton3D" parent="skeleton" index="0"]
-bones/1/rotation = Quaternion(-0.00349477, 0, 0, 0.999994)
+bones/1/rotation = Quaternion(0.00959271, 0, 0, 0.999954)
 bones/4/rotation = Quaternion(0, 7.10543e-15, 0, 1)
-bones/5/rotation = Quaternion(0.0357324, 0.173886, -0.117059, 0.97713)
+bones/5/rotation = Quaternion(0.0391381, 0.181265, -0.128216, 0.974255)
 bones/7/rotation = Quaternion(-0.707107, 0, -1.68587e-07, 0.707107)
 bones/8/rotation = Quaternion(-0.54381, -2.19643e-28, -1.29654e-07, 0.839208)
-bones/9/rotation = Quaternion(-0.198339, 5.36525e-15, -4.72876e-08, 0.980134)
-bones/10/rotation = Quaternion(-7.35237e-10, -1.34593e-15, -1.75293e-16, 1)
+bones/9/rotation = Quaternion(-0.160271, -0.140245, -0.572152, 0.792014)
+bones/10/rotation = Quaternion(-0.409997, -0.312482, -0.167281, 0.840402)
 bones/11/rotation = Quaternion(0.707107, -3.09086e-08, 1.37679e-07, 0.707107)
 bones/12/rotation = Quaternion(0.529732, -1.04718e-14, 7.99874e-08, 0.848165)
 bones/13/rotation = Quaternion(0.222212, 1.63972e-14, 3.35531e-08, 0.974998)

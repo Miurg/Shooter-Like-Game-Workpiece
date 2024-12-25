@@ -41,3 +41,9 @@ PocketRounds = PackedInt32Array(90, 90, 90)
 [node name="WeaponRay" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.44354, -0.183872)
 target_position = Vector3(0, 0, -6)
+
+[node name="TimerSeekForDamageApplyer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="TimerSeekForDamageApplyer" to="." method="OnTimerSeekForDamageApplyerTimeout"]

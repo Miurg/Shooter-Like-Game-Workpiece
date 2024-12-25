@@ -4,6 +4,15 @@ using System;
 
 public abstract partial class NPC : Life
 {
+    protected enum eBehaviorState
+    {
+        Idle,
+        Patrol,
+        Chase,
+        Attack,
+        SeekForPlayer,
+    }
+    protected eBehaviorState BehaviorState;
     protected PlayerMain Player;
     [Export] protected int FieldOfView;
     [Export] protected int MaxDistanceOfView;
@@ -47,5 +56,6 @@ public abstract partial class NPC : Life
             return null;
         }
     }
-    protected abstract void Movement(float delta);
+    protected abstract void BehaviorController(float delta);
+    protected abstract void BehaviorApplyer(float delta);
 }

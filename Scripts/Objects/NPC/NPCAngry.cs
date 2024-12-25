@@ -3,14 +3,14 @@ using Godot.Collections;
 using player;
 using System;
 using System.Security;
+using System.Text.RegularExpressions;
 
 public abstract partial class NPCAngry : NPC
 {
     [Export] protected Path3D PatrolPath;
-    protected bool IsInPatrol = true;
     protected int NumberOfPatrolPointCurrent = 0;
-    protected bool HavePatrolPath = false;
 
+    protected Timer TimerSeekForDamageApplyer;
     protected RayCast3D WeaponRay;
     protected LifeWeapons MasterWeapon;
     protected NavigationAgent3D NavAgent;
@@ -23,65 +23,94 @@ public abstract partial class NPCAngry : NPC
     public bool playerVisible = false;
     public bool playerVisibleFromTime = false;
 
-    protected override void Movement(float delta)
+    protected override void BehaviorController(float delta)
     {
+        if (BehaviorState==eBehaviorState.SeekForPlayer)
+        {
+            return;
+        }
         if ((MasterWeapon.CurrentWeapon != null) &&
             (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) &&
             playerVisible)
         {
-            MasterWeapon.CurrentlyAttack = true;
-            Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
-            LookAt(Player.Position);
-            IsInPatrol = false;
+            BehaviorState = eBehaviorState.Attack;
         }
-        else if (!NavAgent.IsNavigationFinished() && !IsInPatrol || playerVisible)
+        else if (!NavAgent.IsNavigationFinished() && playerVisibleFromTime || playerVisible)
         {
-            Mesh.Set("curAnim", 2);
-            MasterWeapon.CurrentlyAttack = false;
-            Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed,
-                delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
-            Vector3 newLook = new Vector3(NextPath.X,Position.Y, NextPath.Z);
-            if (newLook!=Position)
-            {
-                TryingLookTo = newLook;
-            }
-            IsInPatrol = false;
+            BehaviorState = eBehaviorState.Chase;
         }
-        else if (!IsInPatrol)
+        else if (PatrolPath != null)
         {
-            Mesh.Set("curAnim", 0);
-            Velocity = Velocity.Lerp(new Vector3(0,Velocity.Y,0), delta * NormalStopSpeed);
-            if (PatrolPath != null)
-            {
-                IsInPatrol = true;
+            if (!(BehaviorState == eBehaviorState.Patrol))
+            { 
+                BehaviorState = eBehaviorState.Patrol;
                 FindClosestPatrolPoint();
             }
         }
-        else if (IsInPatrol)
+        else
         {
-            if (!NavAgent.IsNavigationFinished())
-            {
-                Mesh.Set("curAnim", 1);
+            BehaviorState = eBehaviorState.Idle;
+        }
+    }
+
+    protected override void BehaviorApplyer(float delta)
+    {
+        Vector3 newLook;
+        switch (BehaviorState)
+        {
+            case eBehaviorState.Idle:
+                BehaviorState = eBehaviorState.Idle;
+                Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
+                Mesh.Set("curAnim", 0);
+                break;
+
+            case eBehaviorState.Chase:
+                Mesh.Set("curAnim", 2);
                 MasterWeapon.CurrentlyAttack = false;
-                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed / 2,
+                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed,
                     delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with
                 { Y = Velocity.Y };
-                Vector3 newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
+                newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
                 if (newLook != Position)
                 {
                     TryingLookTo = newLook;
                 }
-            }
-            else
-            {
-                if (NumberOfPatrolPointCurrent == (PatrolPath.Curve.PointCount - 1)) NumberOfPatrolPointCurrent = 0;
-                else NumberOfPatrolPointCurrent++;
-                NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(NumberOfPatrolPointCurrent) + PatrolPath.GlobalPosition;
-            }
+                break;
+
+            case eBehaviorState.Attack:
+                MasterWeapon.CurrentlyAttack = true;
+                Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
+                LookAt(Player.Position);
+                break;
+
+            case eBehaviorState.Patrol:
+                if (!NavAgent.IsNavigationFinished())
+                {
+                    Mesh.Set("curAnim", 1);
+                    MasterWeapon.CurrentlyAttack = false;
+                    Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed / 2,
+                        delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with
+                    { Y = Velocity.Y };
+                    newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
+                    if (newLook != Position)
+                    {
+                        TryingLookTo = newLook;
+                    }
+                }
+                else
+                {
+                    if (NumberOfPatrolPointCurrent == (PatrolPath.Curve.PointCount - 1)) NumberOfPatrolPointCurrent = 0;
+                    else NumberOfPatrolPointCurrent++;
+                    NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(NumberOfPatrolPointCurrent) + PatrolPath.GlobalPosition;
+                }
+                break;
+
+            case eBehaviorState.SeekForPlayer:
+                Mesh.Set("curAnim", 0);
+                Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
+                break;
         }
     }
-
-
 
     public override Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget)
     {
@@ -119,6 +148,8 @@ public abstract partial class NPCAngry : NPC
     {
         if (FromWho.Name == "Player")
         {
+            TimerSeekForDamageApplyer.Start();
+            BehaviorState = eBehaviorState.SeekForPlayer;
             TryingLookTo = new Vector3(FromWho.Position.X, Position.Y, FromWho.Position.Z);
         }
     }
@@ -131,6 +162,31 @@ public abstract partial class NPCAngry : NPC
             MainPlaceWeapon(newWeapon);
         }
         this.QueueFree();
+    }
+    protected void FindClosestPatrolPoint()
+    {
+        NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(0);
+        float distance = NavAgent.DistanceToTarget();
+        Vector3 point = PatrolPath.Curve.GetPointPosition(0);
+        int currentPointNumber = 0;
+        for (int i = 1; i < PatrolPath.Curve.PointCount - 1; i++)
+        {
+            NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(i);
+            float newDistance = NavAgent.DistanceToTarget();
+            if (distance > newDistance)
+            {
+                distance = newDistance;
+                currentPointNumber = i;
+                point = PatrolPath.Curve.GetPointPosition(i);
+            }
+        }
+        NavAgent.TargetPosition = point + PatrolPath.GlobalPosition;
+        NumberOfPatrolPointCurrent = currentPointNumber;
+    }
+
+    public void OnTimerSeekForDamageApplyerTimeout()
+    {
+        BehaviorState = eBehaviorState.Idle;
     }
     public override void _PhysicsProcess(double delta)
     {
@@ -152,32 +208,11 @@ public abstract partial class NPCAngry : NPC
         if (!NavAgent.IsNavigationFinished()) NextPath = NavAgent.GetNextPathPosition();
     }
 
-    protected void FindClosestPatrolPoint()
-    {
-        NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(0);
-        float distance = NavAgent.DistanceToTarget();
-        Vector3 point = PatrolPath.Curve.GetPointPosition(0);
-        int currentPointNumber = 0;
-        for (int i = 1; i < PatrolPath.Curve.PointCount-1; i++)
-        {
-            NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(i);
-            float newDistance = NavAgent.DistanceToTarget();
-            if (distance>newDistance)
-            {
-                distance = newDistance;
-                currentPointNumber = i;
-                point = PatrolPath.Curve.GetPointPosition(i);
-            }
-        }
-        NavAgent.TargetPosition = point + PatrolPath.GlobalPosition;
-        NumberOfPatrolPointCurrent = currentPointNumber;
-    }
-
     public override void _Process(double delta)
     {
-        if (PatrolPath == null) IsInPatrol = false;
         SlowLookAt(TryingLookTo, (float)delta);
-        Movement((float)delta);
+        BehaviorController((float)delta);
+        BehaviorApplyer((float)delta);
         if (!IsOnFloor())
         {
             ApplyGravityForce((float)delta);

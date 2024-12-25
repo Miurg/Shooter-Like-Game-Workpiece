@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dnh8et6lxbyxr"]
+[gd_scene load_steps=29 format=3 uid="uid://dnh8et6lxbyxr"]
 
 [ext_resource type="PackedScene" uid="uid://cek4uotwsepq1" path="res://Nodes/Objects/Player.tscn" id="2_61xqg"]
 [ext_resource type="Script" path="res://Scripts/MainNode.cs" id="2_y8yku"]
@@ -18,7 +18,6 @@
 [ext_resource type="PackedScene" uid="uid://bxwywc5wgakru" path="res://Nodes/Objects/Weapons/DeutchGun.tscn" id="12_81uk0"]
 [ext_resource type="Texture2D" uid="uid://c7w0oxaueypjk" path="res://2DContent/HUD/HUD-Aim-Down.png" id="12_bolb7"]
 [ext_resource type="Script" path="res://addons/qodot/src/nodes/qodot_map.gd" id="18_p87jt"]
-[ext_resource type="PackedScene" uid="uid://q2n4cfoumpus" path="res://Meshes/door.glb" id="18_qjlpx"]
 [ext_resource type="Resource" uid="uid://c36hv0o6g0udo" path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" id="19_hcvxw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_04f5y"]
@@ -392,8 +391,6 @@ end_position = Vector3(-6.50449, -0.0918515, -4.01102)
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D(-0.402124, 0, 0.915585, 0, 1, 0, -0.915585, 0, -0.402124, -16.1955, 1.68425, 10.5912)
-
-[node name="door" parent="SpotLight3D" instance=ExtResource("18_qjlpx")]
 
 [node name="QodotMap" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5919, 0.612648, 0)

@@ -68,8 +68,7 @@ public abstract partial class NPCAngry : NPC
                 Mesh.Set("curAnim", 2);
                 MasterWeapon.CurrentlyAttack = false;
                 Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed,
-                    delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with
-                { Y = Velocity.Y };
+                    delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
                 newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
                 if (newLook != Position)
                 {
@@ -89,8 +88,7 @@ public abstract partial class NPCAngry : NPC
                     Mesh.Set("curAnim", 1);
                     MasterWeapon.CurrentlyAttack = false;
                     Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed / 2,
-                        delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with
-                    { Y = Velocity.Y };
+                        delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
                     newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
                     if (newLook != Position)
                     {
@@ -153,6 +151,7 @@ public abstract partial class NPCAngry : NPC
             TryingLookTo = new Vector3(FromWho.Position.X, Position.Y, FromWho.Position.Z);
         }
     }
+
     public override void Die()
     {
         if (MasterWeapon.CurrentWeapon!=null)
@@ -163,6 +162,7 @@ public abstract partial class NPCAngry : NPC
         }
         this.QueueFree();
     }
+
     protected void FindClosestPatrolPoint()
     {
         NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(0);
@@ -188,6 +188,7 @@ public abstract partial class NPCAngry : NPC
     {
         BehaviorState = eBehaviorState.Idle;
     }
+
     public override void _PhysicsProcess(double delta)
     {
         if (IsPlayerVisible())

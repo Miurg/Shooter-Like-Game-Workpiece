@@ -46,4 +46,9 @@ target_position = Vector3(0, 0, -6)
 wait_time = 2.0
 one_shot = true
 
+[node name="TimerIddleForPatrolingPoints" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="timeout" from="TimerSeekForDamageApplyer" to="." method="OnTimerSeekForDamageApplyerTimeout"]
+[connection signal="timeout" from="TimerIddleForPatrolingPoints" to="." method="OnTimerIddleForPatrolingPointsTimeout"]

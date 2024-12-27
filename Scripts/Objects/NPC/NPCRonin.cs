@@ -14,6 +14,7 @@ public partial class NPCRonin : NPCAngry
         SetProcess(true);
         SetPhysicsProcess(true);
 
+        TimerIddleForPatrolingPoints = GetNode<Timer>("TimerIddleForPatrolingPoints");
         TimerSeekForDamageApplyer = GetNode<Timer>("TimerSeekForDamageApplyer");
         Player = GetNode<PlayerMain>("../Player");
         MasterWeapon = GetNode<LifeWeapons>("MasterWeapon");

@@ -10,6 +10,7 @@ public abstract partial class NPCAngry : NPC
     [Export] protected Path3D PatrolPath;
     protected int NumberOfPatrolPointCurrent = 0;
 
+    protected Timer TimerIddleForPatrolingPoints;
     protected Timer TimerSeekForDamageApplyer;
     protected RayCast3D WeaponRay;
     protected LifeWeapons MasterWeapon;
@@ -46,6 +47,15 @@ public abstract partial class NPCAngry : NPC
                 BehaviorState = eBehaviorState.Patrol;
                 FindClosestPatrolPoint();
             }
+            if (NavAgent.IsNavigationFinished())
+            {
+                if (NumberOfPatrolPointCurrent == (PatrolPath.Curve.PointCount - 1)) NumberOfPatrolPointCurrent = 0;
+                else NumberOfPatrolPointCurrent++;
+                NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(NumberOfPatrolPointCurrent) + PatrolPath.GlobalPosition;
+                TimerIddleForPatrolingPoints.Start();
+                BehaviorState = eBehaviorState.SeekForPlayer;
+                GD.Print(NumberOfPatrolPointCurrent);
+            }
         }
         else
         {
@@ -59,7 +69,6 @@ public abstract partial class NPCAngry : NPC
         switch (BehaviorState)
         {
             case eBehaviorState.Idle:
-                BehaviorState = eBehaviorState.Idle;
                 Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
                 Mesh.Set("curAnim", 0);
                 break;
@@ -83,23 +92,14 @@ public abstract partial class NPCAngry : NPC
                 break;
 
             case eBehaviorState.Patrol:
-                if (!NavAgent.IsNavigationFinished())
+                Mesh.Set("curAnim", 1);
+                MasterWeapon.CurrentlyAttack = false;
+                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed / 2,
+                     delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
+                newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
+                if (newLook != Position)
                 {
-                    Mesh.Set("curAnim", 1);
-                    MasterWeapon.CurrentlyAttack = false;
-                    Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed / 2,
-                        delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
-                    newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
-                    if (newLook != Position)
-                    {
-                        TryingLookTo = newLook;
-                    }
-                }
-                else
-                {
-                    if (NumberOfPatrolPointCurrent == (PatrolPath.Curve.PointCount - 1)) NumberOfPatrolPointCurrent = 0;
-                    else NumberOfPatrolPointCurrent++;
-                    NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(NumberOfPatrolPointCurrent) + PatrolPath.GlobalPosition;
+                     TryingLookTo = newLook;
                 }
                 break;
 
@@ -165,13 +165,13 @@ public abstract partial class NPCAngry : NPC
 
     protected void FindClosestPatrolPoint()
     {
-        NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(0);
+        NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(0) + PatrolPath.GlobalPosition;
         float distance = NavAgent.DistanceToTarget();
         Vector3 point = PatrolPath.Curve.GetPointPosition(0);
         int currentPointNumber = 0;
         for (int i = 1; i < PatrolPath.Curve.PointCount - 1; i++)
         {
-            NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(i);
+            NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(i) + PatrolPath.GlobalPosition;
             float newDistance = NavAgent.DistanceToTarget();
             if (distance > newDistance)
             {
@@ -187,6 +187,11 @@ public abstract partial class NPCAngry : NPC
     public void OnTimerSeekForDamageApplyerTimeout()
     {
         BehaviorState = eBehaviorState.Idle;
+    }
+
+    public void OnTimerIddleForPatrolingPointsTimeout()
+    {
+        BehaviorState = eBehaviorState.Patrol;
     }
 
     public override void _PhysicsProcess(double delta)

@@ -14,6 +14,7 @@ public partial class NPCRonin : NPCAngry
         SetProcess(true);
         SetPhysicsProcess(true);
 
+        CollisionShape = GetNode<CollisionShape3D>("CollisionShape3D");
         TimerIddleForPatrolingPoints = GetNode<Timer>("TimerIddleForPatrolingPoints");
         TimerSeekForDamageApplyer = GetNode<Timer>("TimerSeekForDamageApplyer");
         Player = GetNode<PlayerMain>("../Player");

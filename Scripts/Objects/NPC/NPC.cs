@@ -12,12 +12,14 @@ public abstract partial class NPC : Life
         Attack,
         SeekForPlayer,
     }
-    protected eBehaviorState BehaviorState;
+    public bool Alive = true;
+    [Export] protected eBehaviorState BehaviorState;
     protected PlayerMain Player;
     [Export] protected int FieldOfView;
     [Export] protected int MaxDistanceOfView;
     float RotationSpeed = (float)Math.PI;
     protected Node3D Mesh;
+    protected CollisionShape3D CollisionShape;
     public bool IsPlayerVisible()
     {
         if (Position.DistanceTo(Player.Position)<MaxDistanceOfView)

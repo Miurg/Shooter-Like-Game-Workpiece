@@ -26,10 +26,6 @@ public abstract partial class NPCAngry : NPC
 
     protected override void BehaviorController(float delta)
     {
-        if (BehaviorState==eBehaviorState.SeekForPlayer)
-        {
-            return;
-        }
         if ((MasterWeapon.CurrentWeapon != null) &&
             (Position.DistanceTo(Player.Position) < MasterWeapon.CurrentWeapon.MaxDistanceForNPC) &&
             playerVisible)
@@ -39,6 +35,10 @@ public abstract partial class NPCAngry : NPC
         else if (!NavAgent.IsNavigationFinished() && playerVisibleFromTime || playerVisible)
         {
             BehaviorState = eBehaviorState.Chase;
+        }
+        else if (BehaviorState == eBehaviorState.SeekForPlayer)
+        {
+            return;
         }
         else if (PatrolPath != null)
         {
@@ -54,7 +54,6 @@ public abstract partial class NPCAngry : NPC
                 NavAgent.TargetPosition = PatrolPath.Curve.GetPointPosition(NumberOfPatrolPointCurrent) + PatrolPath.GlobalPosition;
                 TimerIddleForPatrolingPoints.Start();
                 BehaviorState = eBehaviorState.SeekForPlayer;
-                GD.Print(NumberOfPatrolPointCurrent);
             }
         }
         else
@@ -131,6 +130,15 @@ public abstract partial class NPCAngry : NPC
             return null;
         }
     }
+    public override void MainPlaceWeapon(RigidBody3D Weapon)
+    {
+        Vector3 weaponPosition = 
+            new Vector3(MasterWeapon.CurrentWeapon.Position.X, MasterWeapon.CurrentWeapon.Position.Y, MasterWeapon.CurrentWeapon.Position.Z)
+            .Rotated(new Vector3(1, 0, 0), Rotation.X).Rotated(new Vector3(0, 1, 0), Rotation.Y) +
+            GlobalPosition;
+        Vector3 weaponImpulse = new Vector3(0, 0, 0);
+        MainNode.PlaceWeapon(this, Weapon, weaponImpulse, weaponPosition);
+    }
 
     public override void ChangeHealth(int value, Life fromWho)
     {
@@ -159,8 +167,11 @@ public abstract partial class NPCAngry : NPC
             Weapon newWeapon = ResourceLoader.Load<PackedScene>(MasterWeapon.CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
             newWeapon.CurrentRounds = MasterWeapon.CurrentWeapon.CurrentRounds;
             MainPlaceWeapon(newWeapon);
+            MasterWeapon.DeleteWeaponInHeands();
         }
-        this.QueueFree();
+        Mesh.Set("curAnim", 4);
+        Alive = false;
+        CollisionShape.Disabled = true;
     }
 
     protected void FindClosestPatrolPoint()
@@ -191,38 +202,44 @@ public abstract partial class NPCAngry : NPC
 
     public void OnTimerIddleForPatrolingPointsTimeout()
     {
-        BehaviorState = eBehaviorState.Patrol;
+        if (TimerSeekForDamageApplyer.IsStopped()) BehaviorState = eBehaviorState.Patrol;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (IsPlayerVisible())
+        if (Alive)
         {
-            playerVisible = true;
-            CurrentTimeSee = TimeUntilUnsee;
-        }
-        else playerVisible = false;
+            if (IsPlayerVisible())
+            {
+                playerVisible = true;
+                CurrentTimeSee = TimeUntilUnsee;
+            }
+            else playerVisible = false;
 
-        if (CurrentTimeSee > 0)
-        {
-            playerVisibleFromTime = true;
-            NavAgent.TargetPosition = Player.Position;
-            CurrentTimeSee -= (float)delta;
-        }
-        else playerVisibleFromTime = false;
+            if (CurrentTimeSee > 0)
+            {
+                playerVisibleFromTime = true;
+                NavAgent.TargetPosition = Player.Position;
+                CurrentTimeSee -= (float)delta;
+            }
+            else playerVisibleFromTime = false;
 
-        if (!NavAgent.IsNavigationFinished()) NextPath = NavAgent.GetNextPathPosition();
+            if (!NavAgent.IsNavigationFinished()) NextPath = NavAgent.GetNextPathPosition();
+        }
     }
 
     public override void _Process(double delta)
     {
-        SlowLookAt(TryingLookTo, (float)delta);
-        BehaviorController((float)delta);
-        BehaviorApplyer((float)delta);
         if (!IsOnFloor())
         {
             ApplyGravityForce((float)delta);
         }
-        MoveAndSlide();
+        if (Alive)
+        {
+            SlowLookAt(TryingLookTo, (float)delta);
+            BehaviorController((float)delta);
+            BehaviorApplyer((float)delta);
+            MoveAndSlide();
+        }
     }
 }

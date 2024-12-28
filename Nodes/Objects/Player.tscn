@@ -16,7 +16,8 @@ slide_on_ceiling = false
 script = ExtResource("1_tfta5")
 HealthPoint = 10
 AdditionalMoveSpeed = 1
-MaxMoveSpeed = 10
+MaxMoveSpeed = 9
+MaxMoveSpeedRun = 15
 
 [node name="fatguy" parent="." instance=ExtResource("2_1iigt")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)

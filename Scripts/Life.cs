@@ -11,8 +11,10 @@ public abstract partial class Life : CharacterBody3D, ICharacter
     public const int NormalMoveSpeed = 4;
     [Export]  public int HealthPoint;
     [Export] protected int AdditionalMoveSpeed;
+    [Export] protected int AdditionalMoveSpeedRun;
     [Export] protected int AdditionalGravity;
     [Export] protected int MaxMoveSpeed;
+    [Export] protected int MaxMoveSpeedRun;
     protected PhysicsDirectSpaceState3D SpaceState;
     protected MainNode MainNode;
     public abstract Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget);

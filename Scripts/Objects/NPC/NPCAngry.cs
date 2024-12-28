@@ -75,7 +75,7 @@ public abstract partial class NPCAngry : NPC
             case eBehaviorState.Chase:
                 Mesh.Set("curAnim", 2);
                 MasterWeapon.CurrentlyAttack = false;
-                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed,
+                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeedRun,
                     delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
                 newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
                 if (newLook != Position)
@@ -93,7 +93,7 @@ public abstract partial class NPCAngry : NPC
             case eBehaviorState.Patrol:
                 Mesh.Set("curAnim", 1);
                 MasterWeapon.CurrentlyAttack = false;
-                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed / 2,
+                Velocity = Velocity.Lerp((NextPath - GlobalPosition).Normalized() * MaxMoveSpeed,
                      delta * (NormalMoveSpeed + AdditionalMoveSpeed)) with { Y = Velocity.Y };
                 newLook = new Vector3(NextPath.X, Position.Y, NextPath.Z);
                 if (newLook != Position)

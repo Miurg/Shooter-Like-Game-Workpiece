@@ -12,6 +12,7 @@ namespace player
         RayCast3D WeaponRay;
         PlayerMain PlayerMain;
         PlayerWeapons PlayerWeapons;
+        public float NormalFOV = 90;
 
 
         private float _RotationSpeed = 0.1f;
@@ -40,6 +41,15 @@ namespace player
             PlayerWeapons.Rotation = Rotation; 
 
             _CameraInput = Vector2.Zero;
+
+            if (PlayerMain.ShiftHold && PlayerMain.PlayerVelocity!=Vector3.Zero)
+            {
+                Fov = Mathf.Lerp(Fov, NormalFOV * 1.1f, (float)delta*3);
+            }
+            else
+            {
+                Fov = Mathf.Lerp(Fov, NormalFOV, (float)delta*3);
+            }
         }
 
         public override void _Input(InputEvent @event)

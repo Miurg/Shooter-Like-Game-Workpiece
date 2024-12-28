@@ -8,9 +8,10 @@ namespace player
         PlayerCamera PlayerCamera;
         PlayerWeapons PlayerWeapons;
         public HUD HUD;
-        private Vector3 _PlayerVelocity = Vector3.Zero;
+        public Vector3 PlayerVelocity = Vector3.Zero;
         [Export] private int _JumpForce = 10;
         [Export] private int _NumberOfJumps = 1;
+        public bool ShiftHold = false;
 
         [Signal]
         public delegate void HPChangeEventHandler(int HP);
@@ -36,7 +37,7 @@ namespace player
                 {
                     if (PlayerCamera.InstanceWeapon != null) 
                     {
-                        PlayerWeapons.SetCurrentWeapon(((Weapon)PlayerCamera.InstanceWeapon));
+                        PlayerWeapons.SetCurrentWeapon((Weapon)PlayerCamera.InstanceWeapon);
                     }
                     if (PlayerCamera.GeneralRay.IsColliding())
                     {
@@ -50,6 +51,14 @@ namespace player
                 if (key.Keycode == Key.R && @event.IsPressed())
                 {
                     PlayerWeapons.Reload();
+                }
+                if (key.Keycode == Key.Shift && @event.IsPressed())
+                {
+                    ShiftHold = true;
+                }
+                else if (key.Keycode == Key.Shift)
+                {
+                    ShiftHold = false;
                 }
             }
             if (@event is InputEventMouseButton button)
@@ -99,16 +108,27 @@ namespace player
                 _JumpButtonClicks++;
                 _FirstJumpHappend = true;
             }
-      
-            _PlayerVelocity = direction.Normalized().Rotated(new Vector3(0, 1, 0), Rotation.Y) * MaxMoveSpeed;
-            _PlayerVelocity = _PlayerVelocity with { Y = Velocity.Y };
-            Vector2 maxVelocity = new Vector2(MaxMoveSpeed, MaxMoveSpeed).Normalized() * MaxMoveSpeed;
+
+            PlayerVelocity = direction.Normalized().Rotated(new Vector3(0, 1, 0), Rotation.Y);
+            Vector2 maxVelocity = new Vector2(MaxMoveSpeed, MaxMoveSpeed).Normalized();
+            if (ShiftHold)
+            {
+                PlayerVelocity *= MaxMoveSpeedRun;
+                maxVelocity *= MaxMoveSpeedRun;
+            }
+            else
+            {
+                PlayerVelocity *= MaxMoveSpeed;
+                maxVelocity *= MaxMoveSpeed;
+            }
+            PlayerVelocity = PlayerVelocity with { Y = Velocity.Y };
+
             
             if (Math.Abs(Velocity.X) < maxVelocity.X
-                && Math.Abs(Velocity.Z) < MaxMoveSpeed
-                && _PlayerVelocity != new Vector3(0, Velocity.Y, 0))
+                && Math.Abs(Velocity.Z) < maxVelocity.Y
+                && PlayerVelocity != new Vector3(0, Velocity.Y, 0))
             {
-                Velocity = Velocity.Lerp(_PlayerVelocity, (float)delta * (NormalMoveSpeed + AdditionalMoveSpeed));
+                Velocity = Velocity.Lerp(PlayerVelocity, (float)delta * (NormalMoveSpeed + AdditionalMoveSpeed));
             }
             else
             {

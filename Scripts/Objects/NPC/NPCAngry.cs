@@ -5,7 +5,7 @@ using System;
 using System.Security;
 using System.Text.RegularExpressions;
 
-public abstract partial class NPCAngry : NPC
+public abstract partial class NPCAngry : NPCBase
 {
     [Export] protected Path3D PatrolPath;
     protected int NumberOfPatrolPointCurrent = 0;
@@ -13,7 +13,7 @@ public abstract partial class NPCAngry : NPC
     protected Timer TimerIddleForPatrolingPoints;
     protected Timer TimerSeekForDamageApplyer;
     protected RayCast3D WeaponRay;
-    protected LifeWeapons MasterWeapon;
+    protected WeaponHolderBase MasterWeapon;
     protected NavigationAgent3D NavAgent;
     protected Vector3 TargetToMove;
     [Export] protected float TimeUntilUnsee;
@@ -140,7 +140,7 @@ public abstract partial class NPCAngry : NPC
         MainNode.PlaceWeapon(this, Weapon, weaponImpulse, weaponPosition);
     }
 
-    public override void ChangeHealth(int value, Life fromWho)
+    public override void ChangeHealth(int value, CharacterBase fromWho)
     {
         HealthPoint -= value;
         SeekForDamageDealer(fromWho);
@@ -150,7 +150,7 @@ public abstract partial class NPCAngry : NPC
         }
     }
 
-    protected void SeekForDamageDealer(Life FromWho)
+    protected void SeekForDamageDealer(CharacterBase FromWho)
     {
         if (FromWho.Name == "Player")
         {
@@ -164,7 +164,7 @@ public abstract partial class NPCAngry : NPC
     {
         if (MasterWeapon.CurrentWeapon!=null)
         {
-            Weapon newWeapon = ResourceLoader.Load<PackedScene>(MasterWeapon.CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
+            WeaponBase newWeapon = ResourceLoader.Load<PackedScene>(MasterWeapon.CurrentWeapon.SceneFilePath).Instantiate<WeaponBase>();
             newWeapon.CurrentRounds = MasterWeapon.CurrentWeapon.CurrentRounds;
             MainPlaceWeapon(newWeapon);
             MasterWeapon.DeleteWeaponInHeands();

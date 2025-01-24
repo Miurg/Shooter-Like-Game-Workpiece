@@ -13,9 +13,7 @@ collision_mask = 35
 script = ExtResource("1_wlw1b")
 TimeUntilUnsee = 1.0
 FieldOfView = 90
-MaxDistanceOfView = 10
-HealthPoint = 5
-AdditionalMoveSpeed = 4
+MaxDistanceOfView = 100
 MaxMoveSpeed = 2
 MaxMoveSpeedRun = 9
 

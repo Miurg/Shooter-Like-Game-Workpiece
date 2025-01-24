@@ -2,7 +2,7 @@ using Godot;
 using player;
 using System;
 
-public partial class NPCWeapon : LifeWeapons
+public partial class NPCWeapon : WeaponHolderBase
 {
     NPCAngry NPCMain;
     public override async void _Ready()
@@ -14,7 +14,7 @@ public partial class NPCWeapon : LifeWeapons
         await ToSignal(GetTree(), "physics_frame");
         SetProcess(true);
         SetPhysicsProcess(true);
-        Weapon newWeapon = ResourceLoader.Load<PackedScene>("res://Nodes/Objects/Weapons/Katana.tscn").Instantiate<Weapon>();
+        WeaponBase newWeapon = ResourceLoader.Load<PackedScene>("res://Nodes/Objects/Weapons/Katana.tscn").Instantiate<WeaponBase>();
         SetCurrentWeapon(newWeapon);
     }
 
@@ -41,21 +41,21 @@ public partial class NPCWeapon : LifeWeapons
         SpreadDown((float)delta);
     }
 
-    override public void SetCurrentWeapon(Weapon weapon)
+    override public void SetCurrentWeapon(WeaponBase weapon)
     {
         if (weapon == null)
         {
             _CurrentWeapon = null;
             return;
         }
-        Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
+        WeaponBase newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<WeaponBase>();
         AddChild(newWeapon);
         newWeapon.Freeze = true;
         newWeapon.Rotation = new Vector3(0, 0, 0);
         newWeapon.Position = new Vector3(0.5f, 1.5f, -0.4f);
         _CurrentWeapon = newWeapon;
-        _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
-        _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
+        _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<WeaponHolderBase>();
+        _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<CharacterBase>();
         weapon.Die();
     }
 }

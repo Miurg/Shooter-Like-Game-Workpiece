@@ -2,7 +2,7 @@ using Godot;
 using player;
 using System;
 
-public abstract partial class NPC : Life
+public abstract partial class NPCBase : CharacterBase
 {
     protected enum eBehaviorState
     {

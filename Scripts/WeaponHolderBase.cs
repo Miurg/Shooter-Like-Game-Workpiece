@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public abstract partial class LifeWeapons : Node3D
+public abstract partial class WeaponHolderBase : Node3D
 {
-    protected Weapon _CurrentWeapon;
+    protected WeaponBase _CurrentWeapon;
 	private bool _CurrentlyAttack;
 	private float _TimeFromLastAtack = 0f;
 	private float _CurrentSpread = 0f;
@@ -17,21 +17,21 @@ public abstract partial class LifeWeapons : Node3D
     public virtual float TimeFromLastAtack { get => _TimeFromLastAtack; set => _TimeFromLastAtack = value; }
     public virtual float CurrentSpread { get => _CurrentSpread; set => _CurrentSpread = value; }
     public virtual int CurrentPocketRounds { get => _CurrentPocketRounds; set => _CurrentPocketRounds = value; }
-    public virtual Weapon CurrentWeapon { get => _CurrentWeapon;  }
+    public virtual WeaponBase CurrentWeapon { get => _CurrentWeapon;  }
 
 
-    virtual public void SetCurrentWeapon(Weapon weapon)
+    virtual public void SetCurrentWeapon(WeaponBase weapon)
 	{
         if (weapon == null)
         {
             _CurrentWeapon = null;
             return;
         }
-		Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
+		WeaponBase newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<WeaponBase>();
         AddChild(newWeapon);
         _CurrentWeapon = newWeapon;
-        _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
-        _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
+        _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<CharacterBase>();
+        _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<WeaponHolderBase>();
         weapon.Die();
     }
 

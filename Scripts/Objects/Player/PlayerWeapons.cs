@@ -3,7 +3,7 @@ using System;
 
 namespace player
 {
-    public partial class PlayerWeapons : LifeWeapons
+    public partial class PlayerWeapons : WeaponHolderBase
     {
         PlayerMain PlayerMain;
         [Signal]
@@ -45,7 +45,7 @@ namespace player
             EmitSignal("PocketRoundsChange", CurrentPocketRounds);
         }
 
-        public override void SetCurrentWeapon(Weapon weapon)
+        public override void SetCurrentWeapon(WeaponBase weapon)
         {
             if (weapon == null)
             {
@@ -53,7 +53,7 @@ namespace player
                 return;
             }
             DeleteWeaponInHeands();
-            Weapon newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<Weapon>();
+            WeaponBase newWeapon = ResourceLoader.Load<PackedScene>(weapon.SceneFilePath).Instantiate<WeaponBase>();
             AddChild(newWeapon);
             newWeapon.CurrentRounds = weapon.CurrentRounds;
             newWeapon.Rotation = new Vector3(0, 0, 0);
@@ -61,8 +61,8 @@ namespace player
             newWeapon.Freeze = true;
             CurrentPocketRounds = PocketRounds[(int)newWeapon.NameOfWeapon];
             _CurrentWeapon = newWeapon;
-            _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<Life>();
-            _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<LifeWeapons>();
+            _CurrentWeapon.CurrentOwner = newWeapon.GetParent().GetParent<CharacterBase>();
+            _CurrentWeapon.CurrentMasterWeapon = newWeapon.GetParent<WeaponHolderBase>();
             CurrentSpread = _CurrentWeapon.SpreadMin;
             weapon.Die();
         }
@@ -72,7 +72,7 @@ namespace player
             if (CurrentWeapon != null)
             {
                 PocketRounds[(int)_CurrentWeapon.NameOfWeapon] = CurrentPocketRounds;
-                Weapon newWeapon = ResourceLoader.Load<PackedScene>(CurrentWeapon.SceneFilePath).Instantiate<Weapon>();
+                WeaponBase newWeapon = ResourceLoader.Load<PackedScene>(CurrentWeapon.SceneFilePath).Instantiate<WeaponBase>();
                 newWeapon.CurrentRounds = CurrentWeapon.CurrentRounds;
                 PlayerMain.MainPlaceWeapon(newWeapon);
                 CurrentWeapon.Die();

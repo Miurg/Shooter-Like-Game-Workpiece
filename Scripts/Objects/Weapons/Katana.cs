@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Katana : Weapon
+public partial class Katana : WeaponBase
 {
     public override void _Ready()
     {

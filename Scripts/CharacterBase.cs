@@ -3,22 +3,22 @@ using Godot.Collections;
 using player;
 using System;
 
-public abstract partial class Life : CharacterBody3D, ICharacter
+public abstract partial class CharacterBase : CharacterBody3D
 {
     public const int NormalGravityForce = 40;
     public const int NormalMaxSpeedDown = 20;
     public const int NormalStopSpeed = 20;
     public const int NormalMoveSpeed = 4;
-    [Export]  public int HealthPoint;
-    [Export] protected int AdditionalMoveSpeed;
-    [Export] protected int AdditionalMoveSpeedRun;
-    [Export] protected int AdditionalGravity;
-    [Export] protected int MaxMoveSpeed;
-    [Export] protected int MaxMoveSpeedRun;
+    [Export] public int HealthPoint = 10;
+    [Export] protected int AdditionalMoveSpeed = 0;
+    [Export] protected int AdditionalMoveSpeedRun = 0;
+    [Export] protected int AdditionalGravity = 0;
+    [Export] protected int MaxMoveSpeed = 4;
+    [Export] protected int MaxMoveSpeedRun = 6;
     protected PhysicsDirectSpaceState3D SpaceState;
     protected MainNode MainNode;
     public abstract Dictionary GetWeaponRay(uint CollisionMask, Vector3 NewRayTarget);
-    public abstract void ChangeHealth(int value, Life fromWho);
+    public abstract void ChangeHealth(int value, CharacterBase fromWho);
     public abstract void Die();
     public void ApplyGravityForce(float delta)
     {

@@ -3,7 +3,7 @@ using Godot.Collections;
 using System;
 namespace player
 {
-    public partial class PlayerMain : Life
+    public partial class PlayerMain : CharacterBase
     {
         PlayerCamera PlayerCamera;
         PlayerWeapons PlayerWeapons;
@@ -37,7 +37,7 @@ namespace player
                 {
                     if (PlayerCamera.InstanceWeapon != null) 
                     {
-                        PlayerWeapons.SetCurrentWeapon((Weapon)PlayerCamera.InstanceWeapon);
+                        PlayerWeapons.SetCurrentWeapon((WeaponBase)PlayerCamera.InstanceWeapon);
                     }
                     if (PlayerCamera.GeneralRay.IsColliding())
                     {
@@ -108,8 +108,9 @@ namespace player
                 _JumpButtonClicks++;
                 _FirstJumpHappend = true;
             }
-
+            
             PlayerVelocity = direction.Normalized().Rotated(new Vector3(0, 1, 0), Rotation.Y);
+            
             Vector2 maxVelocity = new Vector2(MaxMoveSpeed, MaxMoveSpeed).Normalized();
             if (ShiftHold)
             {
@@ -134,7 +135,7 @@ namespace player
             {
                 Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), (float)delta * NormalStopSpeed);
             }
-
+            GD.Print(MaxMoveSpeed);
             if (!IsOnFloor())
             {
                 _InAirTime += (float)delta;
@@ -155,7 +156,7 @@ namespace player
             return PlayerCamera.RayFromCamera(CollisionMask, NewRayTarget);
         }
 
-        public override void ChangeHealth(int value, Life fromWho)
+        public override void ChangeHealth(int value, CharacterBase fromWho)
         {
             HealthPoint -= value;
             EmitSignal("HPChange", HealthPoint);

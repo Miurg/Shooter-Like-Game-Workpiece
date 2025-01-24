@@ -4,7 +4,6 @@ using System;
 
 public partial class NPCRonin : NPCAngry
 {
-	// Called when the node enters the scene tree for the first time.
 	public override async void _Ready()
 	{
         SetProcess(false);
@@ -18,7 +17,7 @@ public partial class NPCRonin : NPCAngry
         TimerIddleForPatrolingPoints = GetNode<Timer>("TimerIddleForPatrolingPoints");
         TimerSeekForDamageApplyer = GetNode<Timer>("TimerSeekForDamageApplyer");
         Player = GetNode<PlayerMain>("../Player");
-        MasterWeapon = GetNode<LifeWeapons>("MasterWeapon");
+        MasterWeapon = GetNode<WeaponHolderBase>("MasterWeapon");
         Mesh = GetNode<Node3D>("Ronin");
         NavAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
         VisionRay = GetNode<RayCast3D>("VisionRay");

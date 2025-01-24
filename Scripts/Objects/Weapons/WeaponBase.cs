@@ -3,7 +3,7 @@ using Godot.Collections;
 using player;
 using System;
 
-public abstract partial class Weapon : RigidBody3D, IWeapon
+public abstract partial class WeaponBase : RigidBody3D, IWeapon
 {
     public PackedScene SceneOfWeapon;
     protected PackedScene Remains;
@@ -11,8 +11,8 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
     protected PackedScene SoundForPlayer;
     protected PackedScene AtackParticle = null;
     protected Node3D ParticlesNode;
-    public Life CurrentOwner;
-    public LifeWeapons CurrentMasterWeapon;
+    public CharacterBase CurrentOwner;
+    public WeaponHolderBase CurrentMasterWeapon;
     public eNameOfWeapon NameOfWeapon;
     [Export] public float RecoilStrength = 1;
     [Export] public float RateOfFire = 0.1f;
@@ -73,7 +73,7 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
                 }
                 else
                 {
-                    ((Life)targetOfAtack["collider"]).ChangeHealth(Damage, CurrentOwner);
+                    ((CharacterBase)targetOfAtack["collider"]).ChangeHealth(Damage, CurrentOwner);
                 }
             }
         }
@@ -81,7 +81,7 @@ public abstract partial class Weapon : RigidBody3D, IWeapon
 
     public void Die()
     {
-        if (CurrentMasterWeapon is LifeWeapons)
+        if (CurrentMasterWeapon is WeaponHolderBase)
         {
             CurrentMasterWeapon.SetCurrentWeapon(null);
         }

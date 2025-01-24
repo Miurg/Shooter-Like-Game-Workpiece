@@ -15,8 +15,11 @@ public partial class Door : StaticBody3D, IObject
 		_MinAngle = Rotation.Y;
 		_MaxAngle = Rotation.Y + Mathf.DegToRad(AngleToOpen);
     }
-
-	public override void _Process(double delta)
+    protected override void Dispose(bool disposing)
+    {
+        base.Dispose(disposing);
+    }
+    public override void _Process(double delta)
 	{
 		if (_IsMove)
 		{

@@ -88,6 +88,8 @@ public abstract partial class NPCAngry : NPCBase
                 MasterWeapon.CurrentlyAttack = true;
                 Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), delta * NormalStopSpeed);
                 LookAt(Player.Position);
+                if (MasterWeapon.CurrentWeapon.CurrentRounds == 0 && MasterWeapon.CurrentPocketRounds == 0)
+                    MasterWeapon.DeleteWeaponInHeands();
                 break;
 
             case eBehaviorState.Patrol:

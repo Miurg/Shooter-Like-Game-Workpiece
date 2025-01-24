@@ -135,7 +135,6 @@ namespace player
             {
                 Velocity = Velocity.Lerp(new Vector3(0, Velocity.Y, 0), (float)delta * NormalStopSpeed);
             }
-            GD.Print(MaxMoveSpeed);
             if (!IsOnFloor())
             {
                 _InAirTime += (float)delta;

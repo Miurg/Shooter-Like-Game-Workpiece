@@ -14,7 +14,7 @@ public partial class NPCWeapon : WeaponHolderBase
         await ToSignal(GetTree(), "physics_frame");
         SetProcess(true);
         SetPhysicsProcess(true);
-        WeaponBase newWeapon = ResourceLoader.Load<PackedScene>("res://Nodes/Objects/Weapons/Katana.tscn").Instantiate<WeaponBase>();
+        WeaponBase newWeapon = ResourceLoader.Load<PackedScene>("res://Nodes/Objects/Weapons/AK.tscn").Instantiate<WeaponBase>();
         SetCurrentWeapon(newWeapon);
     }
 
